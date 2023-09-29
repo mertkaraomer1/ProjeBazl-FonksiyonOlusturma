@@ -16,6 +16,7 @@ namespace FonksiyonOlusturma.MyDb
         public DbSet<Functions> functions { get; set; }
         public DbSet<Modules>modules { get; set; }  
         public DbSet<Accounts> accounts { get; set; }
+        public DbSet<Status> status { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -32,6 +33,7 @@ namespace FonksiyonOlusturma.MyDb
             modelBuilder.Entity<Functions>().ToTable("Functions").HasKey(x => x.FunctionId);
             modelBuilder.Entity<Modules>().ToTable("Modules").HasKey(x => x.ModuleId);
             modelBuilder.Entity<Accounts>().ToTable("Accounts").HasKey(x => x.KullaniciId);
+            modelBuilder.Entity<Status>().ToTable("Status").HasKey(x => x.StatusId);
         }
     }
 

@@ -6,7 +6,15 @@ using System.Threading.Tasks;
 
 namespace FonksiyonOlusturma.Tables
 {
-    internal class Status
+    public class Status
     {
+        public int StatusId { get; set; }
+        public string ModuleName { get; set; }
+        public string FunctionName { get; set; }
+        public string ProjectName { get; set; }
+        public string StaffName { get; set; }
+        public string StatusName { get; set; }
+        public DateTime StatusTime { get; set; }
+        
     }
 }
