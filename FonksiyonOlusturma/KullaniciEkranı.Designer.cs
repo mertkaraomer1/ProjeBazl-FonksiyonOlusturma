@@ -99,6 +99,7 @@
             button3.TabIndex = 10;
             button3.Text = "BİTİR";
             button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click;
             // 
             // button2
             // 
@@ -109,6 +110,7 @@
             button2.TabIndex = 9;
             button2.Text = "ARAVER";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // comboBox3
             // 

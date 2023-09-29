@@ -88,7 +88,107 @@ namespace FonksiyonOlusturma
 
         private void button1_Click(object sender, EventArgs e)
         {
+            // ComboBox'lardan seçilen değerleri alın
+            string staffName = comboBox1.SelectedItem as string;
+            string projectName = comboBox2.SelectedItem as string;
+            string functionName = comboBox3.SelectedItem as string;
+            string moduleName = comboBox4.SelectedItem as string;
 
+            if (!string.IsNullOrEmpty(staffName) &&
+                !string.IsNullOrEmpty(projectName) &&
+                !string.IsNullOrEmpty(functionName) &&
+                !string.IsNullOrEmpty(moduleName))
+            {
+                // Status tablosuna yeni bir kayıt ekleyin
+                Status newStatus = new Status
+                {
+                    StaffName = staffName,
+                    ProjectName = projectName,
+                    FunctionName = functionName,
+                    ModuleName = moduleName,
+                    StatusName = "Başla",
+                    StatusTime = DateTime.Now
+                };
+
+                dbContext.status.Add(newStatus);
+                dbContext.SaveChanges();
+
+                MessageBox.Show("Başlandı.");
+            }
+            else
+            {
+                MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
+            }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            // ComboBox'lardan seçilen değerleri alın
+            string staffName = comboBox1.SelectedItem as string;
+            string projectName = comboBox2.SelectedItem as string;
+            string functionName = comboBox3.SelectedItem as string;
+            string moduleName = comboBox4.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(staffName) &&
+                !string.IsNullOrEmpty(projectName) &&
+                !string.IsNullOrEmpty(functionName) &&
+                !string.IsNullOrEmpty(moduleName))
+            {
+                // Status tablosuna yeni bir kayıt ekleyin
+                Status newStatus = new Status
+                {
+                    StaffName = staffName,
+                    ProjectName = projectName,
+                    FunctionName = functionName,
+                    ModuleName = moduleName,
+                    StatusName = "Araver",
+                    StatusTime = DateTime.Now
+                };
+
+                dbContext.status.Add(newStatus);
+                dbContext.SaveChanges();
+
+                MessageBox.Show("Araverildi.");
+            }
+            else
+            {
+                MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
+            }
+        }
+
+        private void button3_Click(object sender, EventArgs e)
+        {
+            // ComboBox'lardan seçilen değerleri alın
+            string staffName = comboBox1.SelectedItem as string;
+            string projectName = comboBox2.SelectedItem as string;
+            string functionName = comboBox3.SelectedItem as string;
+            string moduleName = comboBox4.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(staffName) &&
+                !string.IsNullOrEmpty(projectName) &&
+                !string.IsNullOrEmpty(functionName) &&
+                !string.IsNullOrEmpty(moduleName))
+            {
+                // Status tablosuna yeni bir kayıt ekleyin
+                Status newStatus = new Status
+                {
+                    StaffName = staffName,
+                    ProjectName = projectName,
+                    FunctionName = functionName,
+                    ModuleName = moduleName,
+                    StatusName = "Bitti",
+                    StatusTime = DateTime.Now
+                };
+
+                dbContext.status.Add(newStatus);
+                dbContext.SaveChanges();
+
+                MessageBox.Show("Bitirildi.");
+            }
+            else
+            {
+                MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
+            }
         }
     }
 }

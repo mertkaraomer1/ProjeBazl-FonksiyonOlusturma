@@ -50,6 +50,7 @@
             textBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             textBox2.Location = new Point(139, 78);
             textBox2.Name = "textBox2";
+            textBox2.PasswordChar = '*';
             textBox2.Size = new Size(125, 30);
             textBox2.TabIndex = 1;
             // 

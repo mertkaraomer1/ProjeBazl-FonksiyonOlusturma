@@ -14,7 +14,7 @@ namespace FonksiyonOlusturma.Tables
         public string ProjectName { get; set; }
         public string StaffName { get; set; }
         public string StatusName { get; set; }
-        public DateTime StatusTime { get; set; }
+        public DateTime StatusTime { get; set; }= DateTime.Now;
         
     }
 }
