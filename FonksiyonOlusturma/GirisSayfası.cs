@@ -30,5 +30,11 @@ namespace FonksiyonOlusturma
             KE.Show();
 
         }
+
+        private void button4_Click(object sender, EventArgs e)
+        {
+            AtananIsler AI = new AtananIsler();
+            AI.Show();
+        }
     }
 }
