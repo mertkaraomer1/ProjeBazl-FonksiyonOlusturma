@@ -46,149 +46,64 @@ namespace FonksiyonOlusturma
             {
                 MessageBox.Show("Hata oluþtu: " + ex.Message);
             }
-
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            ProjeAtama();
 
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        private void Form1_Load(object sender, EventArgs e)
         {
+            ProjeAtama();
+        }
+        public void ProjeAtama()
+        {
+            // DataGridView sütunlarýný oluþturun
+            dataGridView1.Columns.Add("Column1", "SATIR NO");
+            dataGridView1.Columns.Add("Column2", "PROJE KODU");
+
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
             {
-                // Projects tablosundaki ProjectName alanýndaki verileri sorgulayýn
-                var projectNames = dbContext.projects.Select(p => p.ProjectName).ToList();
+                // Projects tablosundaki verileri sorgulayýn
+                var projects = dbContext.projects.ToList();
 
-                // ComboBox1 kontrolüne verileri aktarýn
-                comboBox1.DataSource = projectNames;
-            }
-        }
+                int satirNo = 1; // Baþlangýç satýr numarasý 1 olarak ayarlanýr
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-            string selectedProjectName = comboBox1.SelectedItem as string; // ComboBox1'den seçilen proje adýný alýn
-            string functionName = textBox2.Text; // TextBox2'den gelen FunctionName'i alýn
-
-            if (!string.IsNullOrEmpty(selectedProjectName) && !string.IsNullOrEmpty(functionName))
-            {
-                try
+                // DataGridView'e satýr ekleyin
+                foreach (var project in projects)
                 {
-                    using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
-                    {
-                        // ComboBox1'den seçilen ProjectName ile eþleþen Projects tablosundaki ProjectId'yi bulun
-                        int projectId = dbContext.projects
-                            .Where(p => p.ProjectName == selectedProjectName)
-                            .Select(p => p.ProjectId)
-                            .FirstOrDefault();
+                    // DataGridView'e yeni bir satýr ekleyin
+                    DataGridViewRow row = new DataGridViewRow();
 
-                        if (projectId != 0) // ProjectId bulunduysa
-                        {
-                            // Functions tablosuna yeni bir kayýt ekleyin
-                            var yeniFonksiyon = new Functions
-                            {
-                                ProjectId = projectId,
-                                FunctionName = functionName
-                            };
+                    // Ýlk sütunu (SATIR NO) satýr numarasý olarak ayarlayýn
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = satirNo.ToString() });
 
-                            dbContext.functions.Add(yeniFonksiyon); // Yeni fonksiyonu Functions tablosuna ekleyin
-                            dbContext.SaveChanges(); // Deðiþiklikleri veritabanýna kaydedin
-                            MessageBox.Show("Fonksiyon Kaydedildi...");
-                        }
-                        else
-                        {
-                            MessageBox.Show("Proje bulunamadý.");
-                        }
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hata oluþtu: " + ex.Message);
+                    // Ýkinci sütunu (PROJE KODU) proje kodu olarak ayarlayýn
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = project.ProjectName });
+
+                    // DataGridView'e satýrý ekleyin
+                    dataGridView1.Rows.Add(row);
+
+                    satirNo++; // Her satýr ekledikten sonra satýr numarasýný arttýrýn
                 }
             }
-            else
-            {
-                MessageBox.Show("Proje adý ve fonksiyon adý girmelisiniz.");
-            }
-
         }
-
-        private void button4_Click(object sender, EventArgs e)
-        {
-            using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
-            {
-
-                // Functions tablosundan FunctionName'leri çekin ve Combobox3'e ekleyin
-                var functionNames = dbContext.functions.Select(f => f.FunctionName).ToList();
-                comboBox3.DataSource = functionNames;
-
-                // Categories tablosundan CategoryName'leri çekin ve Combobox4'e ekleyin
-                var categoryNames = dbContext.categories.Select(c => c.CategoryName).ToList();
-                comboBox4.DataSource = categoryNames;
-
-                // Staffs tablosundan StaffName'leri çekin ve Combobox5'e ekleyin
-                var staffNames = dbContext.staffs.Select(s => s.StaffName).ToList();
-                comboBox5.DataSource = staffNames;
-            }
-        }
-
-        private void button5_Click(object sender, EventArgs e)
+        public Fonksiyonlar Fonk;
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
 
-            string selectedFunctionName = comboBox3.SelectedItem as string;
-            string selectedCategoryName = comboBox4.SelectedItem as string;
-            string selectedStaffName = comboBox5.SelectedItem as string;
-            string modulName = textBox3.Text;
-
-            if (!string.IsNullOrEmpty(selectedFunctionName) &&
-                !string.IsNullOrEmpty(selectedCategoryName) &&
-                !string.IsNullOrEmpty(selectedStaffName) &&
-                !string.IsNullOrEmpty(modulName))
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                try
+                if (Fonk == null || Fonk.IsDisposed)
                 {
-                    using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
-                    {
+                    Fonk = new Fonksiyonlar();
+                    DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    string cellValue = clickedCell.Value.ToString();
 
-                        int functionId = dbContext.functions
-                            .Where(f => f.FunctionName == selectedFunctionName)
-                            .Select(f => f.FunctionId)
-                            .FirstOrDefault();
-
-                        int categoryId = dbContext.categories
-                            .Where(c => c.CategoryName == selectedCategoryName)
-                            .Select(c => c.CategoryID)
-                            .FirstOrDefault();
-
-                        int staffId = dbContext.staffs
-                            .Where(s => s.StaffName == selectedStaffName)
-                            .Select(s => s.StaffId)
-                            .FirstOrDefault();
-
-                        // Moduls tablosuna yeni bir kayýt ekleyin
-                        var yeniModul = new Modules
-                        {
-
-                            FuntionId = functionId,
-                            CategoryId = categoryId,
-                            StaffId = staffId,
-                            ModuleName = modulName
-                        };
-
-                        dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
-                        dbContext.SaveChanges(); // Deðiþiklikleri veritabanýna kaydedin
-                        MessageBox.Show("Modul Kaydedildi...");
-                    }
-                }
-                catch (Exception ex)
-                {
-                    MessageBox.Show("Hata oluþtu: " + ex.Message);
+                    Fonk.TextBoxValue = cellValue; // Form2'deki TextBox'a deðeri aktar
+                    Fonk.Show();
                 }
             }
-            else
-            {
-                MessageBox.Show("Tüm alanlarý doldurmalýsýnýz.");
-            }
-
         }
-
-
     }
 }

@@ -53,6 +53,7 @@
             Name = "AtananIsler";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "AtananIsler";
+            Load += AtananIsler_Load;
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             ResumeLayout(false);
         }
