@@ -11,5 +11,6 @@ namespace FonksiyonOlusturma.Tables
         public int FunctionId { get; set; }
         public int ProjectId { get; set; }
         public string FunctionName { get; set; }
+        public string FunctionDescription { get; set; }
     }
 }

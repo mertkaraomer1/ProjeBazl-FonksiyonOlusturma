@@ -32,6 +32,12 @@
             comboBox2 = new ComboBox();
             comboBox4 = new ComboBox();
             groupBox1 = new GroupBox();
+            label6 = new Label();
+            groupBox2 = new GroupBox();
+            button4 = new Button();
+            label5 = new Label();
+            textBox1 = new TextBox();
+            checkBox1 = new CheckBox();
             button2 = new Button();
             button3 = new Button();
             comboBox3 = new ComboBox();
@@ -41,6 +47,7 @@
             label1 = new Label();
             label4 = new Label();
             groupBox1.SuspendLayout();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // comboBox1
@@ -74,6 +81,9 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(groupBox2);
+            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(comboBox3);
@@ -86,14 +96,73 @@
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(25, 75);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(377, 336);
+            groupBox1.Size = new Size(377, 487);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Modül Durumu";
             // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
+            label6.ForeColor = Color.Blue;
+            label6.Location = new Point(36, 215);
+            label6.Name = "label6";
+            label6.Size = new Size(335, 34);
+            label6.TabIndex = 16;
+            label6.Text = "Bitirmeden önce kutuyu aktif ediniz. Modül kodunu yazınız.\r\nBitir butonuna basınız!!!";
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(button4);
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(textBox1);
+            groupBox2.Location = new Point(101, 241);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(250, 148);
+            groupBox2.TabIndex = 15;
+            groupBox2.TabStop = false;
+            // 
+            // button4
+            // 
+            button4.Location = new Point(88, 88);
+            button4.Name = "button4";
+            button4.Size = new Size(94, 45);
+            button4.TabIndex = 15;
+            button4.Text = "Güncelle";
+            button4.UseVisualStyleBackColor = true;
+            button4.Click += button4_Click;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Location = new Point(32, 26);
+            label5.Name = "label5";
+            label5.Size = new Size(140, 23);
+            label5.TabIndex = 14;
+            label5.Text = "Modül Güncelle:";
+            // 
+            // textBox1
+            // 
+            textBox1.Location = new Point(32, 52);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(210, 30);
+            textBox1.TabIndex = 13;
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(12, 232);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(18, 17);
+            checkBox1.TabIndex = 12;
+            checkBox1.UseVisualStyleBackColor = true;
+            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
+            // 
             // button2
             // 
-            button2.Location = new Point(135, 229);
+            button2.Location = new Point(139, 395);
             button2.Name = "button2";
             button2.Size = new Size(94, 75);
             button2.TabIndex = 11;
@@ -104,7 +173,7 @@
             // button3
             // 
             button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button3.Location = new Point(253, 229);
+            button3.Location = new Point(257, 395);
             button3.Name = "button3";
             button3.Size = new Size(94, 75);
             button3.TabIndex = 10;
@@ -124,7 +193,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(22, 229);
+            button1.Location = new Point(26, 395);
             button1.Name = "button1";
             button1.Size = new Size(94, 75);
             button1.TabIndex = 8;
@@ -177,7 +246,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(431, 435);
+            ClientSize = new Size(431, 569);
             Controls.Add(label4);
             Controls.Add(groupBox1);
             Controls.Add(comboBox1);
@@ -187,6 +256,8 @@
             Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -205,5 +276,11 @@
         private Label label4;
         private ComboBox comboBox3;
         private Button button2;
+        private GroupBox groupBox2;
+        private Label label5;
+        private TextBox textBox1;
+        private CheckBox checkBox1;
+        private Label label6;
+        private Button button4;
     }
 }

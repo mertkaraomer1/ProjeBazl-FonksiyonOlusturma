@@ -87,6 +87,7 @@ namespace FonksiyonOlusturma
         {
             string selectedProjectName = textBox1.Text; // textbox1'den gelen proje adını alın
             string functionName = textBox2.Text; // TextBox2'den gelen FunctionName'i alın
+            string FunctionDescription = textBox3.Text;
 
             if (!string.IsNullOrEmpty(selectedProjectName) && !string.IsNullOrEmpty(functionName))
             {
@@ -106,7 +107,8 @@ namespace FonksiyonOlusturma
                             var yeniFonksiyon = new Functions
                             {
                                 ProjectId = projectId,
-                                FunctionName = functionName
+                                FunctionName = functionName,
+                                FunctionDescription = FunctionDescription
                             };
 
                             dbContext.functions.Add(yeniFonksiyon); // Yeni fonksiyonu Functions tablosuna ekleyin

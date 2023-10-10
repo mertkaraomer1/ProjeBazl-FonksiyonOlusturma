@@ -95,6 +95,7 @@ namespace FonksiyonOlusturma
             string selectedFunctionName = textBox2.Text;
             string selectedProjectName = textBox1.Text;
             string modulName = textBox3.Text;
+            string ModuleDescription = textBox4.Text;
 
             if (!string.IsNullOrEmpty(selectedFunctionName) &&
                 !string.IsNullOrEmpty(selectedProjectName) &&
@@ -123,7 +124,8 @@ namespace FonksiyonOlusturma
 
                             FuntionId = functionId,
                             ProjectId = projectId,
-                            ModuleName = modulName
+                            ModuleName = modulName,
+                            ModuleDescription = ModuleDescription
                         };
 
                         dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin

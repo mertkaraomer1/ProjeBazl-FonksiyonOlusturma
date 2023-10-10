@@ -24,7 +24,7 @@ namespace FonksiyonOlusturma
 
         private void AtananIsler_Load(object sender, EventArgs e)
         {
-            using (var dbContext = new MyDbContext()) // DbContext'i kendi projenize göre değiştirin
+            using (var dbContext = new MyDbContext())
             {
                 var bittiModuleNames = dbContext.status
                     .Where(status => status.StatusName == "Bitti")
@@ -35,17 +35,20 @@ namespace FonksiyonOlusturma
                     .Where(status => !bittiModuleNames.Contains(status.ModuleName))
                     .Select(status => new
                     {
-                        StaffName = status.StaffName,
-                        ProjectName = status.ProjectName,
-                        FunctionName = status.FunctionName,
-                        ModuleName = status.ModuleName,
-                        StatusName = status.StatusName
+                        Sorumlu = status.StaffName,
+                        Proje = status.ProjectName,
+                        Fonksiyon = status.FunctionName,
+                        Modül = status.ModuleName,
+                        StatusName = status.StatusName,
+                        StatusTime = status.StatusTime,
+                        GeçenZaman = (DateTime.Now - status.StatusTime).ToString(@"hh\:mm\:ss")
                     })
                     .ToList();
 
                 // DataGridView'e verileri eklemek için aşağıdaki kodu kullanabilirsiniz (dataGridView1 DataGridView nesnesi adınıza göre değiştirilmelidir).
                 dataGridView1.DataSource = statusList;
             }
+
 
 
 

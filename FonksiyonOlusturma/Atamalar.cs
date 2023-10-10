@@ -51,14 +51,20 @@ namespace FonksiyonOlusturma
                 // ComboBox1 kontrolüne verileri aktarın
                 comboBox1.DataSource = staffNames;
 
-
                 // Categories tablosundaki CategoryName alanındaki verileri sorgulayın
                 var categoryNames = dbContext.categories.Select(c => c.CategoryName).ToList();
                 // ComboBox2 kontrolüne verileri aktarın
                 comboBox2.DataSource = categoryNames;
+
+                // DataGridView'deki verileri sorgulayın ve ProjectName'e göre sıralayın
+                var assignments = dbContext.assignments.ToList();
+                var projectNameFilter = textBox1.Text; // TextBox1'den gelen değeri alın
+                var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
+
                 // DataGridView'i güncelleyin veya yeniden doldurun
-                dataGridView1.DataSource = dbContext.assignments.ToList();
+                dataGridView1.DataSource = filteredAssignments;
             }
+
 
         }
 
@@ -94,8 +100,11 @@ namespace FonksiyonOlusturma
                 dbContext.assignments.Add(newAssignment);
                 dbContext.SaveChanges();
 
-                // DataGridView'i güncelleyin veya yeniden doldurun
-                dataGridView1.DataSource = dbContext.assignments.ToList();
+                // DataGridView'i güncellemek için sorguyu düzenleyin ve yeniden doldurun
+                var assignments = dbContext.assignments.ToList();
+                var projectNameFilter = textBox1.Text; // TextBox1'den gelen değeri alın
+                var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
+                dataGridView1.DataSource = filteredAssignments;
             }
 
         }

@@ -33,6 +33,9 @@
             groupBox1 = new GroupBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            label3 = new Label();
+            label2 = new Label();
+            textBox3 = new TextBox();
             button3 = new Button();
             textBox2 = new TextBox();
             groupBox1.SuspendLayout();
@@ -76,30 +79,57 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(106, 121);
+            dataGridView1.Location = new Point(12, 95);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(312, 323);
+            dataGridView1.Size = new Size(312, 404);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label3);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Controls.Add(textBox3);
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(textBox2);
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(310, 12);
+            groupBox2.Location = new Point(351, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(250, 103);
+            groupBox2.Size = new Size(250, 281);
             groupBox2.TabIndex = 6;
             groupBox2.TabStop = false;
-            groupBox2.Text = "Fonksiyon";
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(6, 124);
+            label3.Name = "label3";
+            label3.Size = new Size(128, 23);
+            label3.TabIndex = 8;
+            label3.Text = "Fonsiyon İsmi :";
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(6, 30);
+            label2.Name = "label2";
+            label2.Size = new Size(90, 23);
+            label2.TabIndex = 7;
+            label2.Text = "Fonsiyon :";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(6, 165);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(238, 30);
+            textBox3.TabIndex = 6;
             // 
             // button3
             // 
-            button3.Location = new Point(85, 60);
+            button3.Location = new Point(82, 240);
             button3.Name = "button3";
             button3.Size = new Size(94, 35);
             button3.TabIndex = 5;
@@ -109,7 +139,7 @@
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(6, 24);
+            textBox2.Location = new Point(6, 71);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(238, 30);
             textBox2.TabIndex = 3;
@@ -119,7 +149,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(584, 450);
+            ClientSize = new Size(613, 511);
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
@@ -144,5 +174,8 @@
         private GroupBox groupBox2;
         private Button button3;
         private TextBox textBox2;
+        private Label label3;
+        private Label label2;
+        private TextBox textBox3;
     }
 }
