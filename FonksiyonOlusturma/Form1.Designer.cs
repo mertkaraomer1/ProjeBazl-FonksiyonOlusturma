@@ -42,7 +42,7 @@
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(button1);
-            groupBox1.Location = new Point(182, 12);
+            groupBox1.Location = new Point(62, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(248, 159);
             groupBox1.TabIndex = 0;
@@ -77,13 +77,17 @@
             // 
             // dataGridView1
             // 
+            dataGridView1.AllowUserToAddRows = false;
+            dataGridView1.AllowUserToDeleteRows = false;
+            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(27, 177);
+            dataGridView1.Location = new Point(39, 177);
             dataGridView1.Name = "dataGridView1";
+            dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(559, 280);
+            dataGridView1.Size = new Size(299, 280);
             dataGridView1.TabIndex = 3;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
@@ -92,7 +96,7 @@
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(633, 499);
+            ClientSize = new Size(373, 489);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
             Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);

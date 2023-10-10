@@ -32,8 +32,8 @@
             comboBox2 = new ComboBox();
             comboBox4 = new ComboBox();
             groupBox1 = new GroupBox();
-            button3 = new Button();
             button2 = new Button();
+            button3 = new Button();
             comboBox3 = new ComboBox();
             button1 = new Button();
             label3 = new Label();
@@ -70,11 +70,12 @@
             comboBox4.Name = "comboBox4";
             comboBox4.Size = new Size(211, 31);
             comboBox4.TabIndex = 2;
+            comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(button2);
+            groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(comboBox3);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(label3);
@@ -90,27 +91,26 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Modül Durumu";
             // 
+            // button2
+            // 
+            button2.Location = new Point(135, 229);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 75);
+            button2.TabIndex = 11;
+            button2.Text = "Araver";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
             // button3
             // 
             button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button3.Location = new Point(265, 229);
+            button3.Location = new Point(253, 229);
             button3.Name = "button3";
             button3.Size = new Size(94, 75);
             button3.TabIndex = 10;
             button3.Text = "BİTİR";
             button3.UseVisualStyleBackColor = true;
             button3.Click += button3_Click;
-            // 
-            // button2
-            // 
-            button2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button2.Location = new Point(151, 229);
-            button2.Name = "button2";
-            button2.Size = new Size(94, 75);
-            button2.TabIndex = 9;
-            button2.Text = "ARAVER";
-            button2.UseVisualStyleBackColor = true;
-            button2.Click += button2_Click;
             // 
             // comboBox3
             // 
@@ -124,7 +124,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(35, 229);
+            button1.Location = new Point(22, 229);
             button1.Name = "button1";
             button1.Size = new Size(94, 75);
             button1.TabIndex = 8;
@@ -184,6 +184,7 @@
             Name = "KullaniciEkranı";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "KullaniciEkranı";
+            Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ResumeLayout(false);
@@ -197,12 +198,12 @@
         private ComboBox comboBox4;
         private GroupBox groupBox1;
         private Button button3;
-        private Button button2;
         private Button button1;
         private Label label3;
         private Label label2;
         private Label label1;
         private Label label4;
         private ComboBox comboBox3;
+        private Button button2;
     }
 }
