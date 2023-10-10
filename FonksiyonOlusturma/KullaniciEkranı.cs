@@ -202,9 +202,9 @@ namespace FonksiyonOlusturma
                     if (bittiStatus != null)
                     {
                         // "Bitti" durumunda tüm düğmeler gizlenmelidir
-                        button1.Visible = false;
-                        button2.Visible = false;
-                        button3.Visible = false;
+                        button1.Enabled = false;
+                        button2.Enabled = false;
+                        button3.Enabled = false;
                     }
                     else
                     {
@@ -220,26 +220,26 @@ namespace FonksiyonOlusturma
                         if (araverStatus != null)
                         {
                             // "Araver" durumunda button2 ve button3 tıklanamaz
-                            button1.Visible = true; // Button1 etkin
-                            button2.Visible = false;
-                            button3.Visible = false;
+                            button1.Enabled = true; // Button1 etkin
+                            button2.Enabled = false;
+                            button3.Enabled = false;
                         }
                         else
                         {
                             // "Araver" durumu da yoksa, "Başla" durumunu kabul edin
                             // "Başla" durumunda button1 tıklanamaz
-                            button1.Visible = false;
-                            button2.Visible = true; // Button2 ve Button3 etkin
-                            button3.Visible = true;
+                            button1.Enabled = false;
+                            button2.Enabled = true; // Button2 ve Button3 etkin
+                            button3.Enabled = true;
                         }
                     }
                 }
                 else
                 {
                     // ComboBox'lar null ise, tüm düğmeler etkin değil
-                    button1.Visible = false;
-                    button2.Visible = false;
-                    button3.Visible = false;
+                    button1.Enabled = false;
+                    button2.Enabled = false;
+                    button3.Enabled = false;
                 }
             }
 
