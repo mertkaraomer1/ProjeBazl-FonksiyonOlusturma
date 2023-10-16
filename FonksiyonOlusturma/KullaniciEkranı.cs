@@ -249,7 +249,7 @@ namespace FonksiyonOlusturma
                 else
                 {
                     // ComboBox'lar null ise, tüm düğmeler etkin değil
-                    button1.Enabled = false;
+                    button1.Enabled = true;
                     button2.Enabled = false;
                     button3.Enabled = false;
                 }

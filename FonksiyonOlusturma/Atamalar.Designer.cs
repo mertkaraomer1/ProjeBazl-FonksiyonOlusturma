@@ -29,8 +29,8 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            comboBox3 = new ComboBox();
             label3 = new Label();
-            textBox3 = new TextBox();
             label2 = new Label();
             label1 = new Label();
             textBox2 = new TextBox();
@@ -49,8 +49,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(comboBox3);
             groupBox1.Controls.Add(label3);
-            groupBox1.Controls.Add(textBox3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(textBox2);
@@ -62,6 +62,14 @@
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             // 
+            // comboBox3
+            // 
+            comboBox3.FormattingEnabled = true;
+            comboBox3.Location = new Point(122, 91);
+            comboBox3.Name = "comboBox3";
+            comboBox3.Size = new Size(187, 31);
+            comboBox3.TabIndex = 7;
+            // 
             // label3
             // 
             label3.AutoSize = true;
@@ -70,13 +78,6 @@
             label3.Size = new Size(72, 23);
             label3.TabIndex = 5;
             label3.Text = "Modul :";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(122, 91);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(187, 30);
-            textBox3.TabIndex = 4;
             // 
             // label2
             // 
@@ -183,6 +184,7 @@
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(919, 250);
             dataGridView1.TabIndex = 5;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
             // Atamalar
             // 
@@ -209,7 +211,6 @@
 
         private GroupBox groupBox1;
         private Label label3;
-        private TextBox textBox3;
         private Label label2;
         private Label label1;
         private TextBox textBox2;
@@ -221,5 +222,6 @@
         private Label label4;
         private DataGridView dataGridView1;
         private Button button1;
+        private ComboBox comboBox3;
     }
 }

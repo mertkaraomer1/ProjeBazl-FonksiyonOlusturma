@@ -26,32 +26,22 @@ namespace FonksiyonOlusturma
         {
             using (var dbContext = new MyDbContext())
             {
-                var bittiModuleNames = dbContext.status
-                    .Where(status => status.StatusName == "Bitti")
-                    .Select(status => status.ModuleName)
-                    .ToList();
-
-                var statusList = dbContext.status
-                    .Where(status => !bittiModuleNames.Contains(status.ModuleName))
+                var statusList = dbContext.assignments
                     .Select(status => new
                     {
                         Sorumlu = status.StaffName,
                         Proje = status.ProjectName,
                         Fonksiyon = status.FunctionName,
                         Modül = status.ModuleName,
-                        StatusName = status.StatusName,
-                        StatusTime = status.StatusTime,
-                        GeçenZaman = (DateTime.Now - status.StatusTime).ToString(@"hh\:mm\:ss")
+                        StatusName = status.CategoryName,
+                        StatusTime = status.CategoryTime,
+                        GeçenZaman = (DateTime.Now - status.CategoryTime).ToString(@"hh\:mm\:ss")
                     })
                     .ToList();
 
                 // DataGridView'e verileri eklemek için aşağıdaki kodu kullanabilirsiniz (dataGridView1 DataGridView nesnesi adınıza göre değiştirilmelidir).
                 dataGridView1.DataSource = statusList;
             }
-
-
-
-
         }
     }
 }

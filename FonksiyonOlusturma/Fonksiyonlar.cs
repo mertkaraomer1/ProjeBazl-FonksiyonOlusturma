@@ -40,9 +40,14 @@ namespace FonksiyonOlusturma
         }
         public void FonksiyonGoruntuleme()
         {
+            // DataGridView'i temizleyin
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
             // DataGridView sütunlarını oluşturun
             dataGridView1.Columns.Add("Column1", "SATIR NO");
             dataGridView1.Columns.Add("Column2", "FONKSİYONLAR");
+            dataGridView1.Columns.Add("Column3", "FONKSİYON AÇIKLAMASI");
 
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
@@ -54,16 +59,20 @@ namespace FonksiyonOlusturma
                     .Select(p => p.ProjectId)
                     .ToList();
 
-                // ProjectId'leri kullanarak Functions tablosundaki FunctionNamelerini alın
-                var functionNames = dbContext.functions
+                // ProjectId'leri kullanarak Functions tablosundaki FunctionNamelerini ve FunctionDescription'ları alın
+                var functionData = dbContext.functions
                     .Where(f => projectIds.Contains(f.ProjectId))
-                    .Select(f => f.FunctionName)
+                    .Select(f => new
+                    {
+                        FunctionName = f.FunctionName,
+                        FunctionDescription = f.FunctionDescription
+                    })
                     .ToList();
 
                 int satirNo = 1; // Başlangıç satır numarası 1 olarak ayarlanır
 
                 // DataGridView'e satır ekleyin
-                foreach (var functionName in functionNames)
+                foreach (var function in functionData)
                 {
                     // DataGridView'e yeni bir satır ekleyin
                     DataGridViewRow row = new DataGridViewRow();
@@ -72,7 +81,10 @@ namespace FonksiyonOlusturma
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = satirNo.ToString() });
 
                     // İkinci sütunu (FONKSİYONLAR) fonksiyon adı olarak ayarlayın
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = functionName });
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = function.FunctionName });
+
+                    // Üçüncü sütunu (FONKSİYON AÇIKLAMASI) fonksiyon açıklaması olarak ayarlayın
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = function.FunctionDescription });
 
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
@@ -80,8 +92,8 @@ namespace FonksiyonOlusturma
                     satirNo++; // Her satır ekledikten sonra satır numarasını arttırın
                 }
             }
-
         }
+
 
         private void button3_Click(object sender, EventArgs e)
         {
