@@ -36,5 +36,11 @@ namespace FonksiyonOlusturma
             AtananIsler AI = new AtananIsler();
             AI.Show();
         }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            UygunOlmayanlar uygunOlmayanlar = new UygunOlmayanlar();
+            uygunOlmayanlar.Show();
+        }
     }
 }

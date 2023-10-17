@@ -29,12 +29,12 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            comboBox5 = new ComboBox();
+            comboBox4 = new ComboBox();
             comboBox3 = new ComboBox();
             label3 = new Label();
             label2 = new Label();
             label1 = new Label();
-            textBox2 = new TextBox();
-            textBox1 = new TextBox();
             comboBox1 = new ComboBox();
             comboBox2 = new ComboBox();
             groupBox2 = new GroupBox();
@@ -49,18 +49,36 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(comboBox5);
+            groupBox1.Controls.Add(comboBox4);
             groupBox1.Controls.Add(comboBox3);
             groupBox1.Controls.Add(label3);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
-            groupBox1.Controls.Add(textBox2);
-            groupBox1.Controls.Add(textBox1);
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(73, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(315, 135);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
+            // 
+            // comboBox5
+            // 
+            comboBox5.FormattingEnabled = true;
+            comboBox5.Location = new Point(122, 22);
+            comboBox5.Name = "comboBox5";
+            comboBox5.Size = new Size(187, 31);
+            comboBox5.TabIndex = 9;
+            comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
+            // 
+            // comboBox4
+            // 
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Location = new Point(122, 55);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(187, 31);
+            comboBox4.TabIndex = 8;
+            comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             // 
             // comboBox3
             // 
@@ -96,20 +114,6 @@
             label1.Size = new Size(103, 23);
             label1.TabIndex = 2;
             label1.Text = "Proje Kodu:";
-            // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(122, 55);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(187, 30);
-            textBox2.TabIndex = 1;
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(122, 22);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(187, 30);
-            textBox1.TabIndex = 0;
             // 
             // comboBox1
             // 
@@ -213,8 +217,6 @@
         private Label label3;
         private Label label2;
         private Label label1;
-        private TextBox textBox2;
-        private TextBox textBox1;
         private ComboBox comboBox1;
         private ComboBox comboBox2;
         private GroupBox groupBox2;
@@ -223,5 +225,7 @@
         private DataGridView dataGridView1;
         private Button button1;
         private ComboBox comboBox3;
+        private ComboBox comboBox4;
+        private ComboBox comboBox5;
     }
 }

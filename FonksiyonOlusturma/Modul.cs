@@ -171,8 +171,6 @@ namespace FonksiyonOlusturma
                 string textBoxValue = textBox1.Text; // Form2'deki TextBox'tan veriyi al
                 string textBoxValue2 = textBox2.Text; // Form2'deki TextBox'tan veriyi al
                 Atamalar ata = new Atamalar();
-                ata.TextBoxValue = textBoxValue; // Form3'teki TextBox'a veriyi aktar
-                ata.TextBoxValue2 = textBoxValue2;
                 DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[1]; // Tıklanan hücreyi al
                 ata.Show();
 

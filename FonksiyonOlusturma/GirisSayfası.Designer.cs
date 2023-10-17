@@ -32,6 +32,7 @@
             button1 = new Button();
             button2 = new Button();
             button4 = new Button();
+            button5 = new Button();
             SuspendLayout();
             // 
             // button3
@@ -77,12 +78,24 @@
             button4.UseVisualStyleBackColor = true;
             button4.Click += button4_Click;
             // 
+            // button5
+            // 
+            button5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            button5.Location = new Point(189, 258);
+            button5.Name = "button5";
+            button5.Size = new Size(94, 84);
+            button5.TabIndex = 10;
+            button5.Text = "Uygun Olmayan İşler";
+            button5.UseVisualStyleBackColor = true;
+            button5.Click += button5_Click;
+            // 
             // GirisSayfası
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(500, 292);
+            ClientSize = new Size(500, 365);
+            Controls.Add(button5);
             Controls.Add(button2);
             Controls.Add(button4);
             Controls.Add(button1);
@@ -99,5 +112,6 @@
         private Button button1;
         private Button button2;
         private Button button4;
+        private Button button5;
     }
 }

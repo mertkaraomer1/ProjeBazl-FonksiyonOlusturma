@@ -20,34 +20,60 @@ namespace FonksiyonOlusturma
         {
             dbContext = new MyDbContext();
             InitializeComponent();
-            // TextBox'ı sadece okunabilir yap
-            textBox1.ReadOnly = true;
-            // TextBox'ı sadece okunabilir yap
-            textBox2.ReadOnly = true;
-
         }
-        public string TextBoxValue
+        public void ComboboxValue()
         {
-            get { return textBox1.Text; } // textBox1 burada TextBox'ın adı olmalı
-            set { textBox1.Text = value; }
+            var projectNames = dbContext.projects
+                .Select(p => p.ProjectName)
+                .ToList();
+
+            comboBox5.DataSource = projectNames;
+        }
+
+        public void ComboboxValue2()
+        {
+            using (var dbContext = new MyDbContext())
+            {
+                // İlk olarak, textbox1'den gelen ProjectName'i kullanarak ProjectId'yi bulun.
+                string projectName = comboBox5.Text;
+                int projectId = dbContext.projects
+                    .Where(p => p.ProjectName == projectName)
+                    .Select(p => p.ProjectId)
+                    .FirstOrDefault();
+                // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
+                var functionNames = dbContext.functions
+                    .Where(m => m.ProjectId == projectId)
+                    .Select(m => m.FunctionName)
+                    .ToList();
+
+                comboBox4.DataSource = functionNames;
+
+            }
         }
         public void ComboBoxValue1()
         {
             using (var dbContext = new MyDbContext())
             {
                 // İlk olarak, textbox1'den gelen ProjectName'i kullanarak ProjectId'yi bulun.
-                string projectName = textBox1.Text;
+                string projectName = comboBox5.Text;
                 int projectId = dbContext.projects
                     .Where(p => p.ProjectName == projectName)
                     .Select(p => p.ProjectId)
                     .FirstOrDefault();
+                // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
+                var functionNames = dbContext.functions
+                    .Where(m => m.ProjectId == projectId)
+                    .Select(m => m.FunctionName)
+                    .ToList();
+                comboBox4.DataSource = functionNames;
 
                 // Ardından, textbox2'den gelen FunctionName'i kullanarak FunctionId'yi bulun.
-                string functionName = textBox2.Text;
+                string functionName = comboBox4.Text;
                 int functionId = dbContext.functions
                     .Where(f => f.FunctionName == functionName)
                     .Select(f => f.FunctionId)
                     .FirstOrDefault();
+
 
                 // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
                 var moduleNames = dbContext.modules
@@ -59,13 +85,10 @@ namespace FonksiyonOlusturma
                 comboBox3.DataSource = moduleNames;
             }
         }
-        public string TextBoxValue2
-        {
-            get { return textBox2.Text; } // textBox1 burada TextBox'ın adı olmalı
-            set { textBox2.Text = value; }
-        }
+
         public void Yükle()
         {
+
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
                 // Staffs tablosundaki StaffName alanındaki verileri sorgulayın
@@ -80,24 +103,31 @@ namespace FonksiyonOlusturma
 
                 // DataGridView'deki verileri sorgulayın ve ProjectName'e göre sıralayın
                 var assignments = dbContext.assignments.ToList();
-                var projectNameFilter = textBox1.Text; // TextBox1'den gelen değeri alın
+                var projectNameFilter = comboBox5.Text; // TextBox1'den gelen değeri alın
                 var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
 
                 // DataGridView'i güncelleyin veya yeniden doldurun
                 dataGridView1.DataSource = filteredAssignments;
             }
-            // DataGridView kontrolünüze bir buton sütunu ekleyin.
-            DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
-            buttonColumn.HeaderText = ""; // Sütun başlığı
-            buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
-            buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
-            dataGridView1.Columns.Add(buttonColumn);
+
+            // Eğer DataGridView daha önce buton sütunu eklenmediyse, o zaman buton sütununu ekleyin.
+            if (dataGridView1.Columns["DeleteButtonColumn"] == null)
+            {
+                DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
+                buttonColumn.Name = "DeleteButtonColumn"; // Sütun adını belirtin (tek bir sütun eklemeyi sağlar)
+                buttonColumn.HeaderText = ""; // Sütun başlığı
+                buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
+                buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+                dataGridView1.Columns.Add(buttonColumn);
+            }
+
+            // Silme işlemi sırasında kullanılacak olayı ayarlayın
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+
         }
         private void Atamalar_Load(object sender, EventArgs e)
         {
-            ComboBoxValue1();
-
+            ComboboxValue();
             Yükle();
         }
 
@@ -107,8 +137,8 @@ namespace FonksiyonOlusturma
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
                 // TextBox ve ComboBox'lardan gelen verileri alın
-                string projectName = textBox1.Text;
-                string functionName = textBox2.Text;
+                string projectName = comboBox5.Text;
+                string functionName = comboBox4.Text;
                 string moduleName = comboBox3.Text;
                 string staffName = comboBox1.Text;
                 string categoryName = comboBox2.Text;
@@ -136,13 +166,13 @@ namespace FonksiyonOlusturma
 
                 // DataGridView'i güncellemek için sorguyu düzenleyin ve yeniden doldurun
                 var assignments = dbContext.assignments.ToList();
-                var projectNameFilter = textBox1.Text; // TextBox1'den gelen değeri alın
+                var projectNameFilter = comboBox5.Text; // TextBox1'den gelen değeri alın
                 var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
                 dataGridView1.DataSource = filteredAssignments;
             }
 
         }
-       
+
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
             int columnIndex = e.ColumnIndex;
@@ -191,6 +221,17 @@ namespace FonksiyonOlusturma
             }
 
 
+        }
+
+        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboBoxValue1();
+        }
+
+        private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ComboboxValue2();
+            Yükle();
         }
     }
 }
