@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            groupBox13 = new GroupBox();
+            button2 = new Button();
+            textBox6 = new TextBox();
+            label12 = new Label();
             button1 = new Button();
             groupBox12 = new GroupBox();
             textBox1 = new TextBox();
@@ -45,9 +49,6 @@
             groupBox9 = new GroupBox();
             textBox4 = new TextBox();
             label4 = new Label();
-            groupBox7 = new GroupBox();
-            dateTimePicker1 = new DateTimePicker();
-            label6 = new Label();
             groupBox6 = new GroupBox();
             textBox7 = new TextBox();
             label7 = new Label();
@@ -64,13 +65,14 @@
             textBox11 = new TextBox();
             label11 = new Label();
             dataGridView1 = new DataGridView();
+            openFileDialog1 = new OpenFileDialog();
             groupBox1.SuspendLayout();
+            groupBox13.SuspendLayout();
             groupBox12.SuspendLayout();
             groupBox11.SuspendLayout();
             groupBox8.SuspendLayout();
             groupBox10.SuspendLayout();
             groupBox9.SuspendLayout();
-            groupBox7.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
@@ -82,13 +84,13 @@
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(groupBox13);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(groupBox12);
             groupBox1.Controls.Add(groupBox11);
             groupBox1.Controls.Add(groupBox8);
             groupBox1.Controls.Add(groupBox10);
             groupBox1.Controls.Add(groupBox9);
-            groupBox1.Controls.Add(groupBox7);
             groupBox1.Controls.Add(groupBox6);
             groupBox1.Controls.Add(groupBox5);
             groupBox1.Controls.Add(groupBox4);
@@ -102,11 +104,48 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Kayıt";
             // 
+            // groupBox13
+            // 
+            groupBox13.Controls.Add(button2);
+            groupBox13.Controls.Add(textBox6);
+            groupBox13.Controls.Add(label12);
+            groupBox13.Location = new Point(6, 739);
+            groupBox13.Name = "groupBox13";
+            groupBox13.Size = new Size(428, 68);
+            groupBox13.TabIndex = 23;
+            groupBox13.TabStop = false;
+            // 
+            // button2
+            // 
+            button2.Location = new Point(362, 24);
+            button2.Name = "button2";
+            button2.Size = new Size(38, 29);
+            button2.TabIndex = 22;
+            button2.Text = "...";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(150, 26);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(198, 27);
+            textBox6.TabIndex = 21;
+            // 
+            // label12
+            // 
+            label12.AutoSize = true;
+            label12.Location = new Point(88, 29);
+            label12.Name = "label12";
+            label12.Size = new Size(60, 20);
+            label12.TabIndex = 10;
+            label12.Text = "Resim :";
+            // 
             // button1
             // 
-            button1.Location = new Point(94, 835);
+            button1.Location = new Point(94, 826);
             button1.Name = "button1";
-            button1.Size = new Size(267, 110);
+            button1.Size = new Size(267, 89);
             button1.TabIndex = 33;
             button1.Text = "Kaydet";
             button1.UseVisualStyleBackColor = true;
@@ -242,37 +281,11 @@
             label4.TabIndex = 3;
             label4.Text = "Hatalı Miktar :";
             // 
-            // groupBox7
-            // 
-            groupBox7.Controls.Add(dateTimePicker1);
-            groupBox7.Controls.Add(label6);
-            groupBox7.Location = new Point(6, 382);
-            groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(428, 68);
-            groupBox7.TabIndex = 27;
-            groupBox7.TabStop = false;
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Location = new Point(150, 21);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(250, 27);
-            dateTimePicker1.TabIndex = 6;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Location = new Point(97, 26);
-            label6.Name = "label6";
-            label6.Size = new Size(52, 20);
-            label6.TabIndex = 5;
-            label6.Text = "Tarih :";
-            // 
             // groupBox6
             // 
             groupBox6.Controls.Add(textBox7);
             groupBox6.Controls.Add(label7);
-            groupBox6.Location = new Point(6, 456);
+            groupBox6.Location = new Point(6, 382);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(428, 67);
             groupBox6.TabIndex = 26;
@@ -298,7 +311,7 @@
             // 
             groupBox5.Controls.Add(textBox8);
             groupBox5.Controls.Add(label8);
-            groupBox5.Location = new Point(6, 529);
+            groupBox5.Location = new Point(6, 455);
             groupBox5.Name = "groupBox5";
             groupBox5.Size = new Size(428, 63);
             groupBox5.TabIndex = 25;
@@ -324,7 +337,7 @@
             // 
             groupBox4.Controls.Add(textBox9);
             groupBox4.Controls.Add(label9);
-            groupBox4.Location = new Point(6, 598);
+            groupBox4.Location = new Point(6, 524);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(428, 67);
             groupBox4.TabIndex = 24;
@@ -350,7 +363,7 @@
             // 
             groupBox3.Controls.Add(textBox10);
             groupBox3.Controls.Add(label10);
-            groupBox3.Location = new Point(6, 671);
+            groupBox3.Location = new Point(6, 597);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(428, 62);
             groupBox3.TabIndex = 23;
@@ -376,7 +389,7 @@
             // 
             groupBox2.Controls.Add(textBox11);
             groupBox2.Controls.Add(label11);
-            groupBox2.Location = new Point(6, 739);
+            groupBox2.Location = new Point(6, 665);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(428, 68);
             groupBox2.TabIndex = 22;
@@ -413,6 +426,11 @@
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(1390, 965);
             dataGridView1.TabIndex = 1;
+            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
             // 
             // UygunOlmayanlar
             // 
@@ -428,6 +446,8 @@
             WindowState = FormWindowState.Maximized;
             Load += UygunOlmayanlar_Load;
             groupBox1.ResumeLayout(false);
+            groupBox13.ResumeLayout(false);
+            groupBox13.PerformLayout();
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
             groupBox11.ResumeLayout(false);
@@ -438,8 +458,6 @@
             groupBox10.PerformLayout();
             groupBox9.ResumeLayout(false);
             groupBox9.PerformLayout();
-            groupBox7.ResumeLayout(false);
-            groupBox7.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox5.ResumeLayout(false);
@@ -462,7 +480,6 @@
         private Label label9;
         private Label label8;
         private Label label7;
-        private Label label6;
         private Label label5;
         private Label label4;
         private Label label3;
@@ -483,7 +500,6 @@
         private GroupBox groupBox10;
         private GroupBox groupBox9;
         private GroupBox groupBox8;
-        private GroupBox groupBox7;
         private GroupBox groupBox6;
         private GroupBox groupBox5;
         private GroupBox groupBox4;
@@ -491,6 +507,10 @@
         private GroupBox groupBox2;
         private DataGridView dataGridView1;
         private Button button1;
-        private DateTimePicker dateTimePicker1;
+        private GroupBox groupBox13;
+        private Button button2;
+        private TextBox textBox6;
+        private Label label12;
+        private OpenFileDialog openFileDialog1;
     }
 }

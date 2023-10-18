@@ -34,12 +34,13 @@ namespace FonksiyonOlusturma
                     SiparisNo = textBox3.Text,
                     HatalıMiktar = Convert.ToInt32(textBox4.Text),
                     ToplamMiktar = Convert.ToInt32(textBox5.Text),
-                    Tarih = dateTimePicker1.Value, // Tarih alanı için uygun bir değer atayın
+                    Tarih = DateTime.Now, // Tarih alanı için uygun bir değer atayın
                     KayıpZaman = textBox7.Text,
                     HataTipi = textBox8.Text,
                     Aciklama = textBox9.Text,
                     HataBolumu = textBox10.Text,
-                    RaporuHazirlayan = textBox11.Text
+                    RaporuHazirlayan = textBox11.Text,
+                    Resim = textBox6.Text
                 };
 
                 // 3. Veritabanına ekleme işlemi
@@ -66,6 +67,27 @@ namespace FonksiyonOlusturma
         private void UygunOlmayanlar_Load(object sender, EventArgs e)
         {
             Listele();
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            openFileDialog1.ShowDialog();
+            textBox6.Text = openFileDialog1.FileName;
+        }
+
+        Resim resim;
+        private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
+            {
+                Resim resim = new Resim();
+
+                DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[12]; // Tıklanan hücreyi al
+                string cellValue = clickedCell.Value.ToString();
+                resim.picturebox = cellValue;// Form3'teki TextBox2'ye veriyi aktar
+                resim.Show();
+
+            }
         }
     }
 }
