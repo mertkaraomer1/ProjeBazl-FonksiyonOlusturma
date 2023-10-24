@@ -13,13 +13,15 @@ namespace FonksiyonOlusturma.Tables
         public string UrunAdi { get; set; }
         public string SiparisNo { get; set; }
         public int HatalıMiktar { get; set; }
-        public int ToplamMiktar { get; set; }
         public DateTime Tarih { get; set; }
         public string KayıpZaman { get; set; }
         public string HataTipi { get; set; }
         public string Aciklama { get; set; }
+        public string Ozet { get; set; }
         public string HataBolumu { get; set; }
         public string RaporuHazirlayan { get; set; }
+        public string HatayıBulanBirim { get; set; }
         public string Resim { get; set; }
+
     }
 }

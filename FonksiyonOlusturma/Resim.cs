@@ -17,16 +17,16 @@ namespace FonksiyonOlusturma
         {
             InitializeComponent();
         }
-        public string picturebox
+        public string picturebox132
         {
             get { return pictureBox1.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { pictureBox1.Text = value; }
         }
         private void Resim_Load(object sender, EventArgs e)
         {
-            string resimYolu = picturebox; // picturebox, dosyanın yolunu içeriyor
+            string resimYolu = picturebox132; // picturebox, dosyanın yolunu içeriyor
 
-            if (!string.IsNullOrEmpty(resimYolu) && System.IO.File.Exists(resimYolu))
+            if (!string.IsNullOrEmpty(resimYolu) && File.Exists(resimYolu))
             {
                 pictureBox1.Image = Image.FromFile(resimYolu);
             }
