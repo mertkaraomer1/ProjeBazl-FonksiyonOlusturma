@@ -127,6 +127,7 @@ namespace FonksiyonOlusturma
         }
         private void Atamalar_Load(object sender, EventArgs e)
         {
+
             ComboboxValue();
             Yükle();
         }
@@ -230,8 +231,34 @@ namespace FonksiyonOlusturma
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
+
             ComboboxValue2();
             Yükle();
+        }
+
+        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            using (var context = new MyDbContext())
+            {
+                // Assigments tablosundan verileri çekin
+                var assignments = context.assignments.ToList();
+
+                // ComboBox'lardan seçilen kriterlere göre verileri filtreleyin
+                string selectedProject = comboBox5.Text;
+                string selectedFunction = comboBox4.Text;
+                string selectedModule = comboBox3.Text;
+
+                var filteredAssignments = assignments
+                    .Where(assignment =>
+                        (string.IsNullOrEmpty(selectedProject) || assignment.ProjectName == selectedProject) &&
+                        (string.IsNullOrEmpty(selectedFunction) || assignment.FunctionName == selectedFunction) &&
+                        (string.IsNullOrEmpty(selectedModule) || assignment.ModuleName == selectedModule))
+                    .ToList();
+
+                // DataGridView'e filtrelenmiş verileri yazdırın
+                dataGridView1.DataSource = filteredAssignments;
+            }
+
         }
     }
 }

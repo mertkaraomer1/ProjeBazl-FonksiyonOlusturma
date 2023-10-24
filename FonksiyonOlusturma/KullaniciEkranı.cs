@@ -43,38 +43,28 @@ namespace FonksiyonOlusturma
                     {
                         ProjectName = a.ProjectName,
                         FunctionName = a.FunctionName,
-                        ModuleName = a.ModuleName
+                        ModuleName = a.ModuleName,
+                        categoryTime = a.CategoryTime,
                     })
                     .Distinct()
                     .ToList();
+                dataGridView1.DataSource = query;
 
-                var projectNames = query.Select(a => a.ProjectName).Distinct().ToList();
-                var functionNames = query.Select(a => a.FunctionName).Distinct().ToList();
-                var moduleNames = query.Select(a => a.ModuleName).Distinct().ToList();
-
-                if (projectNames.Count == 0 || functionNames.Count == 0 || moduleNames.Count == 0)
-                {
-                    // Eğer veri bulunmuyorsa, comboBox'ları temizle
-                    comboBox2.DataSource = null;
-                    comboBox3.DataSource = null;
-                    comboBox4.DataSource = null;
-                }
-                else
-                {
-                    comboBox2.DataSource = projectNames;
-                    comboBox3.DataSource = functionNames;
-                    comboBox4.DataSource = moduleNames;
-                }
             }
+            textBox2.Clear();
+
+            textBox3.Clear();
+
+            textBox4.Clear();
             UpdateButtonVisibleState();
         }
         private void button1_Click(object sender, EventArgs e)
         {
 
             string staffName = comboBox1.SelectedItem as string;
-            string projectName = comboBox2.SelectedItem as string;
-            string functionName = comboBox3.SelectedItem as string;
-            string moduleName = comboBox4.SelectedItem as string;
+            string projectName = textBox2.Text.ToString();
+            string functionName = textBox3.Text.ToString();
+            string moduleName = textBox4.Text.ToString();
 
             if (!string.IsNullOrEmpty(staffName) &&
                 !string.IsNullOrEmpty(projectName) &&
@@ -107,38 +97,92 @@ namespace FonksiyonOlusturma
 
         private void button2_Click(object sender, EventArgs e)
         {
-            // ComboBox'lardan seçilen değerleri alın
-            string staffName = comboBox1.SelectedItem as string;
-            string projectName = comboBox2.SelectedItem as string;
-            string functionName = comboBox3.SelectedItem as string;
-            string moduleName = comboBox4.SelectedItem as string;
 
-            if (!string.IsNullOrEmpty(staffName) &&
-                !string.IsNullOrEmpty(projectName) &&
-                !string.IsNullOrEmpty(functionName) &&
-                !string.IsNullOrEmpty(moduleName))
+            Form sebepSecimiForm = new Form
             {
-                // Status tablosuna yeni bir kayıt ekleyin
-                Status newStatus = new Status
+                Text = "Ara Verme Sebebinizi Seçiniz...",
+                Size = new Size(300, 150),
+                FormBorderStyle = FormBorderStyle.FixedDialog,
+                StartPosition = FormStartPosition.CenterScreen
+            };
+
+            ComboBox comboBox = new ComboBox
+            {
+                Location = new Point(20, 20),
+                Width = 200,
+                DropDownStyle = ComboBoxStyle.DropDownList
+            };
+
+            comboBox.Items.AddRange(new string[]
+            {
+                    "Yorgunluk",
+                    "Acil iş",
+                    "Öğle yemeği",
+                    "Toplantı",
+                    "Diğer"
+            });
+
+            Button onayButton = new Button
+            {
+                Text = "Onay",
+                Location = new Point(100, 60),
+                Size = new Size(60, 30),
+            };
+
+            onayButton.Click += (s, e) =>
+            {
+                string selectedReason = comboBox.SelectedItem as string;
+
+                if (!string.IsNullOrEmpty(selectedReason))
                 {
-                    StaffName = staffName,
-                    ProjectName = projectName,
-                    FunctionName = functionName,
-                    ModuleName = moduleName,
-                    StatusName = "Araver",
-                    StatusTime = DateTime.Now
-                };
+                    MessageBox.Show($"Ara verme sebebi: {selectedReason}\nAra vermek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo);
+                    // ComboBox'lardan seçilen değerleri alın
+                    string staffName = comboBox1.SelectedItem as string;
+                    string projectName = textBox2.Text.ToString();
+                    string functionName = textBox3.Text.ToString();
+                    string moduleName = textBox4.Text.ToString();
 
-                dbContext.status.Add(newStatus);
-                dbContext.SaveChanges();
+                    if (!string.IsNullOrEmpty(staffName) &&
+                        !string.IsNullOrEmpty(projectName) &&
+                        !string.IsNullOrEmpty(functionName) &&
+                        !string.IsNullOrEmpty(moduleName))
+                    {
+                        // Status tablosuna yeni bir kayıt ekleyin
+                        Status newStatus = new Status
+                        {
+                            StaffName = staffName,
+                            ProjectName = projectName,
+                            FunctionName = functionName,
+                            ModuleName = moduleName,
+                            StatusName = "Araver",
+                            StatusTime = DateTime.Now,
+                            popup = comboBox.Text
+                        };
 
-                MessageBox.Show("Araverildi.");
-                UpdateButtonVisibleState();
-            }
-            else
-            {
-                MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
-            }
+                        dbContext.status.Add(newStatus);
+                        dbContext.SaveChanges();
+
+                        MessageBox.Show("Araverildi.");
+                        UpdateButtonVisibleState();
+                    }
+                    else
+                    {
+                        MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
+                    }
+
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen bir ara verme sebebi seçin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+
+                sebepSecimiForm.Close();
+            };
+
+            sebepSecimiForm.Controls.Add(comboBox);
+            sebepSecimiForm.Controls.Add(onayButton);
+
+            sebepSecimiForm.ShowDialog();
 
         }
 
@@ -147,8 +191,8 @@ namespace FonksiyonOlusturma
 
             // ComboBox'lardan seçilen değerleri alın
             string staffName = comboBox1.SelectedItem as string;
-            string projectName = comboBox2.SelectedItem as string;
-            string functionName = comboBox3.SelectedItem as string;
+            string projectName = textBox2.Text.ToString();
+            string functionName = textBox3.Text.ToString();
             string moduleName = textBox1.Text;
 
             if (!string.IsNullOrEmpty(staffName) &&
@@ -185,9 +229,9 @@ namespace FonksiyonOlusturma
             using (var dbContext = new MyDbContext())
             {
                 string staffName = comboBox1.SelectedItem?.ToString();
-                string selectedProjectName = comboBox2.SelectedItem?.ToString();
-                string selectedFunctionName = comboBox3.SelectedItem?.ToString();
-                string selectedModuleName = comboBox4.SelectedItem?.ToString();
+                string selectedProjectName = textBox2.Text.ToString();
+                string selectedFunctionName = textBox3.Text.ToString();
+                string selectedModuleName = textBox4.Text.ToString();
 
                 if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
@@ -288,9 +332,9 @@ namespace FonksiyonOlusturma
         {
             using (var dbContext = new MyDbContext())
             {
-                string selectedProjectName = comboBox2.SelectedItem?.ToString();
-                string selectedFunctionName = comboBox3.SelectedItem?.ToString();
-                string selectedModuleName = comboBox4.SelectedItem?.ToString();
+                string selectedProjectName = textBox2.Text.ToString();
+                string selectedFunctionName = textBox3.Text.ToString();
+                string selectedModuleName = textBox4.Text.ToString();
                 string newModuleName = textBox1.Text;
                 if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
@@ -361,6 +405,25 @@ namespace FonksiyonOlusturma
                 }
 
 
+            }
+        }
+
+        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0) // Geçerli bir satır tıklanmış mı kontrolü
+            {
+                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
+                // Eğer DataGridView'da daha fazla sütununuz varsa, sütun indekslerini düzenleyin
+                string kolon1Verisi = selectedRow.Cells["ProjectName"].Value.ToString();
+                string kolon2Verisi = selectedRow.Cells["FunctionName"].Value.ToString();
+                string kolon3Verisi = selectedRow.Cells["ModuleName"].Value.ToString();
+
+                // TextBox'lara verileri yaz
+                textBox2.Text = kolon1Verisi;
+                textBox3.Text = kolon2Verisi;
+                textBox4.Text = kolon3Verisi;
+
+                // Daha fazla TextBox kontrolünüz varsa, bu şekilde devam edebilirsiniz
             }
         }
     }

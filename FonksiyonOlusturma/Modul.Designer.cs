@@ -54,7 +54,7 @@
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(23, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(315, 121);
+            groupBox1.Size = new Size(449, 121);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
@@ -80,14 +80,14 @@
             // 
             textBox2.Location = new Point(122, 67);
             textBox2.Name = "textBox2";
-            textBox2.Size = new Size(187, 30);
+            textBox2.Size = new Size(291, 30);
             textBox2.TabIndex = 1;
             // 
             // textBox1
             // 
             textBox1.Location = new Point(122, 34);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(187, 30);
+            textBox1.Size = new Size(291, 30);
             textBox1.TabIndex = 0;
             // 
             // dataGridView1
@@ -102,7 +102,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(377, 299);
+            dataGridView1.Size = new Size(558, 575);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -115,7 +115,7 @@
             groupBox2.Controls.Add(button1);
             groupBox2.Controls.Add(textBox3);
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(411, 12);
+            groupBox2.Location = new Point(576, 21);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(250, 301);
             groupBox2.TabIndex = 2;
@@ -169,7 +169,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(707, 450);
+            ClientSize = new Size(860, 726);
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);

@@ -36,7 +36,7 @@ namespace FonksiyonOlusturma
                     ToplamMiktar = Convert.ToInt32(textBox5.Text),
                     Tarih = DateTime.Now, // Tarih alanı için uygun bir değer atayın
                     KayıpZaman = textBox7.Text,
-                    HataTipi = textBox8.Text,
+                    HataTipi = comboBox2.Text,
                     Aciklama = textBox9.Text,
                     HataBolumu = textBox10.Text,
                     RaporuHazirlayan = textBox11.Text,
@@ -48,6 +48,17 @@ namespace FonksiyonOlusturma
                 dbContext.SaveChanges(); // Değişiklikleri kaydedin
                 MessageBox.Show("Kaydedildi...");
                 Listele();
+                textBox1.Clear();
+                textBox2.Clear();
+                textBox3.Clear();
+                textBox4.Clear();
+                textBox5.Clear();
+                textBox6.Clear();
+                textBox7.Clear();
+                textBox9.Clear();
+                textBox10.Clear();
+                textBox11.Clear();
+
             }
         }
         public void Listele()
@@ -66,12 +77,26 @@ namespace FonksiyonOlusturma
 
         private void UygunOlmayanlar_Load(object sender, EventArgs e)
         {
+
+
+            // Hata Tipleri'ni yükleme
+            LoadHataTipleri();
+
             Listele();
         }
+        private void LoadHataTipleri()
+        {
+            // Hata Tipleri'ni seçin
+            var hataTipleri = dbContext.hataGruplars.Select(h => h.HataTipi).ToList();
 
+            // ComboBox'a hata tiplerini ekleyin
+            comboBox1.Items.AddRange(hataTipleri.ToArray());
+            comboBox2.Items.AddRange(hataTipleri.ToArray());
+        }
         private void button2_Click(object sender, EventArgs e)
         {
             openFileDialog1.ShowDialog();
+            pictureBox1.ImageLocation = openFileDialog1.FileName;
             textBox6.Text = openFileDialog1.FileName;
         }
 
@@ -88,6 +113,45 @@ namespace FonksiyonOlusturma
                 resim.Show();
 
             }
+        }
+
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // ComboBox'dan seçilen HataTipi'ni alın
+            string selectedHataTipi = comboBox1.SelectedItem.ToString();
+
+            // DataGridView'i temizle
+            dataGridView1.DataSource = null;
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+
+            // HataTipi'ne göre verileri seçin
+            var hataliUrunler = dbContext.hataliUruns.Where(h => h.HataTipi == selectedHataTipi).ToList();
+
+            // DataGridView'e verileri ekleyin
+            dataGridView1.DataSource = hataliUrunler;
+        }
+
+        private void comboBox2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            // ComboBox'dan seçilen HataTipi'ni alın
+            string selectedHataTipi = comboBox2.SelectedItem.ToString();
+
+            // HataTipi'ne göre verileri seçin
+            var hataliUrunler = dbContext.hataGruplars.Where(h => h.HataTipi == selectedHataTipi).ToList();
+
+
+            // İlk veriyi seçildiğinde TextBox9'a HataAcıklaması'nı yazdırın (varsa)
+            if (hataliUrunler.Count > 0)
+            {
+                string hataAciklamasi = hataliUrunler[0].HataAcıklaması; // İlk verinin HataAciklamasi
+                textBox9.Text = hataAciklamasi;
+            }
+            else
+            {
+                textBox9.Text = ""; // Veri bulunamazsa TextBox'i boşalt
+            }
+
         }
     }
 }

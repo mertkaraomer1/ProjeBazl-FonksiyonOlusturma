@@ -58,7 +58,7 @@
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(73, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(315, 135);
+            groupBox1.Size = new Size(454, 170);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             // 
@@ -67,31 +67,32 @@
             comboBox5.FormattingEnabled = true;
             comboBox5.Location = new Point(122, 22);
             comboBox5.Name = "comboBox5";
-            comboBox5.Size = new Size(187, 31);
+            comboBox5.Size = new Size(293, 31);
             comboBox5.TabIndex = 9;
             comboBox5.SelectedIndexChanged += comboBox5_SelectedIndexChanged;
             // 
             // comboBox4
             // 
             comboBox4.FormattingEnabled = true;
-            comboBox4.Location = new Point(122, 55);
+            comboBox4.Location = new Point(122, 70);
             comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(187, 31);
+            comboBox4.Size = new Size(293, 31);
             comboBox4.TabIndex = 8;
             comboBox4.SelectedIndexChanged += comboBox4_SelectedIndexChanged;
             // 
             // comboBox3
             // 
             comboBox3.FormattingEnabled = true;
-            comboBox3.Location = new Point(122, 91);
+            comboBox3.Location = new Point(122, 117);
             comboBox3.Name = "comboBox3";
-            comboBox3.Size = new Size(187, 31);
+            comboBox3.Size = new Size(293, 31);
             comboBox3.TabIndex = 7;
+            comboBox3.SelectedIndexChanged += comboBox3_SelectedIndexChanged;
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(37, 98);
+            label3.Location = new Point(37, 120);
             label3.Name = "label3";
             label3.Size = new Size(72, 23);
             label3.TabIndex = 5;
@@ -100,7 +101,7 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(9, 58);
+            label2.Location = new Point(9, 73);
             label2.Name = "label2";
             label2.Size = new Size(100, 23);
             label2.TabIndex = 3;
@@ -120,7 +121,7 @@
             comboBox1.FormattingEnabled = true;
             comboBox1.Location = new Point(173, 26);
             comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(151, 31);
+            comboBox1.Size = new Size(325, 31);
             comboBox1.TabIndex = 2;
             // 
             // comboBox2
@@ -128,7 +129,7 @@
             comboBox2.FormattingEnabled = true;
             comboBox2.Location = new Point(173, 70);
             comboBox2.Name = "comboBox2";
-            comboBox2.Size = new Size(151, 31);
+            comboBox2.Size = new Size(325, 31);
             comboBox2.TabIndex = 3;
             // 
             // groupBox2
@@ -139,9 +140,9 @@
             groupBox2.Controls.Add(comboBox1);
             groupBox2.Controls.Add(comboBox2);
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(529, 12);
+            groupBox2.Location = new Point(748, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(337, 170);
+            groupBox2.Size = new Size(655, 170);
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             groupBox2.Text = "Atamalar";
@@ -150,7 +151,7 @@
             // 
             button1.Location = new Point(205, 117);
             button1.Name = "button1";
-            button1.Size = new Size(94, 47);
+            button1.Size = new Size(268, 47);
             button1.TabIndex = 6;
             button1.Text = "Kaydet";
             button1.UseVisualStyleBackColor = true;
@@ -181,12 +182,12 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 188);
+            dataGridView1.Location = new Point(12, 244);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(919, 250);
+            dataGridView1.Size = new Size(1878, 744);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             // 
@@ -195,7 +196,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(943, 467);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox2);
             Controls.Add(groupBox1);

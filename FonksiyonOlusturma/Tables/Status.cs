@@ -15,6 +15,7 @@ namespace FonksiyonOlusturma.Tables
         public string StaffName { get; set; }
         public string StatusName { get; set; }
         public DateTime StatusTime { get; set; }
+        public string popup { get; set; }    
         
     }
 }

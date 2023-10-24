@@ -40,7 +40,7 @@
             dataGridView1.Name = "dataGridView1";
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(776, 380);
+            dataGridView1.Size = new Size(1878, 960);
             dataGridView1.TabIndex = 0;
             // 
             // AtananIsler
@@ -48,7 +48,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(800, 450);
+            ClientSize = new Size(1902, 1033);
             Controls.Add(dataGridView1);
             Name = "AtananIsler";
             StartPosition = FormStartPosition.CenterScreen;

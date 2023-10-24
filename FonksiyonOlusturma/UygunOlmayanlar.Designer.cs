@@ -53,7 +53,7 @@
             textBox7 = new TextBox();
             label7 = new Label();
             groupBox5 = new GroupBox();
-            textBox8 = new TextBox();
+            comboBox2 = new ComboBox();
             label8 = new Label();
             groupBox4 = new GroupBox();
             textBox9 = new TextBox();
@@ -64,8 +64,12 @@
             groupBox2 = new GroupBox();
             textBox11 = new TextBox();
             label11 = new Label();
-            dataGridView1 = new DataGridView();
             openFileDialog1 = new OpenFileDialog();
+            pictureBox1 = new PictureBox();
+            dataGridView1 = new DataGridView();
+            groupBox7 = new GroupBox();
+            comboBox1 = new ComboBox();
+            label6 = new Label();
             groupBox1.SuspendLayout();
             groupBox13.SuspendLayout();
             groupBox12.SuspendLayout();
@@ -78,7 +82,9 @@
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox7.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -97,7 +103,7 @@
             groupBox1.Controls.Add(groupBox3);
             groupBox1.Controls.Add(groupBox2);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox1.Location = new Point(39, 26);
+            groupBox1.Location = new Point(12, 26);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(455, 974);
             groupBox1.TabIndex = 0;
@@ -309,7 +315,7 @@
             // 
             // groupBox5
             // 
-            groupBox5.Controls.Add(textBox8);
+            groupBox5.Controls.Add(comboBox2);
             groupBox5.Controls.Add(label8);
             groupBox5.Location = new Point(6, 455);
             groupBox5.Name = "groupBox5";
@@ -317,12 +323,14 @@
             groupBox5.TabIndex = 25;
             groupBox5.TabStop = false;
             // 
-            // textBox8
+            // comboBox2
             // 
-            textBox8.Location = new Point(150, 26);
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(250, 27);
-            textBox8.TabIndex = 18;
+            comboBox2.FormattingEnabled = true;
+            comboBox2.Location = new Point(150, 26);
+            comboBox2.Name = "comboBox2";
+            comboBox2.Size = new Size(240, 28);
+            comboBox2.TabIndex = 8;
+            comboBox2.SelectedIndexChanged += comboBox2_SelectedIndexChanged;
             // 
             // label8
             // 
@@ -411,26 +419,64 @@
             label11.TabIndex = 10;
             label11.Text = "Raporu Hazırlayan :";
             // 
+            // openFileDialog1
+            // 
+            openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // pictureBox1
+            // 
+            pictureBox1.Location = new Point(486, 152);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(494, 704);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 2;
+            pictureBox1.TabStop = false;
+            // 
             // dataGridView1
             // 
             dataGridView1.AllowUserToAddRows = false;
             dataGridView1.AllowUserToDeleteRows = false;
             dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(500, 35);
+            dataGridView1.Location = new Point(986, 35);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(1390, 965);
-            dataGridView1.TabIndex = 1;
-            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            dataGridView1.Size = new Size(904, 965);
+            dataGridView1.TabIndex = 3;
             // 
-            // openFileDialog1
+            // groupBox7
             // 
-            openFileDialog1.FileName = "openFileDialog1";
+            groupBox7.Controls.Add(comboBox1);
+            groupBox7.Controls.Add(label6);
+            groupBox7.Location = new Point(492, 45);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(474, 83);
+            groupBox7.TabIndex = 4;
+            groupBox7.TabStop = false;
+            // 
+            // comboBox1
+            // 
+            comboBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(123, 30);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(234, 28);
+            comboBox1.TabIndex = 1;
+            comboBox1.Text = "Hata Tipini Seçiniz...";
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(40, 33);
+            label6.Name = "label6";
+            label6.Size = new Size(80, 20);
+            label6.TabIndex = 0;
+            label6.Text = "Hata Tipi :";
             // 
             // UygunOlmayanlar
             // 
@@ -438,7 +484,9 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(groupBox7);
             Controls.Add(dataGridView1);
+            Controls.Add(pictureBox1);
             Controls.Add(groupBox1);
             Name = "UygunOlmayanlar";
             StartPosition = FormStartPosition.CenterScreen;
@@ -468,7 +516,10 @@
             groupBox3.PerformLayout();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
             ResumeLayout(false);
         }
 
@@ -488,7 +539,6 @@
         private TextBox textBox11;
         private TextBox textBox10;
         private TextBox textBox9;
-        private TextBox textBox8;
         private TextBox textBox7;
         private TextBox textBox5;
         private TextBox textBox4;
@@ -505,12 +555,17 @@
         private GroupBox groupBox4;
         private GroupBox groupBox3;
         private GroupBox groupBox2;
-        private DataGridView dataGridView1;
         private Button button1;
         private GroupBox groupBox13;
         private Button button2;
         private TextBox textBox6;
         private Label label12;
         private OpenFileDialog openFileDialog1;
+        private PictureBox pictureBox1;
+        private DataGridView dataGridView1;
+        private GroupBox groupBox7;
+        private ComboBox comboBox1;
+        private Label label6;
+        private ComboBox comboBox2;
     }
 }

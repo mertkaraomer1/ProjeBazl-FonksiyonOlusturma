@@ -47,7 +47,7 @@
             // 
             textBox1.Location = new Point(119, 26);
             textBox1.Name = "textBox1";
-            textBox1.Size = new Size(125, 27);
+            textBox1.Size = new Size(264, 27);
             textBox1.TabIndex = 0;
             // 
             // label1
@@ -67,7 +67,7 @@
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(250, 77);
+            groupBox1.Size = new Size(389, 77);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje";
@@ -84,7 +84,7 @@
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(312, 404);
+            dataGridView1.Size = new Size(543, 619);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
@@ -96,7 +96,7 @@
             groupBox2.Controls.Add(button3);
             groupBox2.Controls.Add(textBox2);
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(351, 12);
+            groupBox2.Location = new Point(571, 21);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(250, 281);
             groupBox2.TabIndex = 6;
@@ -149,7 +149,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(613, 511);
+            ClientSize = new Size(860, 726);
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);

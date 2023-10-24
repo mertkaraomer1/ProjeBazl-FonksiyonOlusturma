@@ -103,6 +103,7 @@
             Name = "GirisSayfası";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "GirisSayfası";
+            FormClosing += GirisSayfası_FormClosing;
             ResumeLayout(false);
         }
 

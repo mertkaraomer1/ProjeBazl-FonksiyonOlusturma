@@ -42,5 +42,10 @@ namespace FonksiyonOlusturma
             UygunOlmayanlar uygunOlmayanlar = new UygunOlmayanlar();
             uygunOlmayanlar.Show();
         }
+
+        private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
+        {
+           e.Cancel = false;
+        }
     }
 }

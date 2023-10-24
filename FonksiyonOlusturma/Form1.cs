@@ -31,7 +31,6 @@ namespace FonksiyonOlusturma
                             ProjectName = projeKodu
                             // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
                         };
-
                         dbContext.projects.Add(yeniProje); // Yeni proje nesnesini Projects tablosuna ekleyin
                         dbContext.SaveChanges(); // Deðiþiklikleri veritabanýna kaydedin
                     }

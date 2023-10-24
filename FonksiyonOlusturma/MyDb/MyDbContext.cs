@@ -18,6 +18,7 @@ namespace FonksiyonOlusturma.MyDb
         public DbSet<Status> status { get; set; }
         public DbSet<Assignments> assignments { get; set; }
         public DbSet<HataliUrun> hataliUruns { get; set; }
+        public DbSet<HataGrupları> hataGruplars { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -36,6 +37,7 @@ namespace FonksiyonOlusturma.MyDb
             modelBuilder.Entity<Assignments>().ToTable("Assignments").HasKey(x => x.AssignmentId);
             modelBuilder.Entity<Status>().ToTable("Status").HasKey(x => x.StatusId);
             modelBuilder.Entity<HataliUrun>().ToTable("HataliUrun").HasKey(x => x.UrunId);
+            modelBuilder.Entity<HataGrupları>().ToTable("HataGrupları").HasKey(x=>x.HataId);
         }
     }
 
