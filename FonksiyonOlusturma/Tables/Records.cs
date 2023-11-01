@@ -6,16 +6,14 @@ using System.Threading.Tasks;
 
 namespace FonksiyonOlusturma.Tables
 {
-    public class Assignments
+    public class Records
     {
-        public int AssignmentId { get; set; }  
+        public int RecordId { get; set; }
         public string SystemName { get; set; }
         public string ProjectName { get; set; }
         public string FunctionName { get; set; }
         public string ModuleName { get; set; }
-        public string StaffName { get; set; }
-        public TimeSpan CategoryTime { get; set; } 
         public string CategoryName { get; set; }
-        public string Status { get; set; }
+        public TimeSpan CategoryTime { get; set; }  
     }
 }

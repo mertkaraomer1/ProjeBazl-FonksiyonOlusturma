@@ -15,36 +15,65 @@ namespace FonksiyonOlusturma
             dbContext = new MyDbContext();
             InitializeComponent();
         }
-
+        public string TextBoxValue
+        {
+            get { return textBox1.Text; } // textBox1 burada TextBox'ýn adý olmalý
+            set { textBox1.Text = value; }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
-            string projeKodu = textBox1.Text;
+            string systemName = textBox1.Text;
+            string projectName = comboBox1.Text;
+
             try
             {
-                if (!string.IsNullOrEmpty(projeKodu)) // TextBox boþ deðilse
+                if (!string.IsNullOrEmpty(systemName) && !string.IsNullOrEmpty(projectName))
                 {
-                    using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
+                    using (var dbContext = new MyDbContext())
                     {
-                        // Projects tablosuna yeni bir proje eklemek için aþaðýdaki gibi bir LINQ sorgusu kullanabilirsiniz:
-                        var yeniProje = new Projects
+                        // Önce Systems tablosundan SystemId'yi alýn
+                        int systemId = dbContext.systems
+                            .Where(s => s.SystemName == systemName)
+                            .Select(s => s.SystemId)
+                            .FirstOrDefault();
+
+                        if (systemId != 0) // Eþleþen bir SystemId bulundu mu kontrol edin
                         {
-                            ProjectName = projeKodu
-                            // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
-                        };
-                        dbContext.projects.Add(yeniProje); // Yeni proje nesnesini Projects tablosuna ekleyin
-                        dbContext.SaveChanges(); // Deðiþiklikleri veritabanýna kaydedin
+                            // Projects tablosunda ayný ProjectName ile kayýt var mý kontrol edin
+                            bool isDuplicate = dbContext.projects
+                                .Any(p => p.ProjectName == projectName && p.SystemId == systemId);
+
+                            if (!isDuplicate)
+                            {
+                                // Ayný ProjectName'e sahip kayýt yoksa yeni bir proje ekleyin
+                                var yeniProje = new Projects
+                                {
+                                    ProjectName = projectName,
+                                    SystemId = systemId // SystemId'yi atayýn
+                                                        // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
+                                };
+
+                                dbContext.projects.Add(yeniProje); // Yeni proje nesnesini Projects tablosuna ekleyin
+                                dbContext.SaveChanges(); // Deðiþiklikleri veritabanýna kaydedin
+                            }
+                            else
+                            {
+                                MessageBox.Show("Bu proje zaten kayýtlý.");
+                            }
+                        }
                     }
-                    MessageBox.Show("Proje Kaydedildi...");
                 }
                 else
                 {
-                    MessageBox.Show("Proje kodu girmelisiniz."); // TextBox boþsa kullanýcýya uyarý verin
+                    MessageBox.Show("Lütfen SystemName ve ProjectName girin.");
                 }
             }
             catch (Exception ex)
             {
                 MessageBox.Show("Hata oluþtu: " + ex.Message);
             }
+
+
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             ProjeAtama();
@@ -53,43 +82,79 @@ namespace FonksiyonOlusturma
 
         private void Form1_Load(object sender, EventArgs e)
         {
+            using (var dbContext = new Context())
+            {
+                var projectCodes = dbContext.PROJELERs
+                    .Where(p => p.pro_kodu.CompareTo("21") > 0) // Baþlangýcý 20'den büyük olanlarý alýr
+                    .Select(p => p.pro_kodu)
+                    .ToList();
+
+                // ComboBox1'e projeleri ekleyin
+                comboBox1.DataSource = projectCodes;
+            }
+
             ProjeAtama();
         }
         public void ProjeAtama()
         {
-            // DataGridView sütunlarýný oluþturun
-            dataGridView1.Columns.Add("Column1", "SATIR NO");
-            dataGridView1.Columns.Add("Column2", "PROJE KODU");
+            string systemName = textBox1.Text;
 
-            using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanýz gerekiyor
+            using (var dbContext = new MyDbContext())
             {
-                // Projects tablosundaki verileri sorgulayýn
-                var projects = dbContext.projects.ToList();
+                // TextBox'tan gelen veriyi kullanarak SystemId'yi bulun
+                int systemId = dbContext.systems
+                    .Where(s => s.SystemName == systemName)
+                    .Select(s => s.SystemId)
+                    .FirstOrDefault();
 
-                int satirNo = 1; // Baþlangýç satýr numarasý 1 olarak ayarlanýr
-
-                // DataGridView'e satýr ekleyin
-                foreach (var project in projects)
+                if (systemId != 0) // Eþleþen bir SystemId bulundu mu kontrol edin
                 {
-                    // DataGridView'e yeni bir satýr ekleyin
-                    DataGridViewRow row = new DataGridViewRow();
+                    // Projects tablosundan belirtilen SystemId ile eþleþen ProjectName'leri alýn
+                    var projectNames = dbContext.projects
+                        .Where(p => p.SystemId == systemId)
+                        .Select(p => p.ProjectName)
+                        .ToList();
 
-                    // Ýlk sütunu (SATIR NO) satýr numarasý olarak ayarlayýn
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = satirNo.ToString() });
+                    if (projectNames.Any()) // Eþleþen projeler bulundu mu kontrol edin
+                    {
+                        // DataGridView'i temizle
+                        dataGridView1.Columns.Clear();
+                        dataGridView1.Rows.Clear();
 
-                    // Ýkinci sütunu (PROJE KODU) proje kodu olarak ayarlayýn
-                    row.Cells.Add(new DataGridViewTextBoxCell { Value = project.ProjectName });
+                        // DataGridView sütunlarýný oluþturun
+                        dataGridView1.Columns.Add("Column1", "SATIR NO");
+                        dataGridView1.Columns.Add("Column2", "PROJELER");
+                        // DataGridView kontrolünüze bir buton sütunu ekleyin.
+                        DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
+                        buttonColumn.HeaderText = "SÝL"; // Sütun baþlýðý
+                        buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
+                        buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+                        dataGridView1.Columns.Add(buttonColumn);
+                        dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+                        // ProjectName'leri DataGridView'e ekleyin
+                        int rowNumber = 1;
+                        foreach (var projectName in projectNames)
+                        {
+                            dataGridView1.Rows.Add(rowNumber, projectName);
 
-                    // DataGridView'e satýrý ekleyin
-                    dataGridView1.Rows.Add(row);
-
-                    satirNo++; // Her satýr ekledikten sonra satýr numarasýný arttýrýn
+                            rowNumber++;
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Eþleþen SystemName bulunamadý.");
                 }
             }
+
+
+
+
         }
         public Fonksiyonlar Fonk;
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
+            string SistemName = textBox1.Text;
 
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
@@ -98,11 +163,65 @@ namespace FonksiyonOlusturma
                     Fonk = new Fonksiyonlar();
                     DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     string cellValue = clickedCell.Value.ToString();
-
+                    Fonk.TextBoxValue1 = SistemName;
                     Fonk.TextBoxValue = cellValue; // Form2'deki TextBox'a deðeri aktar
                     Fonk.Show();
                 }
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.ColumnIndex == dataGridView1.Columns[2].Index && e.RowIndex >= 0)
+            {
+                string SistemName = textBox1.Text;
+
+                using (var dbContext = new MyDbContext())
+                {
+                    // TextBox'tan gelen veriyi kullanarak SystemId'yi bulun
+                    int systemId = dbContext.systems
+                        .Where(s => s.SystemName == SistemName)
+                        .Select(s => s.SystemId)
+                        .FirstOrDefault();
+
+                    if (systemId != 0)
+                    {
+                        if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
+                        {
+                            string projectName = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
+
+                            // Projects tablosunda belirtilen SystemId ve ProjectName ile eþleþen satýrý bulun
+                            var projectToDelete = dbContext.projects
+                                .FirstOrDefault(p =>
+                                    p.SystemId == systemId &&
+                                    p.ProjectName == projectName
+                                );
+
+                            if (projectToDelete != null)
+                            {
+                                // Silinecek bir þey var, o zaman silme iþlemini gerçekleþtirin
+                                dbContext.projects.Remove(projectToDelete);
+                                dbContext.SaveChanges();
+
+                                // Projects tablosunu güncellemek için kullanýlan bir fonksiyonunuzu çaðýrýn
+                                ProjeAtama();
+
+                                // DataGridView'den de satýrý kaldýrýn
+                                dataGridView1.Rows.RemoveAt(e.RowIndex);
+                            }
+                            else
+                            {
+                                MessageBox.Show("Silinecek bir proje bulunamadý.");
+                            }
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Sistem bulunamadý.");
+                    }
+                }
+            }
+
         }
     }
 }

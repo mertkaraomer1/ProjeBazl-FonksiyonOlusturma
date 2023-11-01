@@ -6,10 +6,9 @@ using System.Threading.Tasks;
 
 namespace FonksiyonOlusturma.Tables
 {
-    public class Projects
+    public class Systems
     {
-        public int ProjectId { get; set; }
-        public string ProjectName { get; set; }
-         public int SystemId { get; set; }  
+        public int SystemId { get; set; }
+        public string SystemName { get; set; }    
     }
 }

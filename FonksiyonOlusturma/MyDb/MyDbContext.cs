@@ -19,6 +19,8 @@ namespace FonksiyonOlusturma.MyDb
         public DbSet<Assignments> assignments { get; set; }
         public DbSet<HataliUrun> hataliUruns { get; set; }
         public DbSet<HataGrupları> hataGruplars { get; set; }
+        public DbSet<Systems> systems { get; set; }
+        public DbSet<Records> records { get; set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
@@ -27,6 +29,7 @@ namespace FonksiyonOlusturma.MyDb
             string connectionString = "Data Source=SRVMIKRO;Initial Catalog=Muh_Plan_Prog1;Integrated Security=True;Connect Timeout=10;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False";
             optionsBuilder.UseSqlServer(connectionString);
         }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<Projects>().ToTable("Projects").HasKey(x => x.ProjectId);
@@ -38,6 +41,8 @@ namespace FonksiyonOlusturma.MyDb
             modelBuilder.Entity<Status>().ToTable("Status").HasKey(x => x.StatusId);
             modelBuilder.Entity<HataliUrun>().ToTable("HataliUrun").HasKey(x => x.UrunId);
             modelBuilder.Entity<HataGrupları>().ToTable("HataGrupları").HasKey(x=>x.HataId);
+            modelBuilder.Entity<Systems>().ToTable("Systems").HasKey(x => x.SystemId);
+            modelBuilder.Entity<Records>().ToTable("Records").HasKey(x => x.RecordId);
         }
     }
 

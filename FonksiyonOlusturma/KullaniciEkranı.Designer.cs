@@ -48,10 +48,12 @@
             label2 = new Label();
             label3 = new Label();
             groupBox3 = new GroupBox();
+            dataGridView2 = new DataGridView();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
             // 
             // comboBox1
@@ -104,7 +106,7 @@
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             label6.ForeColor = Color.Blue;
-            label6.Location = new Point(546, 756);
+            label6.Location = new Point(552, 750);
             label6.Name = "label6";
             label6.Size = new Size(335, 34);
             label6.TabIndex = 16;
@@ -115,7 +117,7 @@
             groupBox2.Controls.Add(button4);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(textBox1);
-            groupBox2.Location = new Point(887, 730);
+            groupBox2.Location = new Point(893, 724);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(250, 148);
             groupBox2.TabIndex = 15;
@@ -151,7 +153,7 @@
             // checkBox1
             // 
             checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(522, 773);
+            checkBox1.Location = new Point(528, 767);
             checkBox1.Name = "checkBox1";
             checkBox1.Size = new Size(18, 17);
             checkBox1.TabIndex = 12;
@@ -160,7 +162,7 @@
             // 
             // button2
             // 
-            button2.Location = new Point(654, 803);
+            button2.Location = new Point(660, 797);
             button2.Name = "button2";
             button2.Size = new Size(94, 75);
             button2.TabIndex = 11;
@@ -171,7 +173,7 @@
             // button3
             // 
             button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button3.Location = new Point(772, 803);
+            button3.Location = new Point(778, 797);
             button3.Name = "button3";
             button3.Size = new Size(94, 75);
             button3.TabIndex = 10;
@@ -182,7 +184,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(541, 803);
+            button1.Location = new Point(547, 797);
             button1.Name = "button1";
             button1.Size = new Size(94, 75);
             button1.TabIndex = 8;
@@ -264,9 +266,19 @@
             groupBox3.Controls.Add(textBox4);
             groupBox3.Location = new Point(25, 45);
             groupBox3.Name = "groupBox3";
-            groupBox3.Size = new Size(795, 57);
+            groupBox3.Size = new Size(761, 57);
             groupBox3.TabIndex = 16;
             groupBox3.TabStop = false;
+            // 
+            // dataGridView2
+            // 
+            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            dataGridView2.Location = new Point(800, 45);
+            dataGridView2.Name = "dataGridView2";
+            dataGridView2.RowHeadersWidth = 51;
+            dataGridView2.RowTemplate.Height = 29;
+            dataGridView2.Size = new Size(300, 58);
+            dataGridView2.TabIndex = 17;
             // 
             // KullaniciEkranı
             // 
@@ -274,6 +286,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(dataGridView2);
             Controls.Add(groupBox3);
             Controls.Add(label4);
             Controls.Add(groupBox1);
@@ -281,6 +294,7 @@
             Name = "KullaniciEkranı";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "KullaniciEkranı";
+            WindowState = FormWindowState.Maximized;
             Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
@@ -289,6 +303,7 @@
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
@@ -315,5 +330,6 @@
         private Label label2;
         private Label label3;
         private GroupBox groupBox3;
+        private DataGridView dataGridView2;
     }
 }

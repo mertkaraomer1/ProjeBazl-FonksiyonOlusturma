@@ -29,13 +29,22 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            button3 = new Button();
+            groupBox16 = new GroupBox();
+            textBox12 = new TextBox();
+            groupBox15 = new GroupBox();
+            textBox10 = new TextBox();
+            groupBox13 = new GroupBox();
+            button2 = new Button();
+            textBox6 = new TextBox();
+            groupBox9 = new GroupBox();
+            textBox4 = new TextBox();
+            groupBox7 = new GroupBox();
+            textBox5 = new TextBox();
             groupBox8 = new GroupBox();
             comboBox4 = new ComboBox();
             groupBox14 = new GroupBox();
             textBox8 = new TextBox();
-            groupBox13 = new GroupBox();
-            button2 = new Button();
-            textBox6 = new TextBox();
             button1 = new Button();
             groupBox12 = new GroupBox();
             textBox1 = new TextBox();
@@ -43,8 +52,6 @@
             textBox2 = new TextBox();
             groupBox10 = new GroupBox();
             textBox3 = new TextBox();
-            groupBox9 = new GroupBox();
-            textBox4 = new TextBox();
             groupBox6 = new GroupBox();
             textBox7 = new TextBox();
             groupBox5 = new GroupBox();
@@ -57,39 +64,40 @@
             textBox11 = new TextBox();
             openFileDialog1 = new OpenFileDialog();
             pictureBox1 = new PictureBox();
-            dataGridView1 = new DataGridView();
-            groupBox7 = new GroupBox();
-            comboBox1 = new ComboBox();
-            button3 = new Button();
             groupBox1.SuspendLayout();
+            groupBox16.SuspendLayout();
+            groupBox15.SuspendLayout();
+            groupBox13.SuspendLayout();
+            groupBox9.SuspendLayout();
+            groupBox7.SuspendLayout();
             groupBox8.SuspendLayout();
             groupBox14.SuspendLayout();
-            groupBox13.SuspendLayout();
             groupBox12.SuspendLayout();
             groupBox11.SuspendLayout();
             groupBox10.SuspendLayout();
-            groupBox9.SuspendLayout();
             groupBox6.SuspendLayout();
             groupBox5.SuspendLayout();
             groupBox4.SuspendLayout();
             groupBox3.SuspendLayout();
             groupBox2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            groupBox7.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            groupBox1.Controls.Add(button3);
+            groupBox1.Controls.Add(groupBox16);
+            groupBox1.Controls.Add(groupBox15);
+            groupBox1.Controls.Add(groupBox13);
+            groupBox1.Controls.Add(groupBox9);
+            groupBox1.Controls.Add(groupBox7);
             groupBox1.Controls.Add(groupBox8);
             groupBox1.Controls.Add(groupBox14);
-            groupBox1.Controls.Add(groupBox13);
             groupBox1.Controls.Add(button1);
             groupBox1.Controls.Add(groupBox12);
             groupBox1.Controls.Add(groupBox11);
             groupBox1.Controls.Add(groupBox10);
-            groupBox1.Controls.Add(groupBox9);
             groupBox1.Controls.Add(groupBox6);
             groupBox1.Controls.Add(groupBox5);
             groupBox1.Controls.Add(groupBox4);
@@ -98,55 +106,60 @@
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(12, 26);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(288, 974);
+            groupBox1.Size = new Size(598, 974);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Kayıt";
             // 
-            // groupBox8
+            // button3
             // 
-            groupBox8.Controls.Add(comboBox4);
-            groupBox8.Location = new Point(6, 771);
-            groupBox8.Name = "groupBox8";
-            groupBox8.Size = new Size(274, 55);
-            groupBox8.TabIndex = 23;
-            groupBox8.TabStop = false;
-            groupBox8.Text = "Hatayı Bulan Birim";
+            button3.Location = new Point(483, 875);
+            button3.Name = "button3";
+            button3.Size = new Size(94, 62);
+            button3.TabIndex = 34;
+            button3.Text = "Liste =>";
+            button3.UseVisualStyleBackColor = true;
+            button3.Click += button3_Click_1;
             // 
-            // comboBox4
+            // groupBox16
             // 
-            comboBox4.FormattingEnabled = true;
-            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma" });
-            comboBox4.Location = new Point(6, 19);
-            comboBox4.Name = "comboBox4";
-            comboBox4.Size = new Size(248, 28);
-            comboBox4.TabIndex = 11;
-            comboBox4.Text = "Birim Seçiniz...";
+            groupBox16.Controls.Add(textBox12);
+            groupBox16.Location = new Point(303, 694);
+            groupBox16.Name = "groupBox16";
+            groupBox16.Size = new Size(274, 67);
+            groupBox16.TabIndex = 26;
+            groupBox16.TabStop = false;
+            groupBox16.Text = "Sonuç";
             // 
-            // groupBox14
+            // textBox12
             // 
-            groupBox14.Controls.Add(textBox8);
-            groupBox14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox14.Location = new Point(6, 530);
-            groupBox14.Name = "groupBox14";
-            groupBox14.Size = new Size(274, 93);
-            groupBox14.TabIndex = 23;
-            groupBox14.TabStop = false;
-            groupBox14.Text = "Hata Detayı";
+            textBox12.Location = new Point(6, 26);
+            textBox12.Name = "textBox12";
+            textBox12.Size = new Size(250, 27);
+            textBox12.TabIndex = 19;
             // 
-            // textBox8
+            // groupBox15
             // 
-            textBox8.Location = new Point(6, 20);
-            textBox8.Multiline = true;
-            textBox8.Name = "textBox8";
-            textBox8.Size = new Size(248, 67);
-            textBox8.TabIndex = 21;
+            groupBox15.Controls.Add(textBox10);
+            groupBox15.Location = new Point(303, 576);
+            groupBox15.Name = "groupBox15";
+            groupBox15.Size = new Size(274, 67);
+            groupBox15.TabIndex = 25;
+            groupBox15.TabStop = false;
+            groupBox15.Text = "Alınacak Aksiyon";
+            // 
+            // textBox10
+            // 
+            textBox10.Location = new Point(6, 26);
+            textBox10.Name = "textBox10";
+            textBox10.Size = new Size(250, 27);
+            textBox10.TabIndex = 19;
             // 
             // groupBox13
             // 
             groupBox13.Controls.Add(button2);
             groupBox13.Controls.Add(textBox6);
-            groupBox13.Location = new Point(6, 824);
+            groupBox13.Location = new Point(153, 784);
             groupBox13.Name = "groupBox13";
             groupBox13.Size = new Size(274, 68);
             groupBox13.TabIndex = 23;
@@ -170,9 +183,82 @@
             textBox6.Size = new Size(198, 27);
             textBox6.TabIndex = 21;
             // 
+            // groupBox9
+            // 
+            groupBox9.Controls.Add(textBox4);
+            groupBox9.Location = new Point(6, 331);
+            groupBox9.Name = "groupBox9";
+            groupBox9.Size = new Size(274, 70);
+            groupBox9.TabIndex = 29;
+            groupBox9.TabStop = false;
+            groupBox9.Text = "Hatalı Miktar";
+            // 
+            // textBox4
+            // 
+            textBox4.Location = new Point(6, 26);
+            textBox4.Name = "textBox4";
+            textBox4.Size = new Size(250, 27);
+            textBox4.TabIndex = 14;
+            // 
+            // groupBox7
+            // 
+            groupBox7.Controls.Add(textBox5);
+            groupBox7.Location = new Point(309, 462);
+            groupBox7.Name = "groupBox7";
+            groupBox7.Size = new Size(274, 67);
+            groupBox7.TabIndex = 25;
+            groupBox7.TabStop = false;
+            groupBox7.Text = "Kök Neden";
+            // 
+            // textBox5
+            // 
+            textBox5.Location = new Point(6, 26);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(250, 27);
+            textBox5.TabIndex = 19;
+            // 
+            // groupBox8
+            // 
+            groupBox8.Controls.Add(comboBox4);
+            groupBox8.Location = new Point(303, 357);
+            groupBox8.Name = "groupBox8";
+            groupBox8.Size = new Size(274, 55);
+            groupBox8.TabIndex = 23;
+            groupBox8.TabStop = false;
+            groupBox8.Text = "Hatayı Bulan Bölüm";
+            // 
+            // comboBox4
+            // 
+            comboBox4.FormattingEnabled = true;
+            comboBox4.Items.AddRange(new object[] { "Montaj", "İmalat", "Tasarım", "Kalite", "Satın Alma" });
+            comboBox4.Location = new Point(6, 19);
+            comboBox4.Name = "comboBox4";
+            comboBox4.Size = new Size(248, 28);
+            comboBox4.TabIndex = 11;
+            comboBox4.Text = "Birim Seçiniz...";
+            // 
+            // groupBox14
+            // 
+            groupBox14.Controls.Add(textBox8);
+            groupBox14.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            groupBox14.Location = new Point(303, 26);
+            groupBox14.Name = "groupBox14";
+            groupBox14.Size = new Size(274, 93);
+            groupBox14.TabIndex = 23;
+            groupBox14.TabStop = false;
+            groupBox14.Text = "Hata Detayı";
+            // 
+            // textBox8
+            // 
+            textBox8.Location = new Point(6, 20);
+            textBox8.Multiline = true;
+            textBox8.Name = "textBox8";
+            textBox8.Size = new Size(248, 67);
+            textBox8.TabIndex = 21;
+            // 
             // button1
             // 
-            button1.Location = new Point(13, 898);
+            button1.Location = new Point(169, 875);
             button1.Name = "button1";
             button1.Size = new Size(235, 61);
             button1.TabIndex = 33;
@@ -200,7 +286,7 @@
             // groupBox11
             // 
             groupBox11.Controls.Add(textBox2);
-            groupBox11.Location = new Point(6, 97);
+            groupBox11.Location = new Point(6, 118);
             groupBox11.Name = "groupBox11";
             groupBox11.Size = new Size(274, 61);
             groupBox11.TabIndex = 31;
@@ -217,7 +303,7 @@
             // groupBox10
             // 
             groupBox10.Controls.Add(textBox3);
-            groupBox10.Location = new Point(6, 164);
+            groupBox10.Location = new Point(6, 219);
             groupBox10.Name = "groupBox10";
             groupBox10.Size = new Size(274, 69);
             groupBox10.TabIndex = 30;
@@ -231,27 +317,10 @@
             textBox3.Size = new Size(250, 27);
             textBox3.TabIndex = 13;
             // 
-            // groupBox9
-            // 
-            groupBox9.Controls.Add(textBox4);
-            groupBox9.Location = new Point(6, 239);
-            groupBox9.Name = "groupBox9";
-            groupBox9.Size = new Size(274, 70);
-            groupBox9.TabIndex = 29;
-            groupBox9.TabStop = false;
-            groupBox9.Text = "Hatalı Miktar";
-            // 
-            // textBox4
-            // 
-            textBox4.Location = new Point(6, 26);
-            textBox4.Name = "textBox4";
-            textBox4.Size = new Size(250, 27);
-            textBox4.TabIndex = 14;
-            // 
             // groupBox6
             // 
             groupBox6.Controls.Add(textBox7);
-            groupBox6.Location = new Point(6, 315);
+            groupBox6.Location = new Point(6, 453);
             groupBox6.Name = "groupBox6";
             groupBox6.Size = new Size(274, 67);
             groupBox6.TabIndex = 26;
@@ -268,9 +337,9 @@
             // groupBox5
             // 
             groupBox5.Controls.Add(comboBox2);
-            groupBox5.Location = new Point(6, 388);
+            groupBox5.Location = new Point(6, 570);
             groupBox5.Name = "groupBox5";
-            groupBox5.Size = new Size(274, 63);
+            groupBox5.Size = new Size(274, 73);
             groupBox5.TabIndex = 25;
             groupBox5.TabStop = false;
             groupBox5.Text = "Hata Tipi";
@@ -288,7 +357,7 @@
             // groupBox4
             // 
             groupBox4.Controls.Add(textBox9);
-            groupBox4.Location = new Point(6, 457);
+            groupBox4.Location = new Point(6, 683);
             groupBox4.Name = "groupBox4";
             groupBox4.Size = new Size(274, 67);
             groupBox4.TabIndex = 24;
@@ -305,7 +374,7 @@
             // groupBox3
             // 
             groupBox3.Controls.Add(comboBox3);
-            groupBox3.Location = new Point(6, 629);
+            groupBox3.Location = new Point(303, 155);
             groupBox3.Name = "groupBox3";
             groupBox3.Size = new Size(274, 62);
             groupBox3.TabIndex = 23;
@@ -325,7 +394,7 @@
             // groupBox2
             // 
             groupBox2.Controls.Add(textBox11);
-            groupBox2.Location = new Point(6, 697);
+            groupBox2.Location = new Point(303, 245);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(274, 68);
             groupBox2.TabIndex = 22;
@@ -345,61 +414,12 @@
             // 
             // pictureBox1
             // 
-            pictureBox1.Location = new Point(323, 107);
+            pictureBox1.Location = new Point(700, 26);
             pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(510, 745);
+            pictureBox1.Size = new Size(1174, 974);
             pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
             pictureBox1.TabIndex = 2;
             pictureBox1.TabStop = false;
-            // 
-            // dataGridView1
-            // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(839, 35);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(1051, 965);
-            dataGridView1.TabIndex = 3;
-            dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
-            // 
-            // groupBox7
-            // 
-            groupBox7.Controls.Add(comboBox1);
-            groupBox7.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox7.Location = new Point(306, 35);
-            groupBox7.Name = "groupBox7";
-            groupBox7.Size = new Size(252, 57);
-            groupBox7.TabIndex = 4;
-            groupBox7.TabStop = false;
-            groupBox7.Text = "Hata Tipi";
-            // 
-            // comboBox1
-            // 
-            comboBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(6, 23);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(234, 28);
-            comboBox1.TabIndex = 1;
-            comboBox1.Text = "Hata Tipini Seçiniz...";
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
-            // 
-            // button3
-            // 
-            button3.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            button3.Location = new Point(709, 32);
-            button3.Name = "button3";
-            button3.Size = new Size(124, 60);
-            button3.TabIndex = 5;
-            button3.Text = "Excel Aktar";
-            button3.UseVisualStyleBackColor = true;
-            button3.Click += button3_Click;
             // 
             // UygunOlmayanlar
             // 
@@ -407,9 +427,6 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(button3);
-            Controls.Add(groupBox7);
-            Controls.Add(dataGridView1);
             Controls.Add(pictureBox1);
             Controls.Add(groupBox1);
             Name = "UygunOlmayanlar";
@@ -418,19 +435,25 @@
             WindowState = FormWindowState.Maximized;
             Load += UygunOlmayanlar_Load;
             groupBox1.ResumeLayout(false);
+            groupBox16.ResumeLayout(false);
+            groupBox16.PerformLayout();
+            groupBox15.ResumeLayout(false);
+            groupBox15.PerformLayout();
+            groupBox13.ResumeLayout(false);
+            groupBox13.PerformLayout();
+            groupBox9.ResumeLayout(false);
+            groupBox9.PerformLayout();
+            groupBox7.ResumeLayout(false);
+            groupBox7.PerformLayout();
             groupBox8.ResumeLayout(false);
             groupBox14.ResumeLayout(false);
             groupBox14.PerformLayout();
-            groupBox13.ResumeLayout(false);
-            groupBox13.PerformLayout();
             groupBox12.ResumeLayout(false);
             groupBox12.PerformLayout();
             groupBox11.ResumeLayout(false);
             groupBox11.PerformLayout();
             groupBox10.ResumeLayout(false);
             groupBox10.PerformLayout();
-            groupBox9.ResumeLayout(false);
-            groupBox9.PerformLayout();
             groupBox6.ResumeLayout(false);
             groupBox6.PerformLayout();
             groupBox5.ResumeLayout(false);
@@ -440,8 +463,6 @@
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            groupBox7.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -470,15 +491,18 @@
         private TextBox textBox6;
         private OpenFileDialog openFileDialog1;
         private PictureBox pictureBox1;
-        private DataGridView dataGridView1;
-        private GroupBox groupBox7;
-        private ComboBox comboBox1;
         private ComboBox comboBox2;
         private ComboBox comboBox3;
         private GroupBox groupBox14;
         private TextBox textBox8;
         private GroupBox groupBox8;
         private ComboBox comboBox4;
+        private GroupBox groupBox16;
+        private TextBox textBox12;
+        private GroupBox groupBox15;
+        private TextBox textBox10;
+        private GroupBox groupBox7;
+        private TextBox textBox5;
         private Button button3;
     }
 }

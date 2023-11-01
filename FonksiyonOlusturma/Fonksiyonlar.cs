@@ -34,6 +34,11 @@ namespace FonksiyonOlusturma
             get { return textBox1.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox1.Text = value; }
         }
+        public string TextBoxValue1
+        {
+            get { return textBox4.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox4.Text = value; }
+        }
         private void Fonksiyonlar_Load(object sender, EventArgs e)
         {
             FonksiyonGoruntuleme();
@@ -85,7 +90,13 @@ namespace FonksiyonOlusturma
 
                     // Üçüncü sütunu (FONKSİYON AÇIKLAMASI) fonksiyon açıklaması olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = function.FunctionDescription });
-
+                    // DataGridView kontrolünüze bir buton sütunu ekleyin.
+                    DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
+                    buttonColumn.HeaderText = "SİL"; // Sütun başlığı
+                    buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
+                    buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+                    dataGridView1.Columns.Add(buttonColumn);
+                    dataGridView1.CellContentClick += dataGridView1_CellContentClick;
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
 
@@ -115,17 +126,27 @@ namespace FonksiyonOlusturma
 
                         if (projectId != 0) // ProjectId bulunduysa
                         {
-                            // Functions tablosuna yeni bir kayıt ekleyin
-                            var yeniFonksiyon = new Functions
-                            {
-                                ProjectId = projectId,
-                                FunctionName = functionName,
-                                FunctionDescription = FunctionDescription
-                            };
+                            // Functions tablosundan aynı ProjectId ve FunctionName ile kayıt var mı kontrol edin
+                            bool isDuplicate = dbContext.functions
+                                .Any(f => f.ProjectId == projectId && f.FunctionName == functionName);
 
-                            dbContext.functions.Add(yeniFonksiyon); // Yeni fonksiyonu Functions tablosuna ekleyin
-                            dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
-                            MessageBox.Show("Fonksiyon Kaydedildi...");
+                            if (!isDuplicate)
+                            {
+                                // Aynı ProjectId ve FunctionName'e sahip kayıt yoksa yeni bir fonksiyon ekleyin
+                                var yeniFonksiyon = new Functions
+                                {
+                                    ProjectId = projectId,
+                                    FunctionName = functionName,
+                                    FunctionDescription = FunctionDescription
+                                };
+
+                                dbContext.functions.Add(yeniFonksiyon); // Yeni fonksiyonu Functions tablosuna ekleyin
+                                dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
+                            }
+                            else
+                            {
+                                MessageBox.Show("Aynı ProjectId ve FunctionName ile kayıtlı fonksiyon zaten mevcut.");
+                            }
                         }
                         else
                         {
@@ -142,6 +163,9 @@ namespace FonksiyonOlusturma
             {
                 MessageBox.Show("Proje adı ve fonksiyon adı girmelisiniz.");
             }
+
+            textBox2.Clear();
+            textBox3.Clear();
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             FonksiyonGoruntuleme();
@@ -152,16 +176,74 @@ namespace FonksiyonOlusturma
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
+                string SistemName = textBox4.Text;
                 string textBoxValue = textBox1.Text; // Form2'deki TextBox'tan veriyi al
                 Modul mod = new Modul();
                 mod.TextBoxValue = textBoxValue; // Form3'teki TextBox'a veriyi aktar
-
+                mod.TextBoxValue2 = SistemName;
                 DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[1]; // Tıklanan hücreyi al
                 string cellValue = clickedCell.Value.ToString();
                 mod.TextBoxValue1 = cellValue;// Form3'teki TextBox2'ye veriyi aktar
                 mod.Show();
 
             }
+        }
+
+        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            // TextBox'tan gelen verileri kullanarak ProjectId ve FunctionId'yi bulun
+            string projectName = textBox1.Text;
+
+            int projectId = dbContext.projects
+                .Where(p => p.ProjectName == projectName)
+                .Select(p => p.ProjectId)
+                .FirstOrDefault();
+
+            int columnIndex = e.ColumnIndex;
+            int rowIndex = e.RowIndex;
+
+            if (columnIndex >= 0 && columnIndex < dataGridView1.Columns.Count && columnIndex == dataGridView1.Columns[3].Index) // "FunctionName" sütununda tıklama işlemi
+            {
+                // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
+                if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
+                {
+                    Functions rowData = new Functions
+                    {
+                        FunctionName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
+                        FunctionDescription = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString()
+                    };
+
+                    if (projectId != 0)
+                    {
+                        // Functions tablosundan belirtilen ProjectId ve FunctionName ile eşleşen satırı bulun
+                        var functionToDelete = dbContext.functions
+                            .FirstOrDefault(m =>
+                                m.ProjectId == projectId &&
+                                m.FunctionName == rowData.FunctionName
+                            );
+
+                        if (functionToDelete != null)
+                        {
+                            // Silinecek bir şey var, o zaman silme işlemini gerçekleştirin
+                            dbContext.functions.Remove(functionToDelete);
+                            dbContext.SaveChanges();
+
+                            // Functions tablosunu güncellemek için kullanılan bir fonksiyonunuzu çağırın
+                            FonksiyonGoruntuleme();
+                        }
+                        else
+                        {
+                            // Silinecek bir şey yoksa hata vermek yerine bir bildirim gösterebilirsiniz
+                            MessageBox.Show("Silinecek bir fonksiyon bulunamadı.");
+                        }
+                    }
+                    else
+                    {
+                        MessageBox.Show("Proje bulunamadı.");
+                    }
+                }
+            }
+
         }
     }
 }

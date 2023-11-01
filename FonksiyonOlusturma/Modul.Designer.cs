@@ -29,12 +29,16 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            label6 = new Label();
+            textBox5 = new TextBox();
             label2 = new Label();
             label1 = new Label();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            label5 = new Label();
+            comboBox1 = new ComboBox();
             label4 = new Label();
             textBox4 = new TextBox();
             label3 = new Label();
@@ -47,6 +51,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(textBox5);
             groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(textBox2);
@@ -54,14 +60,31 @@
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(23, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(449, 121);
+            groupBox1.Size = new Size(419, 127);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Location = new Point(30, 21);
+            label6.Name = "label6";
+            label6.Size = new Size(74, 23);
+            label6.TabIndex = 5;
+            label6.Text = "Sistem :";
+            // 
+            // textBox5
+            // 
+            textBox5.Enabled = false;
+            textBox5.Location = new Point(117, 18);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(291, 30);
+            textBox5.TabIndex = 4;
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(9, 70);
+            label2.Location = new Point(4, 89);
             label2.Name = "label2";
             label2.Size = new Size(100, 23);
             label2.TabIndex = 3;
@@ -70,22 +93,24 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 37);
+            label1.Location = new Point(43, 56);
             label1.Name = "label1";
-            label1.Size = new Size(103, 23);
+            label1.Size = new Size(61, 23);
             label1.TabIndex = 2;
-            label1.Text = "Proje Kodu:";
+            label1.Text = "Proje :";
             // 
             // textBox2
             // 
-            textBox2.Location = new Point(122, 67);
+            textBox2.Enabled = false;
+            textBox2.Location = new Point(117, 86);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(291, 30);
             textBox2.TabIndex = 1;
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(122, 34);
+            textBox1.Enabled = false;
+            textBox1.Location = new Point(117, 53);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(291, 30);
             textBox1.TabIndex = 0;
@@ -97,18 +122,20 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 139);
+            dataGridView1.Location = new Point(12, 145);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(558, 575);
+            dataGridView1.Size = new Size(558, 569);
             dataGridView1.TabIndex = 1;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label5);
+            groupBox2.Controls.Add(comboBox1);
             groupBox2.Controls.Add(label4);
             groupBox2.Controls.Add(textBox4);
             groupBox2.Controls.Add(label3);
@@ -117,10 +144,27 @@
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox2.Location = new Point(576, 21);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(250, 301);
+            groupBox2.Size = new Size(250, 366);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modül";
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(17, 201);
+            label5.Name = "label5";
+            label5.Size = new Size(89, 23);
+            label5.TabIndex = 6;
+            label5.Text = "Kategori :";
+            // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(6, 236);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(238, 31);
+            comboBox1.TabIndex = 5;
             // 
             // label4
             // 
@@ -149,7 +193,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(84, 225);
+            button1.Location = new Point(85, 315);
             button1.Name = "button1";
             button1.Size = new Size(94, 45);
             button1.TabIndex = 1;
@@ -199,5 +243,9 @@
         private Label label4;
         private TextBox textBox4;
         private Label label3;
+        private Label label5;
+        private ComboBox comboBox1;
+        private Label label6;
+        private TextBox textBox5;
     }
 }

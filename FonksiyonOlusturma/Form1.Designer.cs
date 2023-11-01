@@ -29,32 +29,37 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
-            textBox1 = new TextBox();
+            comboBox1 = new ComboBox();
             label1 = new Label();
             button1 = new Button();
             dataGridView1 = new DataGridView();
+            groupBox2 = new GroupBox();
+            textBox1 = new TextBox();
+            label2 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            groupBox2.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(textBox1);
+            groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(button1);
-            groupBox1.Location = new Point(219, 12);
+            groupBox1.Location = new Point(452, 12);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(338, 159);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje";
             // 
-            // textBox1
+            // comboBox1
             // 
-            textBox1.Location = new Point(106, 38);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(226, 27);
-            textBox1.TabIndex = 2;
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(106, 38);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(187, 28);
+            comboBox1.TabIndex = 2;
             // 
             // label1
             // 
@@ -67,7 +72,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(106, 91);
+            button1.Location = new Point(121, 88);
             button1.Name = "button1";
             button1.Size = new Size(160, 48);
             button1.TabIndex = 0;
@@ -89,7 +94,36 @@
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(789, 515);
             dataGridView1.TabIndex = 3;
+            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
+            // 
+            // groupBox2
+            // 
+            groupBox2.Controls.Add(textBox1);
+            groupBox2.Controls.Add(label2);
+            groupBox2.Location = new Point(25, 12);
+            groupBox2.Name = "groupBox2";
+            groupBox2.Size = new Size(338, 66);
+            groupBox2.TabIndex = 3;
+            groupBox2.TabStop = false;
+            groupBox2.Text = "Sistem";
+            // 
+            // textBox1
+            // 
+            textBox1.Enabled = false;
+            textBox1.Location = new Point(105, 26);
+            textBox1.Name = "textBox1";
+            textBox1.Size = new Size(205, 27);
+            textBox1.TabIndex = 2;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(5, 29);
+            label2.Name = "label2";
+            label2.Size = new Size(105, 20);
+            label2.TabIndex = 1;
+            label2.Text = "Sistem Kodu :";
             // 
             // Form1
             // 
@@ -97,6 +131,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(860, 726);
+            Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
             Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
@@ -107,15 +142,20 @@
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            groupBox2.ResumeLayout(false);
+            groupBox2.PerformLayout();
             ResumeLayout(false);
         }
 
         #endregion
 
         private GroupBox groupBox1;
-        private TextBox textBox1;
         private Label label1;
         private Button button1;
         private DataGridView dataGridView1;
+        private ComboBox comboBox1;
+        private GroupBox groupBox2;
+        private TextBox textBox1;
+        private Label label2;
     }
 }

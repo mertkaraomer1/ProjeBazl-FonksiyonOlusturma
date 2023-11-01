@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FonksiyonOlusturma
 {
@@ -21,242 +22,296 @@ namespace FonksiyonOlusturma
             dbContext = new MyDbContext();
             InitializeComponent();
         }
-        public void ComboboxValue()
+        public void SistemValue()
         {
-            var projectNames = dbContext.projects
-                .Select(p => p.ProjectName)
+            var SistemNames = dbContext.systems
+                .Select(p => p.SystemName)
                 .ToList();
 
-            comboBox5.DataSource = projectNames;
-        }
+            // "Sistem Seçiniz" yazısını ekleyin
+            SistemNames.Insert(0, "Sistem Seçiniz");
 
-        public void ComboboxValue2()
+            comboBox1.DataSource = SistemNames;
+        }
+        public void ProjeValue()
         {
             using (var dbContext = new MyDbContext())
             {
-                // İlk olarak, textbox1'den gelen ProjectName'i kullanarak ProjectId'yi bulun.
-                string projectName = comboBox5.Text;
-                int projectId = dbContext.projects
-                    .Where(p => p.ProjectName == projectName)
-                    .Select(p => p.ProjectId)
+                string SistemName = comboBox1.Text;
+
+                int sistemId = dbContext.systems
+                    .Where(p => p.SystemName == SistemName)
+                    .Select(p => p.SystemId)
                     .FirstOrDefault();
-                // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
-                var functionNames = dbContext.functions
-                    .Where(m => m.ProjectId == projectId)
-                    .Select(m => m.FunctionName)
+
+                var projeNames = dbContext.projects
+                    .Where(m => m.SystemId == sistemId)
+                    .Select(m => m.ProjectName)
                     .ToList();
 
-                comboBox4.DataSource = functionNames;
-
+                comboBox5.DataSource = projeNames;
             }
         }
-        public void ComboBoxValue1()
-        {
-            using (var dbContext = new MyDbContext())
-            {
-                // İlk olarak, textbox1'den gelen ProjectName'i kullanarak ProjectId'yi bulun.
-                string projectName = comboBox5.Text;
-                int projectId = dbContext.projects
-                    .Where(p => p.ProjectName == projectName)
-                    .Select(p => p.ProjectId)
-                    .FirstOrDefault();
-                // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
-                var functionNames = dbContext.functions
-                    .Where(m => m.ProjectId == projectId)
-                    .Select(m => m.FunctionName)
-                    .ToList();
-                comboBox4.DataSource = functionNames;
-
-                // Ardından, textbox2'den gelen FunctionName'i kullanarak FunctionId'yi bulun.
-                string functionName = comboBox4.Text;
-                int functionId = dbContext.functions
-                    .Where(f => f.FunctionName == functionName)
-                    .Select(f => f.FunctionId)
-                    .FirstOrDefault();
 
 
-                // Şimdi, ProjectId ve FunctionId'yi kullanarak Modules tablosundan ModuleName'leri alın.
-                var moduleNames = dbContext.modules
-                    .Where(m => m.ProjectId == projectId && m.FuntionId == functionId)
-                    .Select(m => m.ModuleName)
-                    .ToList();
-
-                // Elde edilen ModuleName listesini ComboBox3'e atayın.
-                comboBox3.DataSource = moduleNames;
-            }
-        }
 
         public void Yükle()
         {
+            dataGridView1.Columns.Clear();
+            dataGridView1.Rows.Clear();
+            // DataGridView sütunlarını oluşturun
+            dataGridView1.Columns.Add("SistemName", "Sistem Name");
+            dataGridView1.Columns.Add("ProjeName", "Proje Name");
+            dataGridView1.Columns.Add("FunctionName", "Function Name");
+            dataGridView1.Columns.Add("ModuleName", "Module Name");
+            dataGridView1.Columns.Add("CategoryName", "Category Name");
+            dataGridView1.Columns.Add("CategoryTime", "Category Time");
+            string selectedProjectName = comboBox5.Text; // Get the selected ProjectName from ComboBox5
 
-            using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
+            // Filter Records table based on the selected ProjectName
+            var matchingRecords = dbContext.records
+                .Where(r => r.ProjectName == selectedProjectName)
+                .ToList();
+            // Records tablosundan verileri çekin
+            var allRecords = dbContext.records.ToList();
+            // Clear existing rows from the DataGridView
+            dataGridView1.Rows.Clear();
+            // Eşleşmeyen Records kayıtlarını döngüyle işleyin
+            foreach (var record in allRecords)
             {
-                // Staffs tablosundaki StaffName alanındaki verileri sorgulayın
-                var staffNames = dbContext.staffs.Select(s => s.StaffName).ToList();
-                // ComboBox1 kontrolüne verileri aktarın
-                comboBox1.DataSource = staffNames;
+                // Assignments tablosundan ilgili kaydı alın
+                var matchingAssignment = dbContext.assignments
+                    .FirstOrDefault(a => a.ProjectName == selectedProjectName &&
+                                         a.SystemName == record.SystemName &&
+                                         a.FunctionName == record.FunctionName &&
+                                         a.ModuleName == record.ModuleName &&
+                                         a.CategoryName == record.CategoryName &&
+                                         a.CategoryTime == record.CategoryTime);
 
-                // Categories tablosundaki CategoryName alanındaki verileri sorgulayın
-                var categoryNames = dbContext.categories.Select(c => c.CategoryName).ToList();
-                // ComboBox2 kontrolüne verileri aktarın
-                comboBox2.DataSource = categoryNames;
-
-                // DataGridView'deki verileri sorgulayın ve ProjectName'e göre sıralayın
-                var assignments = dbContext.assignments.ToList();
-                var projectNameFilter = comboBox5.Text; // TextBox1'den gelen değeri alın
-                var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
-
-                // DataGridView'i güncelleyin veya yeniden doldurun
-                dataGridView1.DataSource = filteredAssignments;
+                // Eşleşen bir Assignment kaydı bulunmazsa, DataGridView'e ekleyin
+                if (matchingAssignment == null)
+                {
+                    dataGridView1.Rows.Add(
+                        record.SystemName,
+                        record.ProjectName,
+                        record.FunctionName,
+                        record.ModuleName,
+                        record.CategoryName,
+                        record.CategoryTime
+                    );
+                }
             }
+            var staffNames = dbContext.staffs.Select(c=>c.StaffName).ToList();
 
-            // Eğer DataGridView daha önce buton sütunu eklenmediyse, o zaman buton sütununu ekleyin.
-            if (dataGridView1.Columns["DeleteButtonColumn"] == null)
-            {
-                DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
-                buttonColumn.Name = "DeleteButtonColumn"; // Sütun adını belirtin (tek bir sütun eklemeyi sağlar)
-                buttonColumn.HeaderText = ""; // Sütun başlığı
-                buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
-                buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
-                dataGridView1.Columns.Add(buttonColumn);
-            }
-
-            // Silme işlemi sırasında kullanılacak olayı ayarlayın
-            dataGridView1.CellContentClick += dataGridView1_CellContentClick;
-
+            DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
+            comboBoxColumn.Name = "StaffNameColumn";
+            comboBoxColumn.HeaderText = "Staff Name";
+            comboBoxColumn.Items.AddRange(staffNames.ToArray());
+            dataGridView1.Columns.Add(comboBoxColumn);
         }
+
         private void Atamalar_Load(object sender, EventArgs e)
         {
-
-            ComboboxValue();
+            Atanmıslar();
+            Grafik();
+            SistemValue();
             Yükle();
         }
 
         private void button1_Click(object sender, EventArgs e)
         {
+            List<Assignments> assignments = new List<Assignments>();
 
-            using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
+            foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                // TextBox ve ComboBox'lardan gelen verileri alın
-                string projectName = comboBox5.Text;
-                string functionName = comboBox4.Text;
-                string moduleName = comboBox3.Text;
-                string staffName = comboBox1.Text;
-                string categoryName = comboBox2.Text;
-
-                // Categories tablosundan CategoryTime'ı alın
-                var categoryTime = dbContext.categories
-                    .Where(c => c.CategoryName == categoryName)
-                    .Select(c => c.CategoryTime)
-                    .FirstOrDefault();
-
-                // Assignments tablosuna yeni bir kayıt ekleyin
-                Assignments newAssignment = new Assignments
+                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null)
                 {
-                    ProjectName = projectName,
-                    FunctionName = functionName,
-                    ModuleName = moduleName,
-                    StaffName = staffName,
-                    CategoryName = categoryName,
-                    CategoryTime = categoryTime // Categories tablosundan alınan CategoryTime
-                };
-
-                // Assignment kaydını ekleyin
-                dbContext.assignments.Add(newAssignment);
-                dbContext.SaveChanges();
-
-                // DataGridView'i güncellemek için sorguyu düzenleyin ve yeniden doldurun
-                var assignments = dbContext.assignments.ToList();
-                var projectNameFilter = comboBox5.Text; // TextBox1'den gelen değeri alın
-                var filteredAssignments = assignments.OrderByDescending(a => a.ProjectName == projectNameFilter).ToList();
-                dataGridView1.DataSource = filteredAssignments;
+                    TimeSpan categoryTime;
+                    if (TimeSpan.TryParse(row.Cells[5].Value.ToString(), out categoryTime))
+                    {
+                        Assignments assignment = new Assignments
+                        {
+                            SystemName = row.Cells[0].Value.ToString(),
+                            ProjectName = row.Cells[1].Value.ToString(),
+                            FunctionName = row.Cells[2].Value.ToString(),
+                            ModuleName = row.Cells[3].Value.ToString(),
+                            StaffName = row.Cells[6].Value.ToString(),
+                            CategoryTime = categoryTime,
+                            CategoryName = row.Cells[4].Value.ToString(),
+                            Status = "True"
+                        };
+                        assignments.Add(assignment);
+                    }
+                    else
+                    {
+                        // Geçerli bir TimeSpan formatına dönüşüm yapılamadı, hata işleme veya bildirim ekleme
+                    }
+                }
             }
 
-        }
 
-        private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
-        {
-            int columnIndex = e.ColumnIndex;
-            int rowIndex = e.RowIndex;
 
-            if (columnIndex == dataGridView1.Columns[""].Index)
+            using (var dbContext = new MyDbContext())
             {
-                // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
-                Assignments rowData = new Assignments
+                foreach (Assignments assignment in assignments)
                 {
-                    ProjectName = dataGridView1.Rows[rowIndex].Cells["ProjectName"].Value.ToString(),
-                    FunctionName = dataGridView1.Rows[rowIndex].Cells["FunctionName"].Value.ToString(),
-                    ModuleName = dataGridView1.Rows[rowIndex].Cells["ModuleName"].Value.ToString(),
-                    StaffName = dataGridView1.Rows[rowIndex].Cells["StaffName"].Value.ToString(),
-                    CategoryName = dataGridView1.Rows[rowIndex].Cells["CategoryName"].Value.ToString()
-                };
+                    dbContext.assignments.Add(assignment);
+                }
 
-                // CategoryTime verisini string olarak aldık, şimdi TimeSpan'e çevirelim
-                string categoryTimeStr = dataGridView1.Rows[rowIndex].Cells["CategoryTime"].Value.ToString();
+                dbContext.SaveChanges();
+            }
+            Yükle();
+            Atanmıslar();
+            Grafik();
 
-                if (TimeSpan.TryParse(categoryTimeStr, out TimeSpan categoryTime))
+        }
+        public void Atanmıslar()
+        {
+            dataGridView3.Columns.Clear();
+            dataGridView3.Rows.Clear();
+            // DataGridView sütunlarını oluşturun
+            dataGridView3.Columns.Add("SystemName", "Sistem Name");
+            dataGridView3.Columns.Add("ProjectName", "Proje Name");
+            dataGridView3.Columns.Add("FunctionName", "Function Name");
+            dataGridView3.Columns.Add("ModuleName", "Module Name");
+            dataGridView3.Columns.Add("StaffName", "Staff Name");
+            dataGridView3.Columns.Add("CategoryName", "Category Name");
+            dataGridView3.Columns.Add("CategoryTime", "Category Time");
+            // DataGridView kontrolünüze bir buton sütunu ekleyin.
+            DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
+            buttonColumn.HeaderText = "SİL"; // Sütun başlığı
+            buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
+            buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+            dataGridView3.Columns.Add(buttonColumn);
+
+            // ComboBox5'ten seçilen değeri al
+            string selectedProjectName = comboBox5.SelectedItem as string;
+
+            if (!string.IsNullOrEmpty(selectedProjectName))
+            {
+                using (var dbContext = new MyDbContext())
                 {
-                    rowData.CategoryTime = categoryTime;
-
-                    // Entity Framework kullanarak ilgili satırı veritabanından silin
-                    using (var dbContext = new MyDbContext())
-                    {
-                        var assignmentToDelete = dbContext.assignments
-                            .FirstOrDefault(a =>
-                                a.ProjectName == rowData.ProjectName &&
-                                a.FunctionName == rowData.FunctionName &&
-                                a.ModuleName == rowData.ModuleName &&
-                                a.StaffName == rowData.StaffName &&
-                                a.CategoryName == rowData.CategoryName &&
-                                a.CategoryTime == rowData.CategoryTime
-                            );
-
-                        if (assignmentToDelete != null)
+                    // ComboBox5'ten gelen ProjectName ile eşleşen ve FinishTime'ı null olan kayıtları al
+                    var filteredAssignments = dbContext.assignments
+                        .Where(a => a.ProjectName == selectedProjectName && a.Status == "True")
+                        .Select(a => new
                         {
-                            dbContext.assignments.Remove(assignmentToDelete);
-                            dbContext.SaveChanges();
-                        }
+                            a.SystemName,
+                            a.ProjectName,
+                            a.FunctionName,
+                            a.ModuleName,
+                            a.StaffName,
+                            a.CategoryName,
+                            a.CategoryTime
+                        })
+                        .ToList();
+
+                    // Verileri DataGridView'e ekleyin
+                    foreach (var assignment in filteredAssignments)
+                    {
+                        dataGridView3.Rows.Add(
+                            assignment.SystemName,
+                            assignment.ProjectName,
+                            assignment.FunctionName,
+                            assignment.ModuleName,
+                            assignment.StaffName,
+                            assignment.CategoryName,
+                            assignment.CategoryTime
+                        );
                     }
-                    Yükle();
                 }
             }
 
 
         }
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
+        public void Grafik()
         {
-            ComboBoxValue1();
+            dataGridView2.Columns.Add("Column0", "Staff Name");
+            dataGridView2.Columns.Add("Column1", "Total time");
+
+            // StaffNames verilerini al
+            var staffNames = dbContext.staffs.Select(s => s.StaffName).ToList();
+
+            // DataGridView'i temizle
+            dataGridView2.Rows.Clear();
+
+            foreach (var staffName in staffNames)
+            {
+                var assignmentsForStaff = dbContext.assignments
+                    .Where(a => a.StaffName == staffName && a.Status == "True") // FinishTime'ı null olanları filtrele
+                    .ToList()
+                    .Select(a => new
+                    {
+                        StaffName = a.StaffName,
+                        CategoryTime = TimeSpan.FromTicks(a.CategoryTime.Ticks)
+                    })
+                    .ToList();
+
+                TimeSpan totalCategoryTime = TimeSpan.Zero;
+
+                foreach (var assignment in assignmentsForStaff)
+                {
+                    totalCategoryTime += assignment.CategoryTime;
+                }
+
+                // DataGridView'e ekle
+                dataGridView2.Rows.Add(staffName, totalCategoryTime);
+            }
+
+
+
+
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
-
-            ComboboxValue2();
+            dataGridView1.Rows.Clear();
+            dataGridView1.Columns.Clear();
+            dataGridView3.Rows.Clear();
+            dataGridView3.Columns.Clear();
             Yükle();
+            Atanmıslar();
+        }
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            ProjeValue();
         }
 
-        private void comboBox3_SelectedIndexChanged(object sender, EventArgs e)
+        private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            using (var context = new MyDbContext())
+            if (e.RowIndex >= 0 && e.ColumnIndex == 7) // 7. sütundaki düğme tıklandı mı kontrol ediliyor
             {
-                // Assigments tablosundan verileri çekin
-                var assignments = context.assignments.ToList();
+                // Seçilen satırın verilerini almak için DataGridView'den erişin
+                DataGridViewRow selectedRow = dataGridView3.Rows[e.RowIndex];
 
-                // ComboBox'lardan seçilen kriterlere göre verileri filtreleyin
-                string selectedProject = comboBox5.Text;
-                string selectedFunction = comboBox4.Text;
-                string selectedModule = comboBox3.Text;
+                // Verileri değişkenlere aktarın
+                string staffName = selectedRow.Cells["StaffName"].Value.ToString();
+                string projectName = selectedRow.Cells["ProjectName"].Value.ToString();
+                string functionName = selectedRow.Cells["FunctionName"].Value.ToString();
+                string moduleName = selectedRow.Cells["ModuleName"].Value.ToString();
 
-                var filteredAssignments = assignments
-                    .Where(assignment =>
-                        (string.IsNullOrEmpty(selectedProject) || assignment.ProjectName == selectedProject) &&
-                        (string.IsNullOrEmpty(selectedFunction) || assignment.FunctionName == selectedFunction) &&
-                        (string.IsNullOrEmpty(selectedModule) || assignment.ModuleName == selectedModule))
-                    .ToList();
+                // Değişkenlere sahip görevi `Assignments` tablosunda arayın
+                using (var dbContext = new MyDbContext())
+                {
+                    var assignmentToRemove = dbContext.assignments.FirstOrDefault(a =>
+                        a.StaffName == staffName &&
+                        a.ProjectName == projectName &&
+                        a.FunctionName == functionName &&
+                        a.ModuleName == moduleName);
 
-                // DataGridView'e filtrelenmiş verileri yazdırın
-                dataGridView1.DataSource = filteredAssignments;
+                    if (assignmentToRemove != null)
+                    {
+                        // Görevi veritabanından kaldırın
+                        dbContext.assignments.Remove(assignmentToRemove);
+                        dbContext.SaveChanges();
+
+                        // Veri kaynağınızı güncelleyin (örneğin, verileri tekrar yükleyin veya veri kaynağınızı güncelleyin)
+                        // Bu, DataGridView'nin otomatik olarak güncellenmesini sağlar
+                        // Örnek olarak, Yükle() işlevini çağırabilirsiniz:
+                        Atanmıslar();
+                    }
+                }
             }
 
         }

@@ -22,6 +22,9 @@ namespace FonksiyonOlusturma.Tables
         public string RaporuHazirlayan { get; set; }
         public string HatayıBulanBirim { get; set; }
         public string Resim { get; set; }
+        public string KokNeden { get; set; }
+        public string Aksiyon { get; set; }
+        public string Sonuc { get; set; }
 
     }
 }

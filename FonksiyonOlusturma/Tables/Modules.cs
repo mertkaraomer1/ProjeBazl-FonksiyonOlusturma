@@ -10,8 +10,9 @@ namespace FonksiyonOlusturma.Tables
     {
         public int ModuleId { get; set; }
         public int ProjectId { get; set; }
-        public int FuntionId { get; set; }
+        public int FunctionId { get; set; }
         public string ModuleName { get; set; }
         public string ModuleDescription { get; set; }
+        public int CategoryId { get; set; }
     }
 }

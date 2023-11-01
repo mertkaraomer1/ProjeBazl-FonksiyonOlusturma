@@ -35,8 +35,15 @@ namespace FonksiyonOlusturma
             get { return textBox2.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox2.Text = value; }
         }
+        public string TextBoxValue2
+        {
+            get { return textBox5.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox5.Text = value; }
+        }
         private void Modul_Load(object sender, EventArgs e)
         {
+            var CategoryName = dbContext.categories.Select(s => s.CategoryName).ToList();
+            comboBox1.DataSource = CategoryName;
             ModuleGoster();
         }
         public void ModuleGoster()
@@ -67,7 +74,7 @@ namespace FonksiyonOlusturma
 
                 // FunctionId'leri kullanarak Modules tablosundaki ModuleName'leri alın
                 var moduleNames = dbContext.modules
-                    .Where(m => functionIds.Contains(m.FuntionId))
+                    .Where(m => functionIds.Contains(m.FunctionId))
                     .Select(m => new
                     {
                         moduleName = m.ModuleName,
@@ -109,14 +116,16 @@ namespace FonksiyonOlusturma
 
         private void button1_Click(object sender, EventArgs e)
         {
+            string selectedSistemName = textBox5.Text;
             string selectedFunctionName = textBox2.Text;
             string selectedProjectName = textBox1.Text;
-            string modulName = textBox3.Text;
-            string ModuleDescription = textBox4.Text;
+            string selectedmodulName = textBox3.Text;
+            string selectedModuleDescription = textBox4.Text;
+            string selectedCategoryName = comboBox1.Text;
 
             if (!string.IsNullOrEmpty(selectedFunctionName) &&
                 !string.IsNullOrEmpty(selectedProjectName) &&
-                !string.IsNullOrEmpty(modulName))
+                !string.IsNullOrEmpty(selectedmodulName))
             {
                 try
                 {
@@ -133,21 +142,40 @@ namespace FonksiyonOlusturma
                             .Select(c => c.ProjectId)
                             .FirstOrDefault();
 
+                        int CategoryId = dbContext.categories
+                            .Where(c => c.CategoryName == selectedCategoryName)
+                            .Select(c => c.CategoryID)
+                            .FirstOrDefault();
+                        TimeSpan CategoryTime = dbContext.categories
+                            .Where(c => c.CategoryName == selectedCategoryName)
+                            .Select(c => c.CategoryTime)
+                            .FirstOrDefault(); // or .SingleOrDefault() if CategoryName is unique
 
 
                         // Moduls tablosuna yeni bir kayıt ekleyin
                         var yeniModul = new Modules
                         {
 
-                            FuntionId = functionId,
+                            FunctionId = functionId,
                             ProjectId = projectId,
-                            ModuleName = modulName,
-                            ModuleDescription = ModuleDescription
+                            ModuleName = selectedmodulName,
+                            ModuleDescription = selectedModuleDescription,
+                            CategoryId = CategoryId
+                        };
+                        var RecordEt = new Records
+                        {
+                            SystemName = selectedSistemName,
+                            ProjectName = selectedProjectName,
+                            FunctionName = selectedFunctionName,
+                            ModuleName = selectedmodulName,
+                            CategoryName = selectedCategoryName,
+                            CategoryTime = CategoryTime
                         };
 
                         dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
+                        dbContext.records.Add(RecordEt);
                         dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
-                        MessageBox.Show("Modul Kaydedildi...");
+
                     }
                 }
                 catch (Exception ex)
@@ -163,17 +191,13 @@ namespace FonksiyonOlusturma
             dataGridView1.Rows.Clear();
             ModuleGoster();
         }
-        Atamalar ata;
+
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
-                string textBoxValue = textBox1.Text; // Form2'deki TextBox'tan veriyi al
-                string textBoxValue2 = textBox2.Text; // Form2'deki TextBox'tan veriyi al
                 Atamalar ata = new Atamalar();
-                DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[1]; // Tıklanan hücreyi al
                 ata.Show();
-
             }
         }
 
@@ -211,7 +235,7 @@ namespace FonksiyonOlusturma
                     var moduleToDelete = dbContext.modules
                         .FirstOrDefault(m =>
                             m.ProjectId == projectId &&
-                            m.FuntionId == functionId &&
+                            m.FunctionId == functionId &&
                             m.ModuleName == rowData.ModuleName
                         );
 
