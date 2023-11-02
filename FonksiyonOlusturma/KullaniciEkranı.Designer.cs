@@ -28,9 +28,8 @@
         /// </summary>
         private void InitializeComponent()
         {
-            comboBox1 = new ComboBox();
             groupBox1 = new GroupBox();
-            dataGridView1 = new DataGridView();
+            advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             label6 = new Label();
             groupBox2 = new GroupBox();
             button4 = new Button();
@@ -40,7 +39,6 @@
             button2 = new Button();
             button3 = new Button();
             button1 = new Button();
-            label4 = new Label();
             textBox2 = new TextBox();
             textBox3 = new TextBox();
             textBox4 = new TextBox();
@@ -48,28 +46,16 @@
             label2 = new Label();
             label3 = new Label();
             groupBox3 = new GroupBox();
-            dataGridView2 = new DataGridView();
             groupBox1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             SuspendLayout();
-            // 
-            // comboBox1
-            // 
-            comboBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(331, 12);
-            comboBox1.Name = "comboBox1";
-            comboBox1.Size = new Size(211, 31);
-            comboBox1.TabIndex = 0;
-            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
             // 
             // groupBox1
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            groupBox1.Controls.Add(dataGridView1);
+            groupBox1.Controls.Add(advancedDataGridView1);
             groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(groupBox2);
             groupBox1.Controls.Add(checkBox1);
@@ -84,22 +70,22 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Modül Durumu";
             // 
-            // dataGridView1
+            // advancedDataGridView1
             // 
-            dataGridView1.AllowUserToAddRows = false;
-            dataGridView1.AllowUserToDeleteRows = false;
-            dataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
-            dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
-            dataGridView1.BackgroundColor = Color.White;
-            dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(6, 29);
-            dataGridView1.Name = "dataGridView1";
-            dataGridView1.ReadOnly = true;
-            dataGridView1.RowHeadersWidth = 51;
-            dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(1826, 695);
-            dataGridView1.TabIndex = 17;
-            dataGridView1.CellClick += dataGridView1_CellClick;
+            advancedDataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            advancedDataGridView1.BackgroundColor = Color.White;
+            advancedDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
+            advancedDataGridView1.FilterAndSortEnabled = true;
+            advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
+            advancedDataGridView1.Location = new Point(10, 29);
+            advancedDataGridView1.Name = "advancedDataGridView1";
+            advancedDataGridView1.RightToLeft = RightToLeft.No;
+            advancedDataGridView1.RowHeadersWidth = 51;
+            advancedDataGridView1.RowTemplate.Height = 29;
+            advancedDataGridView1.Size = new Size(1822, 689);
+            advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
+            advancedDataGridView1.TabIndex = 17;
+            advancedDataGridView1.CellClick += advancedDataGridView1_CellClick;
             // 
             // label6
             // 
@@ -192,16 +178,6 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label4.Location = new Point(237, 12);
-            label4.Name = "label4";
-            label4.Size = new Size(88, 23);
-            label4.TabIndex = 9;
-            label4.Text = "Sorumlu :";
-            // 
             // textBox2
             // 
             textBox2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
@@ -270,27 +246,14 @@
             groupBox3.TabIndex = 16;
             groupBox3.TabStop = false;
             // 
-            // dataGridView2
-            // 
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(800, 45);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.RowTemplate.Height = 29;
-            dataGridView2.Size = new Size(300, 58);
-            dataGridView2.TabIndex = 17;
-            // 
             // KullaniciEkranı
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
-            Controls.Add(dataGridView2);
             Controls.Add(groupBox3);
-            Controls.Add(label4);
             Controls.Add(groupBox1);
-            Controls.Add(comboBox1);
             Name = "KullaniciEkranı";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "KullaniciEkranı";
@@ -298,23 +261,18 @@
             Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
+            ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
-
-        private ComboBox comboBox1;
         private GroupBox groupBox1;
         private Button button3;
         private Button button1;
-        private Label label4;
         private Button button2;
         private GroupBox groupBox2;
         private Label label5;
@@ -322,7 +280,6 @@
         private CheckBox checkBox1;
         private Label label6;
         private Button button4;
-        private DataGridView dataGridView1;
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox4;
@@ -330,6 +287,6 @@
         private Label label2;
         private Label label3;
         private GroupBox groupBox3;
-        private DataGridView dataGridView2;
+        private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }

@@ -22,6 +22,7 @@ namespace FonksiyonOlusturma.MyDb
         public DbSet<Systems> systems { get; set; }
         public DbSet<Records> records { get; set; }
 
+
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             // Burada veritabanı bağlantı bilgilerini tanımlayın.
@@ -43,6 +44,7 @@ namespace FonksiyonOlusturma.MyDb
             modelBuilder.Entity<HataGrupları>().ToTable("HataGrupları").HasKey(x=>x.HataId);
             modelBuilder.Entity<Systems>().ToTable("Systems").HasKey(x => x.SystemId);
             modelBuilder.Entity<Records>().ToTable("Records").HasKey(x => x.RecordId);
+
         }
     }
 

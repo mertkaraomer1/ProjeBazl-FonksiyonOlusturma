@@ -20,10 +20,16 @@ namespace FonksiyonOlusturma
             get { return textBox1.Text; } // textBox1 burada TextBox'ýn adý olmalý
             set { textBox1.Text = value; }
         }
+        public string SystemDescription1
+        {
+            get { return textBox2.Text; } // textBox1 burada TextBox'ýn adý olmalý
+            set { textBox2.Text = value; }
+        }
         private void button1_Click(object sender, EventArgs e)
         {
             string systemName = textBox1.Text;
             string projectName = comboBox1.Text;
+            string projectDescription = textBox3.Text;
 
             try
             {
@@ -49,6 +55,7 @@ namespace FonksiyonOlusturma
                                 var yeniProje = new Projects
                                 {
                                     ProjectName = projectName,
+                                    ProjectDescription=projectDescription,
                                     SystemId = systemId // SystemId'yi atayýn
                                                         // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
                                 };
@@ -112,8 +119,9 @@ namespace FonksiyonOlusturma
                     // Projects tablosundan belirtilen SystemId ile eþleþen ProjectName'leri alýn
                     var projectNames = dbContext.projects
                         .Where(p => p.SystemId == systemId)
-                        .Select(p => p.ProjectName)
+                        .Select(p => new { ProjectName = p.ProjectName, ProjectDescription = p.ProjectDescription })
                         .ToList();
+
 
                     if (projectNames.Any()) // Eþleþen projeler bulundu mu kontrol edin
                     {
@@ -124,6 +132,7 @@ namespace FonksiyonOlusturma
                         // DataGridView sütunlarýný oluþturun
                         dataGridView1.Columns.Add("Column1", "SATIR NO");
                         dataGridView1.Columns.Add("Column2", "PROJELER");
+                        dataGridView1.Columns.Add("Column3", "PROJE ADI");
                         // DataGridView kontrolünüze bir buton sütunu ekleyin.
                         DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
                         buttonColumn.HeaderText = "SÝL"; // Sütun baþlýðý
@@ -135,7 +144,7 @@ namespace FonksiyonOlusturma
                         int rowNumber = 1;
                         foreach (var projectName in projectNames)
                         {
-                            dataGridView1.Rows.Add(rowNumber, projectName);
+                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName,projectName.ProjectDescription);
 
                             rowNumber++;
                         }
@@ -155,6 +164,7 @@ namespace FonksiyonOlusturma
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             string SistemName = textBox1.Text;
+            string SistemDescription = textBox2.Text;
 
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
@@ -162,8 +172,11 @@ namespace FonksiyonOlusturma
                 {
                     Fonk = new Fonksiyonlar();
                     DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    string ProjectDescription = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                     string cellValue = clickedCell.Value.ToString();
                     Fonk.TextBoxValue1 = SistemName;
+                    Fonk.SystemDes = SistemDescription;
+                    Fonk.ProjeDes = ProjectDescription;
                     Fonk.TextBoxValue = cellValue; // Form2'deki TextBox'a deðeri aktar
                     Fonk.Show();
                 }
@@ -172,7 +185,7 @@ namespace FonksiyonOlusturma
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns[2].Index && e.RowIndex >= 0)
+            if (e.ColumnIndex == dataGridView1.Columns[3].Index && e.RowIndex >= 0)
             {
                 string SistemName = textBox1.Text;
 

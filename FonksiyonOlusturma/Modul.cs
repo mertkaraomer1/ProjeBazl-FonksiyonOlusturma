@@ -54,7 +54,7 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Add("Column1", "SATIR NO");
             dataGridView1.Columns.Add("Column2", "MODÜLLER");
             dataGridView1.Columns.Add("Column3", "MODÜL AÇIKLAMASI");
-
+            dataGridView1.Columns.Add("Column4", "TİP");
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
                 string searchText1 = textBox1.Text; // TextBox1'den gelen veriyi alın
@@ -78,7 +78,8 @@ namespace FonksiyonOlusturma
                     .Select(m => new
                     {
                         moduleName = m.ModuleName,
-                        moduleDescription = m.ModuleDescription
+                        moduleDescription = m.ModuleDescription,
+                        modultip=m.ModuleTip
                     })
                     .ToList();
 
@@ -98,6 +99,10 @@ namespace FonksiyonOlusturma
 
                     // İkinci sütunu (MODÜLLER) modül adı olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = module.moduleDescription });
+
+
+                    // İkinci sütunu (MODÜLLER) modül adı olarak ayarlayın
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = module.modultip });
 
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
@@ -146,7 +151,7 @@ namespace FonksiyonOlusturma
                             .Where(c => c.CategoryName == selectedCategoryName)
                             .Select(c => c.CategoryID)
                             .FirstOrDefault();
-                        TimeSpan CategoryTime = dbContext.categories
+                        int CategoryTime = dbContext.categories
                             .Where(c => c.CategoryName == selectedCategoryName)
                             .Select(c => c.CategoryTime)
                             .FirstOrDefault(); // or .SingleOrDefault() if CategoryName is unique
@@ -160,7 +165,8 @@ namespace FonksiyonOlusturma
                             ProjectId = projectId,
                             ModuleName = selectedmodulName,
                             ModuleDescription = selectedModuleDescription,
-                            CategoryId = CategoryId
+                            CategoryId = CategoryId,
+                            ModuleTip="3D"
                         };
                         var RecordEt = new Records
                         {
@@ -169,10 +175,32 @@ namespace FonksiyonOlusturma
                             FunctionName = selectedFunctionName,
                             ModuleName = selectedmodulName,
                             CategoryName = selectedCategoryName,
-                            CategoryTime = CategoryTime
+                            CategoryTime = CategoryTime,
+                            ModuleTip="3D"
                         };
+                        var yeniModul1 = new Modules
+                        {
 
+                            FunctionId = functionId,
+                            ProjectId = projectId,
+                            ModuleName = selectedmodulName,
+                            ModuleDescription = selectedModuleDescription,
+                            CategoryId = CategoryId,
+                            ModuleTip = "2D"
+                        };
+                        var RecordEt1 = new Records
+                        {
+                            SystemName = selectedSistemName,
+                            ProjectName = selectedProjectName,
+                            FunctionName = selectedFunctionName,
+                            ModuleName = selectedmodulName,
+                            CategoryName = selectedCategoryName,
+                            CategoryTime = CategoryTime,
+                            ModuleTip = "2D"
+                        };
+                        dbContext.modules.Add(yeniModul1);
                         dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
+                        dbContext.records.Add(RecordEt1);
                         dbContext.records.Add(RecordEt);
                         dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
 
@@ -220,7 +248,7 @@ namespace FonksiyonOlusturma
             int columnIndex = e.ColumnIndex;
             int rowIndex = e.RowIndex;
 
-            if (columnIndex == dataGridView1.Columns[3].Index)
+            if (columnIndex == dataGridView1.Columns[4].Index)
             {
                 // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
                 if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
@@ -228,7 +256,7 @@ namespace FonksiyonOlusturma
                     Modules rowData = new Modules
                     {
                         ModuleName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
-                        ModuleDescription = dataGridView1.Rows[rowIndex].Cells[2].Value.ToString()
+
                     };
 
                     // Modules tablosundan belirtilen ProjectId, FunctionId ve ModuleName ile eşleşen satırı bulun
@@ -243,6 +271,41 @@ namespace FonksiyonOlusturma
                     {
                         // Silinecek bir şey var, o zaman silme işlemini gerçekleştirin
                         dbContext.modules.Remove(moduleToDelete);
+                        dbContext.SaveChanges();
+
+                        // Modules tablosunu güncellemek için kullanılan bir fonksiyonunuzu çağırın
+                        ModuleGoster();
+                    }
+                    else
+                    {
+                        // Silinecek bir şey yoksa hata vermek yerine bir bildirim gösterebilirsiniz
+                        MessageBox.Show("Silinecek bir şey bulunamadı.");
+                    }
+                }
+                // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
+                if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
+                {
+                    Records rowData = new Records
+                    {
+                        ModuleName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
+                        ProjectName = projectName,
+                        FunctionName = functionName,
+                        SystemName = textBox5.Text
+
+                    };
+
+                    // Modules tablosundan belirtilen ProjectId, FunctionId ve ModuleName ile eşleşen satırı bulun
+                    var RecordsToDelete = dbContext.records
+                        .FirstOrDefault(m =>
+                            m.SystemName == textBox5.Text &&
+                            m.FunctionName == functionName &&
+                            m.ModuleName == rowData.ModuleName
+                        );
+
+                    if (RecordsToDelete != null)
+                    {
+                        // Silinecek bir şey var, o zaman silme işlemini gerçekleştirin
+                        dbContext.records.Remove(RecordsToDelete);
                         dbContext.SaveChanges();
 
                         // Modules tablosunu güncellemek için kullanılan bir fonksiyonunuzu çağırın

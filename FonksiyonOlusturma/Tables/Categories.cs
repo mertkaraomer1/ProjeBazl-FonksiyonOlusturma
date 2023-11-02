@@ -10,6 +10,6 @@ namespace FonksiyonOlusturma.Tables
     {
         public int CategoryID { get; set; }
         public string CategoryName { get; set; }
-        public TimeSpan CategoryTime { get; set; }
+        public int CategoryTime { get; set; }
     }
 }

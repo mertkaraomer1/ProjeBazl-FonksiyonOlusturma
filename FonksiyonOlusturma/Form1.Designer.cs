@@ -34,8 +34,12 @@
             button1 = new Button();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            textBox2 = new TextBox();
+            label3 = new Label();
             textBox1 = new TextBox();
             label2 = new Label();
+            label4 = new Label();
+            textBox3 = new TextBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -43,6 +47,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(textBox3);
+            groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(button1);
@@ -72,7 +78,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(121, 88);
+            button1.Location = new Point(120, 105);
             button1.Name = "button1";
             button1.Size = new Size(160, 48);
             button1.TabIndex = 0;
@@ -99,14 +105,33 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(textBox2);
+            groupBox2.Controls.Add(label3);
             groupBox2.Controls.Add(textBox1);
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(25, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(338, 66);
+            groupBox2.Size = new Size(338, 107);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Sistem";
+            // 
+            // textBox2
+            // 
+            textBox2.Enabled = false;
+            textBox2.Location = new Point(105, 59);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(205, 27);
+            textBox2.TabIndex = 4;
+            // 
+            // label3
+            // 
+            label3.AutoSize = true;
+            label3.Location = new Point(14, 62);
+            label3.Name = "label3";
+            label3.Size = new Size(92, 20);
+            label3.TabIndex = 3;
+            label3.Text = "Sistem Adı :";
             // 
             // textBox1
             // 
@@ -124,6 +149,22 @@
             label2.Size = new Size(105, 20);
             label2.TabIndex = 1;
             label2.Text = "Sistem Kodu :";
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(19, 78);
+            label4.Name = "label4";
+            label4.Size = new Size(81, 20);
+            label4.TabIndex = 3;
+            label4.Text = "Proje Adı :";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(106, 72);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(187, 27);
+            textBox3.TabIndex = 4;
             // 
             // Form1
             // 
@@ -157,5 +198,9 @@
         private GroupBox groupBox2;
         private TextBox textBox1;
         private Label label2;
+        private TextBox textBox2;
+        private Label label3;
+        private Label label4;
+        private TextBox textBox3;
     }
 }

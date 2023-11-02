@@ -35,13 +35,20 @@ namespace FonksiyonOlusturma
                         Modül = status.ModuleName,
                         StatusName = status.CategoryName,
                         StatusTime = status.CategoryTime,
-                        GeçenZaman = (DateTime.Now - status.CategoryTime).ToString(@"hh\:mm\:ss")
+                        GeçenZaman = CalculateElapsedTime(status.CategoryTime)
                     })
                     .ToList();
 
                 // DataGridView'e verileri eklemek için aşağıdaki kodu kullanabilirsiniz (dataGridView1 DataGridView nesnesi adınıza göre değiştirilmelidir).
                 dataGridView1.DataSource = statusList;
             }
+        }
+        // CalculateElapsedTime fonksiyonu CategoryTime'ı DateTime'a dönüştürüp farkı hesaplar
+        public string CalculateElapsedTime(int categoryTime)
+        {
+            DateTime categoryDateTime = DateTime.Now.AddMinutes(-categoryTime); // Örnek olarak dakika cinsinden düşünüldü
+            TimeSpan elapsedTime = DateTime.Now - categoryDateTime;
+            return elapsedTime.ToString(@"hh\:mm\:ss");
         }
     }
 }

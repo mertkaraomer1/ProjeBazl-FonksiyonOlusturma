@@ -40,6 +40,10 @@
             textBox3 = new TextBox();
             button3 = new Button();
             textBox2 = new TextBox();
+            textBox5 = new TextBox();
+            label5 = new Label();
+            textBox6 = new TextBox();
+            label6 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -48,7 +52,7 @@
             // textBox1
             // 
             textBox1.Enabled = false;
-            textBox1.Location = new Point(132, 64);
+            textBox1.Location = new Point(133, 92);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(264, 27);
             textBox1.TabIndex = 0;
@@ -57,7 +61,7 @@
             // 
             label1.AutoSize = true;
             label1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label1.Location = new Point(18, 65);
+            label1.Location = new Point(19, 93);
             label1.Name = "label1";
             label1.Size = new Size(108, 23);
             label1.TabIndex = 3;
@@ -65,14 +69,18 @@
             // 
             // groupBox1
             // 
-            groupBox1.Controls.Add(textBox4);
-            groupBox1.Controls.Add(label4);
+            groupBox1.Controls.Add(textBox5);
+            groupBox1.Controls.Add(label5);
+            groupBox1.Controls.Add(textBox6);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label1);
+            groupBox1.Controls.Add(label6);
+            groupBox1.Controls.Add(textBox4);
+            groupBox1.Controls.Add(label4);
             groupBox1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox1.Location = new Point(12, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(403, 117);
+            groupBox1.Size = new Size(403, 156);
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje";
@@ -102,12 +110,12 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 135);
+            dataGridView1.Location = new Point(12, 186);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
             dataGridView1.RowTemplate.Height = 29;
-            dataGridView1.Size = new Size(543, 579);
+            dataGridView1.Size = new Size(543, 528);
             dataGridView1.TabIndex = 5;
             dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             dataGridView1.CellDoubleClick += dataGridView1_CellDoubleClick;
@@ -168,6 +176,42 @@
             textBox2.Size = new Size(238, 30);
             textBox2.TabIndex = 3;
             // 
+            // textBox5
+            // 
+            textBox5.Enabled = false;
+            textBox5.Location = new Point(132, 59);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(264, 27);
+            textBox5.TabIndex = 8;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Location = new Point(20, 59);
+            label5.Name = "label5";
+            label5.Size = new Size(107, 23);
+            label5.TabIndex = 9;
+            label5.Text = "Sistem Adı :";
+            // 
+            // textBox6
+            // 
+            textBox6.Enabled = false;
+            textBox6.Location = new Point(132, 125);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(264, 27);
+            textBox6.TabIndex = 6;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(33, 125);
+            label6.Name = "label6";
+            label6.Size = new Size(94, 23);
+            label6.TabIndex = 7;
+            label6.Text = "Proje Adı :";
+            // 
             // Fonksiyonlar
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -203,5 +247,9 @@
         private TextBox textBox3;
         private TextBox textBox4;
         private Label label4;
+        private TextBox textBox5;
+        private Label label5;
+        private TextBox textBox6;
+        private Label label6;
     }
 }

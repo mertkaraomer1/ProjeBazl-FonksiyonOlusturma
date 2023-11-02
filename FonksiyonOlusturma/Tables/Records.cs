@@ -14,6 +14,7 @@ namespace FonksiyonOlusturma.Tables
         public string FunctionName { get; set; }
         public string ModuleName { get; set; }
         public string CategoryName { get; set; }
-        public TimeSpan CategoryTime { get; set; }  
+        public int CategoryTime { get; set; }  
+        public string ModuleTip { get; set; }
     }
 }

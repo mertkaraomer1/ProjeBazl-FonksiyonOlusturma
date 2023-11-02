@@ -33,6 +33,8 @@
             textBox1 = new TextBox();
             label1 = new Label();
             button1 = new Button();
+            textBox2 = new TextBox();
+            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -56,6 +58,8 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(textBox2);
+            groupBox1.Controls.Add(label2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(button1);
@@ -69,7 +73,7 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(105, 38);
+            textBox1.Location = new Point(106, 26);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(206, 27);
             textBox1.TabIndex = 2;
@@ -77,7 +81,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 41);
+            label1.Location = new Point(7, 29);
             label1.Name = "label1";
             label1.Size = new Size(89, 20);
             label1.TabIndex = 1;
@@ -85,13 +89,29 @@
             // 
             // button1
             // 
-            button1.Location = new Point(121, 88);
+            button1.Location = new Point(121, 105);
             button1.Name = "button1";
             button1.Size = new Size(160, 48);
             button1.TabIndex = 0;
             button1.Text = "Kaydet";
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
+            // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(106, 59);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(206, 27);
+            textBox2.TabIndex = 4;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(7, 62);
+            label2.Name = "label2";
+            label2.Size = new Size(92, 20);
+            label2.TabIndex = 3;
+            label2.Text = "Sistem Adı :";
             // 
             // systems
             // 
@@ -118,5 +138,7 @@
         private TextBox textBox1;
         private Label label1;
         private Button button1;
+        private TextBox textBox2;
+        private Label label2;
     }
 }

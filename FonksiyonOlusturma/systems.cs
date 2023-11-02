@@ -26,6 +26,7 @@ namespace FonksiyonOlusturma
         private void button1_Click(object sender, EventArgs e)
         {
             string sistemKodu = textBox1.Text;
+            string MüsteriAdi = textBox2.Text;
             try
             {
                 if (!string.IsNullOrEmpty(sistemKodu)) // TextBox boş değilse
@@ -40,7 +41,8 @@ namespace FonksiyonOlusturma
                             // SystemName değeri özgünse yeni bir sistem ekleyin
                             var yeniSistem = new Systems
                             {
-                                SystemName = sistemKodu
+                                SystemName = sistemKodu,
+                                SystemDescription=MüsteriAdi
                                 // Diğer alanlara da değer atayabilirsiniz, gerekirse.
                             };
                             dbContext.systems.Add(yeniSistem); // Yeni sistem nesnesini Systems tablosuna ekleyin
@@ -62,6 +64,7 @@ namespace FonksiyonOlusturma
                 MessageBox.Show("Hata oluştu: " + ex.Message);
             }
             textBox1.Clear();
+            textBox2.Clear();
             dataGridView1.Rows.Clear();
             dataGridView1.Columns.Clear();
             SistemAtama();
@@ -76,6 +79,7 @@ namespace FonksiyonOlusturma
             // DataGridView sütunlarını oluşturun
             dataGridView1.Columns.Add("Column1", "SATIR NO");
             dataGridView1.Columns.Add("Column2", "SİSTEM KODU");
+            dataGridView1.Columns.Add("Column3", "SİSTEM ADI");
 
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
@@ -95,6 +99,9 @@ namespace FonksiyonOlusturma
 
                     // İkinci sütunu (PROJE KODU) proje kodu olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = item.SystemName });
+
+                    // İkinci sütunu (PROJE ADI) proje kodu olarak ayarlayın
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = item.SystemDescription });
 
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
@@ -120,8 +127,9 @@ namespace FonksiyonOlusturma
                 {
                     F1 = new Form1();
                     DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
+                    string systemDescription = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                     string cellValue = clickedCell.Value.ToString();
-
+                    F1.SystemDescription1=systemDescription;
                     F1.TextBoxValue = cellValue; // Form2'deki TextBox'a değeri aktar
                     F1.Show();
                 }

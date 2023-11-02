@@ -38,6 +38,17 @@ namespace FonksiyonOlusturma
         {
             get { return textBox4.Text; } // textBox1 burada TextBox'ın adı olmalı
             set { textBox4.Text = value; }
+
+        }
+        public string SystemDes
+        {
+            get { return textBox5.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox5.Text = value; }
+        }
+        public string ProjeDes
+        {
+            get { return textBox6.Text; } // textBox1 burada TextBox'ın adı olmalı
+            set { textBox6.Text = value; }
         }
         private void Fonksiyonlar_Load(object sender, EventArgs e)
         {
@@ -90,18 +101,19 @@ namespace FonksiyonOlusturma
 
                     // Üçüncü sütunu (FONKSİYON AÇIKLAMASI) fonksiyon açıklaması olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = function.FunctionDescription });
-                    // DataGridView kontrolünüze bir buton sütunu ekleyin.
-                    DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
-                    buttonColumn.HeaderText = "SİL"; // Sütun başlığı
-                    buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
-                    buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
-                    dataGridView1.Columns.Add(buttonColumn);
-                    dataGridView1.CellContentClick += dataGridView1_CellContentClick;
+       
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
 
                     satirNo++; // Her satır ekledikten sonra satır numarasını arttırın
                 }
+                // DataGridView kontrolünüze bir buton sütunu ekleyin.
+                DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
+                buttonColumn.HeaderText = "SİL"; // Sütun başlığı
+                buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
+                buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
+                dataGridView1.Columns.Add(buttonColumn);
+                dataGridView1.CellContentClick += dataGridView1_CellContentClick;
             }
         }
 

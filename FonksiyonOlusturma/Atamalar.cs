@@ -60,33 +60,35 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             // DataGridView sütunlarını oluşturun
-            dataGridView1.Columns.Add("SistemName", "Sistem Name");
-            dataGridView1.Columns.Add("ProjeName", "Proje Name");
-            dataGridView1.Columns.Add("FunctionName", "Function Name");
-            dataGridView1.Columns.Add("ModuleName", "Module Name");
+            dataGridView1.Columns.Add("SistemName", "Sistem Number");
+            dataGridView1.Columns.Add("ProjeName", "Proje Number");
+            dataGridView1.Columns.Add("FunctionName", "Function Number");
+            dataGridView1.Columns.Add("ModuleName", "Module Number");
             dataGridView1.Columns.Add("CategoryName", "Category Name");
             dataGridView1.Columns.Add("CategoryTime", "Category Time");
-            string selectedProjectName = comboBox5.Text; // Get the selected ProjectName from ComboBox5
-
-            // Filter Records table based on the selected ProjectName
+            dataGridView1.Columns.Add("ModuleTip", "ModuleTip");
+            string selectedProjectName = comboBox5.Text; // ComboBox5'ten seçilen ProjectName'i alın
+            string selectedSystemName=comboBox1.Text;
+            // Filter Records tablosunu sadece seçilen ProjectName ile eşleşen kayıtlarla sınırlayın
             var matchingRecords = dbContext.records
                 .Where(r => r.ProjectName == selectedProjectName)
                 .ToList();
-            // Records tablosundan verileri çekin
-            var allRecords = dbContext.records.ToList();
-            // Clear existing rows from the DataGridView
+
+            // Mevcut satırları DataGridView'den temizleyin
             dataGridView1.Rows.Clear();
-            // Eşleşmeyen Records kayıtlarını döngüyle işleyin
-            foreach (var record in allRecords)
+
+            // Sadece seçilen ProjectName ile eşleşen Records kayıtlarını işleyin
+            foreach (var record in matchingRecords)
             {
-                // Assignments tablosundan ilgili kaydı alın
+                // Eşleşen bir Assignment kaydı bulmak için sorgu yapın
                 var matchingAssignment = dbContext.assignments
                     .FirstOrDefault(a => a.ProjectName == selectedProjectName &&
-                                         a.SystemName == record.SystemName &&
+                                         a.SystemName == selectedSystemName &&
                                          a.FunctionName == record.FunctionName &&
                                          a.ModuleName == record.ModuleName &&
                                          a.CategoryName == record.CategoryName &&
-                                         a.CategoryTime == record.CategoryTime);
+                                         a.CategoryTime == record.CategoryTime&&
+                                         a.ModuleTip==record.ModuleTip);
 
                 // Eşleşen bir Assignment kaydı bulunmazsa, DataGridView'e ekleyin
                 if (matchingAssignment == null)
@@ -97,10 +99,13 @@ namespace FonksiyonOlusturma
                         record.FunctionName,
                         record.ModuleName,
                         record.CategoryName,
-                        record.CategoryTime
+                        record.CategoryTime,
+                        record.ModuleTip
                     );
                 }
             }
+
+
             var staffNames = dbContext.staffs.Select(c=>c.StaffName).ToList();
 
             DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
@@ -126,8 +131,8 @@ namespace FonksiyonOlusturma
             {
                 if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null)
                 {
-                    TimeSpan categoryTime;
-                    if (TimeSpan.TryParse(row.Cells[5].Value.ToString(), out categoryTime))
+                    int categoryTime;
+                    if (int.TryParse(row.Cells[5].Value.ToString(), out categoryTime))
                     {
                         Assignments assignment = new Assignments
                         {
@@ -170,13 +175,14 @@ namespace FonksiyonOlusturma
             dataGridView3.Columns.Clear();
             dataGridView3.Rows.Clear();
             // DataGridView sütunlarını oluşturun
-            dataGridView3.Columns.Add("SystemName", "Sistem Name");
-            dataGridView3.Columns.Add("ProjectName", "Proje Name");
-            dataGridView3.Columns.Add("FunctionName", "Function Name");
-            dataGridView3.Columns.Add("ModuleName", "Module Name");
+            dataGridView3.Columns.Add("SystemName", "Sistem Number");
+            dataGridView3.Columns.Add("ProjectName", "Proje Number");
+            dataGridView3.Columns.Add("FunctionName", "Function Number");
+            dataGridView3.Columns.Add("ModuleName", "Module Number");
             dataGridView3.Columns.Add("StaffName", "Staff Name");
             dataGridView3.Columns.Add("CategoryName", "Category Name");
             dataGridView3.Columns.Add("CategoryTime", "Category Time");
+            dataGridView3.Columns.Add("ModuleTip", "Module Tip");
             // DataGridView kontrolünüze bir buton sütunu ekleyin.
             DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
             buttonColumn.HeaderText = "SİL"; // Sütun başlığı
@@ -202,7 +208,8 @@ namespace FonksiyonOlusturma
                             a.ModuleName,
                             a.StaffName,
                             a.CategoryName,
-                            a.CategoryTime
+                            a.CategoryTime,
+                            a.ModuleTip
                         })
                         .ToList();
 
@@ -216,7 +223,9 @@ namespace FonksiyonOlusturma
                             assignment.ModuleName,
                             assignment.StaffName,
                             assignment.CategoryName,
-                            assignment.CategoryTime
+                            assignment.CategoryTime,
+                            assignment.ModuleTip
+
                         );
                     }
                 }
@@ -244,11 +253,11 @@ namespace FonksiyonOlusturma
                     .Select(a => new
                     {
                         StaffName = a.StaffName,
-                        CategoryTime = TimeSpan.FromTicks(a.CategoryTime.Ticks)
+                        CategoryTime = a.CategoryTime
                     })
                     .ToList();
 
-                TimeSpan totalCategoryTime = TimeSpan.Zero;
+                int totalCategoryTime = 0;
 
                 foreach (var assignment in assignmentsForStaff)
                 {

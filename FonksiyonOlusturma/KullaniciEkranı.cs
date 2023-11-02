@@ -19,38 +19,94 @@ namespace FonksiyonOlusturma
         {
             dbContext = new MyDbContext();
             InitializeComponent();
-            FillComboBox();
+            yükle();
 
         }
-        TimeSpan kolon4Verisi;
-        private void FillComboBox()
-        {
-            // Staffs tablosundan StaffName alanını çekerek ComboBox'ı doldurun
-            var staffNames = dbContext.staffs.Select(s => s.StaffName).ToList();
+        int kolon4Verisi;
 
-            // ComboBox'a verileri ekleyin
-            comboBox1.DataSource = staffNames;
-        }
+        DataTable table = new DataTable();
         public void yükle()
         {
-            using (var dbContext = new MyDbContext())
+            table.Columns.Add("System Number");
+            table.Columns.Add("Project Number");
+            table.Columns.Add("Function Number");
+            table.Columns.Add("Module Number");
+            table.Columns.Add("Category Name");
+            table.Columns.Add("Category Time");
+            table.Columns.Add("Staff Name");
+            table.Columns.Add("Module Tip");
+            table.Columns.Add("Status");
+
+
+
+            var query = dbContext.assignments
+                .Where(a => a.Status != "False")
+                .Select(a => new
+                {
+                    SystemName = a.SystemName,
+                    ProjectName = a.ProjectName,
+                    FunctionName = a.FunctionName,
+                    ModuleName = a.ModuleName,
+                    ModuleTip = a.ModuleTip,
+                    CategoryTime = a.CategoryTime,
+                    StaffName = a.StaffName,
+                    CategoryName = a.CategoryName,
+                    Status = a.Status,
+
+                })
+                .Distinct()
+                .ToList();
+
+            if (query.Any())
             {
-                string selectedStaffName = comboBox1.SelectedItem?.ToString(); // ?. operatörü, null değilse devam etmek için kullanılır.
+                foreach (var item in query)
+                {
+                    var latestStatus = dbContext.status
+                        .Where(a => a.ProjectName == item.ProjectName &&
+                                    a.FunctionName == item.FunctionName &&
+                                    a.ModuleName == item.ModuleName &&
+                                    a.ModuleTip == item.ModuleTip &&
+                                    a.CategoryTime == item.CategoryTime)
+                        .OrderByDescending(a => a.StatusTime) // StatusTime'a göre sırala
+                        .ToList();
 
-                var query = dbContext.assignments
-                    .Where(a => a.StaffName == selectedStaffName && a.Status != "False")
-                    .Select(a => new
+
+                    if (latestStatus != null)
                     {
-                        ProjectName = a.ProjectName,
-                        FunctionName = a.FunctionName,
-                        ModuleName = a.ModuleName,
-                        CategoryTime = a.CategoryTime, // "CategoryTime" sütunu doğru veri tipine sahip olduğu için düzeltildi.
-                    })
-                    .Distinct()
-                    .ToList();
-
-                dataGridView1.DataSource = query;
+                        table.Rows.Add(
+                            item.SystemName,
+                            item.ProjectName,
+                            item.FunctionName,
+                            item.ModuleName,
+                            item.CategoryName,
+                            item.CategoryTime,
+                            item.StaffName,
+                            item.ModuleTip,
+                            latestStatus
+                        );
+                    }
+                    else
+                    {
+                        table.Rows.Add(
+                            item.SystemName,
+                            item.ProjectName,
+                            item.FunctionName,
+                            item.ModuleName,
+                            item.CategoryName,
+                            item.CategoryTime,
+                            item.StaffName,
+                            item.ModuleTip,
+                            "Bekliyor"
+                        );
+                    }
+                }
             }
+
+
+
+
+            advancedDataGridView1.DataSource = table;
+
 
             textBox2.Clear();
 
@@ -64,15 +120,17 @@ namespace FonksiyonOlusturma
         {
             yükle();
         }
+        string staffname;
+        string moduleTip;
         private void button1_Click(object sender, EventArgs e)
         {
 
-            string staffName = comboBox1.SelectedItem as string;
+
             string projectName = textBox2.Text.ToString();
             string functionName = textBox3.Text.ToString();
             string moduleName = textBox4.Text.ToString();
 
-            if (!string.IsNullOrEmpty(staffName) &&
+            if (!string.IsNullOrEmpty(staffname) &&
                 !string.IsNullOrEmpty(projectName) &&
                 !string.IsNullOrEmpty(functionName) &&
                 !string.IsNullOrEmpty(moduleName))
@@ -80,13 +138,15 @@ namespace FonksiyonOlusturma
                 // Status tablosuna yeni bir kayıt ekleyin
                 Status newStatus = new Status
                 {
-                    StaffName = staffName,
-                    ProjectName = projectName,
-                    FunctionName = functionName,
                     ModuleName = moduleName,
+                    FunctionName = functionName,
+                    ProjectName = projectName,
+                    StaffName = staffname,
                     CategoryTime = kolon4Verisi,
                     StatusName = "Başla",
-                    StatusTime = DateTime.Now
+                    StatusTime = DateTime.Now,
+                    ModuleTip = moduleTip
+
                 };
 
                 dbContext.status.Add(newStatus);
@@ -122,9 +182,9 @@ namespace FonksiyonOlusturma
 
             comboBox.Items.AddRange(new string[]
             {
-                    "Yorgunluk",
-                    "Acil iş",
-                    "Öğle yemeği",
+                    "Mesai Bitimi",
+                    "İş değişimi(Tanımlı)",
+                    "Eğitim",
                     "Toplantı",
                     "Diğer"
             });
@@ -144,7 +204,7 @@ namespace FonksiyonOlusturma
                 {
                     MessageBox.Show($"Ara verme sebebi: {selectedReason}\nAra vermek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo);
                     // ComboBox'lardan seçilen değerleri alın
-                    string staffName = comboBox1.SelectedItem as string;
+                    string staffName =staffname;
                     string projectName = textBox2.Text.ToString();
                     string functionName = textBox3.Text.ToString();
                     string moduleName = textBox4.Text.ToString();
@@ -165,7 +225,8 @@ namespace FonksiyonOlusturma
                             CategoryTime = kolon4Verisi,
                             StatusName = "Araver",
                             StatusTime = DateTime.Now,
-                            popup = comboBox.Text
+                            popup = comboBox.Text,
+                            ModuleTip=moduleTip
                         };
 
                         dbContext.status.Add(newStatus);
@@ -174,16 +235,9 @@ namespace FonksiyonOlusturma
                         MessageBox.Show("Araverildi.");
                         UpdateButtonVisibleState();
                     }
-                    else
-                    {
-                        MessageBox.Show("Lütfen tüm ComboBox'ları doldurun.");
-                    }
 
                 }
-                else
-                {
-                    MessageBox.Show("Lütfen bir ara verme sebebi seçin.", "Hata", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                }
+
 
                 sebepSecimiForm.Close();
             };
@@ -199,7 +253,7 @@ namespace FonksiyonOlusturma
         {
 
             // ComboBox'lardan seçilen değerleri alın
-            string staffName = comboBox1.SelectedItem as string;
+            string staffName = staffname;
             string projectName = textBox2.Text;
             string functionName = textBox3.Text;
             string moduleName = textBox4.Text;
@@ -220,7 +274,8 @@ namespace FonksiyonOlusturma
                         ModuleName = moduleName,
                         CategoryTime = kolon4Verisi,
                         StatusName = "Bitti",
-                        StatusTime = DateTime.Now
+                        StatusTime = DateTime.Now,
+                        ModuleTip= moduleTip
                     };
 
                     dbContext.status.Add(newStatus);
@@ -259,7 +314,7 @@ namespace FonksiyonOlusturma
         {
             using (var dbContext = new MyDbContext())
             {
-                string staffName = comboBox1.SelectedItem?.ToString();
+                string staffName =staffname;
                 string selectedProjectName = textBox2.Text.ToString();
                 string selectedFunctionName = textBox3.Text.ToString();
                 string selectedModuleName = textBox4.Text.ToString();
@@ -439,58 +494,23 @@ namespace FonksiyonOlusturma
             }
         }
 
-        private void dataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+        private void advancedDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0) // Geçerli bir satır tıklanmış mı kontrolü
             {
-                DataGridViewRow selectedRow = dataGridView1.Rows[e.RowIndex];
+                DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
                 // Eğer DataGridView'da daha fazla sütununuz varsa, sütun indekslerini düzenleyin
-                string kolon1Verisi = selectedRow.Cells["ProjectName"].Value.ToString();
-                string kolon2Verisi = selectedRow.Cells["FunctionName"].Value.ToString();
-                string kolon3Verisi = selectedRow.Cells["ModuleName"].Value.ToString();
-                if (selectedRow.Cells["CategoryTime"].Value is TimeSpan)
-                {
-                    kolon4Verisi = (TimeSpan)selectedRow.Cells["CategoryTime"].Value;
-                }
-                else
-                {
-                    // Eğer CategoryTime sütunu TimeSpan türünde değilse, bir hata işleme ekleyebilirsiniz.
-                    MessageBox.Show("CategoryTime sütunu TimeSpan türünde bir veri içermiyor.");
-                }
+                string kolon1Verisi = selectedRow.Cells["Project Number"].Value.ToString();
+                string kolon2Verisi = selectedRow.Cells["Function Number"].Value.ToString();
+                string kolon3Verisi = selectedRow.Cells["Module Number"].Value.ToString();
+                kolon4Verisi =Convert.ToInt32( selectedRow.Cells["Category Time"].Value.ToString());
+                staffname = selectedRow.Cells["Staff Name"].Value.ToString();
+                moduleTip = selectedRow.Cells["Module Tip"].Value.ToString();
 
                 // TextBox'lara verileri yaz
                 textBox2.Text = kolon1Verisi;
                 textBox3.Text = kolon2Verisi;
                 textBox4.Text = kolon3Verisi;
-
-                //// Daha fazla TextBox kontrolünüz varsa, bu şekilde devam edebilirsiniz
-                //DateTime baslangicZamani = DateTime.Now; // Varsayılan olarak şu anın zamanı
-                
-                //// Status tablosundan veriyi alın
-                //var statusKaydi = dbContext.status.Where(s => s.ProjectName == kolon1Verisi && s.FunctionName == kolon2Verisi && s.ModuleName == kolon3Verisi).FirstOrDefault();
-
-                //int progressValueAdet3 = 0;
-
-                //if (statusKaydi != null)
-                //{
-                //    baslangicZamani = statusKaydi.StatusTime; // Status tablosundan başlama zamanını alın
-
-                //    // Şu an ile başlangıç zamanı arasındaki farkı hesaplayın
-                //    TimeSpan gecenSure = DateTime.Now - baslangicZamani;
-
-                //    // CategoryTime'dan gecen süreyi çıkartın
-                //    TimeSpan kalanSure = statusKaydi.CategoryTime - gecenSure;
-
-                //    // ProgressBar'a yansıtın
-                //    if (kalanSure.TotalMilliseconds > 0)
-                //    {
-                //        double adet3Ratio = kalanSure.TotalMilliseconds / statusKaydi.CategoryTime.TotalMilliseconds;
-                //        progressValueAdet3 = (int)(adet3Ratio * 100);
-                //        progressValueAdet3 = Math.Min(progressValueAdet3, 100); // En fazla %100 olabilir
-                //    }
-                //}
-
-                //dataGridView2.Rows.Add(progressValueAdet3);
             }
         }
     }
