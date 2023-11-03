@@ -19,6 +19,7 @@ namespace FonksiyonOlusturma
         {
             dbContext = new MyDbContext();
             InitializeComponent();
+
         }
 
         private void button1_Click(object sender, EventArgs e)
@@ -70,7 +71,8 @@ namespace FonksiyonOlusturma
 
         private void UygunOlmayanlar_Load(object sender, EventArgs e)
         {
-
+            var hatatipi = dbContext.hataGruplars.Select(a => a.HataTipi).ToList();
+            comboBox2.DataSource = hatatipi;
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -105,9 +107,7 @@ namespace FonksiyonOlusturma
 
         }
 
-        private void button3_Click(object sender, EventArgs e)
-        {
-        }
+
 
         private void button3_Click_1(object sender, EventArgs e)
         {

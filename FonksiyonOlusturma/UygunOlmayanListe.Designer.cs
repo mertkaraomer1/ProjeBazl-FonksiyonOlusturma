@@ -58,6 +58,7 @@
             advancedDataGridView1.Size = new Size(1865, 900);
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             advancedDataGridView1.TabIndex = 2;
+            advancedDataGridView1.CellDoubleClick += advancedDataGridView1_CellDoubleClick;
             // 
             // UygunOlmayanListe
             // 

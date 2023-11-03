@@ -14,6 +14,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FonksiyonOlusturma
 {
@@ -119,7 +120,20 @@ namespace FonksiyonOlusturma
             advancedDataGridView1.DataSource = table;
 
         }
+        Resim rs;
+        private void advancedDataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
+        {
+            if (e.RowIndex >= 0 && e.ColumnIndex == 1)
+            {
 
+                Resim RS = new Resim();
 
+                DataGridViewCell clickedCell = advancedDataGridView1.Rows[e.RowIndex].Cells[12]; // Tıklanan hücreyi al
+                string cellValue = clickedCell.Value.ToString();
+                RS.picturebox132 = cellValue;
+                RS.Show();
+
+            }
+        }
     }
 }
