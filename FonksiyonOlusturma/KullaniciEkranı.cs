@@ -27,17 +27,22 @@ namespace FonksiyonOlusturma
         DataTable table = new DataTable();
         public void yükle()
         {
-            table.Columns.Add("System Number");
-            table.Columns.Add("Project Number");
-            table.Columns.Add("Function Number");
-            table.Columns.Add("Module Number");
-            table.Columns.Add("Category Name");
-            table.Columns.Add("Category Time");
-            table.Columns.Add("Staff Name");
-            table.Columns.Add("Module Tip");
-            table.Columns.Add("Status");
-
-
+            advancedDataGridView1.Columns.Clear();
+            table.Rows.Clear();
+            table.Columns.Clear();
+            if (table.Columns.Count == 0)
+            {
+                table.Columns.Add("System Number");
+                table.Columns.Add("Project Number");
+                table.Columns.Add("Function Number");
+                table.Columns.Add("Module Number");
+                table.Columns.Add("Category Name");
+                table.Columns.Add("Category Time");
+                table.Columns.Add("Staff Name");
+                table.Columns.Add("Module Tip");
+                table.Columns.Add("Status");
+                table.Columns.Add("Ara Süresi");
+            }
 
             var query = dbContext.assignments
                 .Where(a => a.Status != "False")
@@ -52,9 +57,7 @@ namespace FonksiyonOlusturma
                     StaffName = a.StaffName,
                     CategoryName = a.CategoryName,
                     Status = a.Status,
-
                 })
-                .Distinct()
                 .ToList();
 
             if (query.Any())
@@ -65,28 +68,75 @@ namespace FonksiyonOlusturma
                         .Where(a => a.ProjectName == item.ProjectName &&
                                     a.FunctionName == item.FunctionName &&
                                     a.ModuleName == item.ModuleName &&
-                                    a.ModuleTip == item.ModuleTip &&
-                                    a.CategoryTime == item.CategoryTime)
-                        .OrderByDescending(a => a.StatusTime) // StatusTime'a göre sırala
-                        .ToList();
+                                    a.ModuleTip == item.ModuleTip)
+                        .Select(a => new
+                        {
+                            statusName = a.StatusName,
+                            statusTime = a.StatusTime
+                        })
+                        .OrderByDescending(a => a.statusTime)
+                        .FirstOrDefault();
 
+                    var latestAraVerStatus = dbContext.status
+                        .Where(a => a.ProjectName == item.ProjectName &&
+                                    a.FunctionName == item.FunctionName &&
+                                    a.ModuleName == item.ModuleName &&
+                                    a.ModuleTip == item.ModuleTip &&
+                                    a.StatusName == "Araver")
+                        .Select(a => new
+                        {
+                            statusTime = a.StatusTime
+                        })
+                        .OrderByDescending(a => a.statusTime)
+                        .FirstOrDefault();
 
                     if (latestStatus != null)
                     {
-                        table.Rows.Add(
-                            item.SystemName,
-                            item.ProjectName,
-                            item.FunctionName,
-                            item.ModuleName,
-                            item.CategoryName,
-                            item.CategoryTime,
-                            item.StaffName,
-                            item.ModuleTip,
-                            latestStatus
-                        );
+                        // Veri bulunduğunda en son statusun zamanını al
+                        DateTime latestStatusTime = latestStatus.statusTime;
+
+                        if (latestAraVerStatus != null)
+                        {
+                            // Araver'deki zamanı al
+                            DateTime araverTime = latestAraVerStatus.statusTime;
+
+                            // Farkı hesapla
+                            TimeSpan timeDifference = latestStatusTime - araverTime;
+
+                            // Farkı datagridview'e yazdır
+                            table.Rows.Add(
+                                item.SystemName,
+                                item.ProjectName,
+                                item.FunctionName,
+                                item.ModuleName,
+                                item.CategoryName,
+                                item.CategoryTime,
+                                item.StaffName,
+                                item.ModuleTip,
+                                latestStatus.statusName,
+                               timeDifference.TotalMinutes.ToString("0.00") + " dakika"
+                            );
+                        }
+                        else
+                        {
+                            // Araver verisi bulunamadığında "Bekliyor" yazdır
+                            table.Rows.Add(
+                                item.SystemName,
+                                item.ProjectName,
+                                item.FunctionName,
+                                item.ModuleName,
+                                item.CategoryName,
+                                item.CategoryTime,
+                                item.StaffName,
+                                item.ModuleTip,
+                                latestStatus.statusName,
+                                "Ara Verilmedi..."
+                            );
+                        }
                     }
                     else
                     {
+                        // Veri bulunamadığında "Devam Ediyor" yazdır
                         table.Rows.Add(
                             item.SystemName,
                             item.ProjectName,
@@ -96,11 +146,14 @@ namespace FonksiyonOlusturma
                             item.CategoryTime,
                             item.StaffName,
                             item.ModuleTip,
-                            "Bekliyor"
+                            "Bekliyor...",
+                            "Bekliyor..."
                         );
                     }
                 }
             }
+
+
 
 
 
@@ -116,10 +169,7 @@ namespace FonksiyonOlusturma
             UpdateButtonVisibleState();
         }
 
-        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            yükle();
-        }
+
         string staffname;
         string moduleTip;
         private void button1_Click(object sender, EventArgs e)
@@ -154,6 +204,7 @@ namespace FonksiyonOlusturma
 
                 MessageBox.Show("Başlandı.");
                 UpdateButtonVisibleState();
+                yükle();
             }
             else
             {
@@ -204,7 +255,7 @@ namespace FonksiyonOlusturma
                 {
                     MessageBox.Show($"Ara verme sebebi: {selectedReason}\nAra vermek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo);
                     // ComboBox'lardan seçilen değerleri alın
-                    string staffName =staffname;
+                    string staffName = staffname;
                     string projectName = textBox2.Text.ToString();
                     string functionName = textBox3.Text.ToString();
                     string moduleName = textBox4.Text.ToString();
@@ -226,7 +277,7 @@ namespace FonksiyonOlusturma
                             StatusName = "Araver",
                             StatusTime = DateTime.Now,
                             popup = comboBox.Text,
-                            ModuleTip=moduleTip
+                            ModuleTip = moduleTip
                         };
 
                         dbContext.status.Add(newStatus);
@@ -234,6 +285,7 @@ namespace FonksiyonOlusturma
 
                         MessageBox.Show("Araverildi.");
                         UpdateButtonVisibleState();
+                        yükle();
                     }
 
                 }
@@ -275,7 +327,7 @@ namespace FonksiyonOlusturma
                         CategoryTime = kolon4Verisi,
                         StatusName = "Bitti",
                         StatusTime = DateTime.Now,
-                        ModuleTip= moduleTip
+                        ModuleTip = moduleTip
                     };
 
                     dbContext.status.Add(newStatus);
@@ -314,7 +366,7 @@ namespace FonksiyonOlusturma
         {
             using (var dbContext = new MyDbContext())
             {
-                string staffName =staffname;
+                string staffName = staffname;
                 string selectedProjectName = textBox2.Text.ToString();
                 string selectedFunctionName = textBox3.Text.ToString();
                 string selectedModuleName = textBox4.Text.ToString();
@@ -395,11 +447,7 @@ namespace FonksiyonOlusturma
             groupBox2.Visible = false;
         }
 
-        private void comboBox4_SelectedIndexChanged(object sender, EventArgs e)
-        {
 
-            UpdateButtonVisibleState();
-        }
 
         private void checkBox1_CheckedChanged(object sender, EventArgs e)
         {
@@ -503,7 +551,7 @@ namespace FonksiyonOlusturma
                 string kolon1Verisi = selectedRow.Cells["Project Number"].Value.ToString();
                 string kolon2Verisi = selectedRow.Cells["Function Number"].Value.ToString();
                 string kolon3Verisi = selectedRow.Cells["Module Number"].Value.ToString();
-                kolon4Verisi =Convert.ToInt32( selectedRow.Cells["Category Time"].Value.ToString());
+                kolon4Verisi = Convert.ToInt32(selectedRow.Cells["Category Time"].Value.ToString());
                 staffname = selectedRow.Cells["Staff Name"].Value.ToString();
                 moduleTip = selectedRow.Cells["Module Tip"].Value.ToString();
 
@@ -511,6 +559,7 @@ namespace FonksiyonOlusturma
                 textBox2.Text = kolon1Verisi;
                 textBox3.Text = kolon2Verisi;
                 textBox4.Text = kolon3Verisi;
+                UpdateButtonVisibleState();
             }
         }
     }
