@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Rapor));
             treeView1 = new TreeView();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
@@ -68,6 +69,7 @@
             ClientSize = new Size(1902, 1033);
             Controls.Add(advancedDataGridView1);
             Controls.Add(treeView1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Rapor";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Rapor";

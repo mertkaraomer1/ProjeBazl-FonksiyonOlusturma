@@ -7,10 +7,10 @@ using System.Data.SqlClient;
 
 namespace FonksiyonOlusturma
 {
-    public partial class Form1 : Form
+    public partial class Projeler : Form
     {
         private MyDbContext dbContext;
-        public Form1()
+        public Projeler()
         {
             dbContext = new MyDbContext();
             InitializeComponent();
@@ -55,7 +55,7 @@ namespace FonksiyonOlusturma
                                 var yeniProje = new Projects
                                 {
                                     ProjectName = projectName,
-                                    ProjectDescription=projectDescription,
+                                    ProjectDescription = projectDescription,
                                     SystemId = systemId // SystemId'yi atayýn
                                                         // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
                                 };
@@ -144,7 +144,7 @@ namespace FonksiyonOlusturma
                         int rowNumber = 1;
                         foreach (var projectName in projectNames)
                         {
-                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName,projectName.ProjectDescription);
+                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName, projectName.ProjectDescription);
 
                             rowNumber++;
                         }

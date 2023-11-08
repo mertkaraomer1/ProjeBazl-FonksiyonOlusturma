@@ -192,7 +192,7 @@ namespace FonksiyonOlusturma
                             bittiDifference.Days, bittiDifference.Hours, bittiDifference.Minutes) :
                         "Devam Ediyor...";
 
-                    if (latestStatus.statusName=="Başla")
+                    if (latestStatus.statusName == "Başla")
                     {
                         // Farkı datagridview'e yazdır
                         table.Rows.Add(
@@ -209,7 +209,7 @@ namespace FonksiyonOlusturma
                             bittiDifferenceString
                         );
                     }
-                    else if (latestStatus.statusName=="Araver")
+                    else if (latestStatus.statusName == "Araver")
                     {
                         // Farkı datagridview'e yazdır
                         table.Rows.Add(
@@ -226,7 +226,7 @@ namespace FonksiyonOlusturma
                             bittiDifferenceString
                         );
                     }
-                    else if(latestStatus.statusName == "Bitti")
+                    else if (latestStatus.statusName == "Bitti")
                     {
                         // Farkı datagridview'e yazdır
                         table.Rows.Add(

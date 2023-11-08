@@ -59,8 +59,8 @@ namespace FonksiyonOlusturma
             {
                 string searchText1 = textBox1.Text; // TextBox1'den gelen veriyi alın
                 string searchText5 = textBox5.Text;
-                string searchText2= textBox2.Text;
-               
+                string searchText2 = textBox2.Text;
+
                 var systemIds = dbContext.systems
                     .Where(p => p.SystemName == searchText5)
                     .Select(p => p.SystemId)
@@ -68,13 +68,13 @@ namespace FonksiyonOlusturma
 
                 // TextBox1'deki veriyi Projects tablosundaki ProjectName ile eşleştirin ve ProjectId'leri alın
                 var projectIds = dbContext.projects
-                    .Where(p =>systemIds.Contains(p.SystemId) && p.ProjectName==searchText1)
+                    .Where(p => systemIds.Contains(p.SystemId) && p.ProjectName == searchText1)
                     .Select(p => p.ProjectId)
                     .ToList();
 
 
                 var functionIds = dbContext.functions
-                    .Where(f => projectIds.Contains(f.ProjectId) && f.FunctionName==searchText2)
+                    .Where(f => projectIds.Contains(f.ProjectId) && f.FunctionName == searchText2)
                     .Select(f => f.FunctionId)
                     .ToList();
 
@@ -85,7 +85,7 @@ namespace FonksiyonOlusturma
                     {
                         moduleName = m.ModuleName,
                         moduleDescription = m.ModuleDescription,
-                        modultip=m.ModuleTip
+                        modultip = m.ModuleTip
                     })
                     .ToList();
 
@@ -255,7 +255,7 @@ namespace FonksiyonOlusturma
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-          
+
             // TextBox'tan gelen verileri kullanarak ProjectId ve FunctionId'yi bulun
             string projectName = textBox1.Text;
             string functionName = textBox2.Text;

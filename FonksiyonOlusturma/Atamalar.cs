@@ -68,7 +68,7 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Add("CategoryTime", "Category Time");
             dataGridView1.Columns.Add("ModuleTip", "ModuleTip");
             string selectedProjectName = comboBox5.Text; // ComboBox5'ten seçilen ProjectName'i alın
-            string selectedSystemName=comboBox1.Text;
+            string selectedSystemName = comboBox1.Text;
             // Filter Records tablosunu sadece seçilen ProjectName ile eşleşen kayıtlarla sınırlayın
             var matchingRecords = dbContext.records
                 .Where(r => r.ProjectName == selectedProjectName)
@@ -87,8 +87,8 @@ namespace FonksiyonOlusturma
                                          a.FunctionName == record.FunctionName &&
                                          a.ModuleName == record.ModuleName &&
                                          a.CategoryName == record.CategoryName &&
-                                         a.CategoryTime == record.CategoryTime&&
-                                         a.ModuleTip==record.ModuleTip);
+                                         a.CategoryTime == record.CategoryTime &&
+                                         a.ModuleTip == record.ModuleTip);
 
                 // Eşleşen bir Assignment kaydı bulunmazsa, DataGridView'e ekleyin
                 if (matchingAssignment == null)
@@ -106,7 +106,7 @@ namespace FonksiyonOlusturma
             }
 
 
-            var staffNames = dbContext.staffs.Select(c=>c.StaffName).ToList();
+            var staffNames = dbContext.staffs.Select(c => c.StaffName).ToList();
 
             DataGridViewComboBoxColumn comboBoxColumn = new DataGridViewComboBoxColumn();
             comboBoxColumn.Name = "StaffNameColumn";
@@ -145,7 +145,7 @@ namespace FonksiyonOlusturma
                             CategoryName = row.Cells[4].Value.ToString(),
                             Status = "True",
                             ModuleTip = row.Cells[6].Value.ToString()
-                            
+
                         };
                         assignments.Add(assignment);
                     }

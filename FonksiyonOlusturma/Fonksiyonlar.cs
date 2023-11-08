@@ -101,7 +101,7 @@ namespace FonksiyonOlusturma
 
                     // Üçüncü sütunu (FONKSİYON AÇIKLAMASI) fonksiyon açıklaması olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = function.FunctionDescription });
-       
+
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
 

@@ -42,7 +42,7 @@ namespace FonksiyonOlusturma
                             var yeniSistem = new Systems
                             {
                                 SystemName = sistemKodu,
-                                SystemDescription=MüsteriAdi
+                                SystemDescription = MüsteriAdi
                                 // Diğer alanlara da değer atayabilirsiniz, gerekirse.
                             };
                             dbContext.systems.Add(yeniSistem); // Yeni sistem nesnesini Systems tablosuna ekleyin
@@ -118,18 +118,18 @@ namespace FonksiyonOlusturma
             }
 
         }
-        public Form1 F1;
+        public Projeler F1;
         private void dataGridView1_CellDoubleClick(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0 && e.ColumnIndex == 1)
             {
                 if (F1 == null || F1.IsDisposed)
                 {
-                    F1 = new Form1();
+                    F1 = new Projeler();
                     DataGridViewCell clickedCell = dataGridView1.Rows[e.RowIndex].Cells[e.ColumnIndex];
                     string systemDescription = dataGridView1.Rows[e.RowIndex].Cells[2].Value.ToString();
                     string cellValue = clickedCell.Value.ToString();
-                    F1.SystemDescription1=systemDescription;
+                    F1.SystemDescription1 = systemDescription;
                     F1.TextBoxValue = cellValue; // Form2'deki TextBox'a değeri aktar
                     F1.Show();
                 }

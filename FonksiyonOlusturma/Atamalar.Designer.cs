@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Atamalar));
             groupBox1 = new GroupBox();
             comboBox1 = new ComboBox();
             comboBox5 = new ComboBox();
@@ -165,6 +166,7 @@
             Controls.Add(dataGridView2);
             Controls.Add(button1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Atamalar";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Atamalar";

@@ -31,17 +31,6 @@ namespace FonksiyonOlusturma
 
         }
 
-        private void button4_Click(object sender, EventArgs e)
-        {
-            AtananIsler AI = new AtananIsler();
-            AI.Show();
-        }
-
-        private void button5_Click(object sender, EventArgs e)
-        {
-            UygunOlmayanlar uygunOlmayanlar = new UygunOlmayanlar();
-            uygunOlmayanlar.Show();
-        }
 
         private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
         {

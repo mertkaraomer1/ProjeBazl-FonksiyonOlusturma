@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Modul));
             groupBox1 = new GroupBox();
             label6 = new Label();
             textBox5 = new TextBox();
@@ -217,6 +218,7 @@
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Modul";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Modul";

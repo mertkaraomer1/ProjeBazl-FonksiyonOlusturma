@@ -1,6 +1,6 @@
 ﻿namespace FonksiyonOlusturma
 {
-    partial class Form1
+    partial class Projeler
     {
         /// <summary>
         ///  Required designer variable.
@@ -28,7 +28,10 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Projeler));
             groupBox1 = new GroupBox();
+            textBox3 = new TextBox();
+            label4 = new Label();
             comboBox1 = new ComboBox();
             label1 = new Label();
             button1 = new Button();
@@ -38,8 +41,6 @@
             label3 = new Label();
             textBox1 = new TextBox();
             label2 = new Label();
-            label4 = new Label();
-            textBox3 = new TextBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -58,6 +59,22 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje";
+            // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(106, 72);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(187, 27);
+            textBox3.TabIndex = 4;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Location = new Point(19, 78);
+            label4.Name = "label4";
+            label4.Size = new Size(81, 20);
+            label4.TabIndex = 3;
+            label4.Text = "Proje Adı :";
             // 
             // comboBox1
             // 
@@ -150,23 +167,7 @@
             label2.TabIndex = 1;
             label2.Text = "Sistem Kodu :";
             // 
-            // label4
-            // 
-            label4.AutoSize = true;
-            label4.Location = new Point(19, 78);
-            label4.Name = "label4";
-            label4.Size = new Size(81, 20);
-            label4.TabIndex = 3;
-            label4.Text = "Proje Adı :";
-            // 
-            // textBox3
-            // 
-            textBox3.Location = new Point(106, 72);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(187, 27);
-            textBox3.TabIndex = 4;
-            // 
-            // Form1
+            // Projeler
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
@@ -176,9 +177,10 @@
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
             Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            Name = "Form1";
+            Icon = (Icon)resources.GetObject("$this.Icon");
+            Name = "Projeler";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
+            Text = "Projeler";
             Load += Form1_Load;
             groupBox1.ResumeLayout(false);
             groupBox1.PerformLayout();

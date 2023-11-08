@@ -119,7 +119,7 @@ namespace FonksiyonOlusturma
                         }
                         else
                         {
-                            
+
                             table.Rows.Add(
                                 item.SystemName,
                                 item.ProjectName,
@@ -136,7 +136,7 @@ namespace FonksiyonOlusturma
                     }
                     else
                     {
-                       
+
                         table.Rows.Add(
                             item.SystemName,
                             item.ProjectName,
@@ -376,7 +376,7 @@ namespace FonksiyonOlusturma
                             s.FunctionName == selectedFunctionName &&
                             s.ModuleName == selectedModuleName &&
                             s.StaffName == staffName)
-                        .OrderByDescending(s => s.StatusTime).Select(s=>s.StatusName)
+                        .OrderByDescending(s => s.StatusTime).Select(s => s.StatusName)
                         .FirstOrDefault();
 
                     if (lastStatusTime != null)
@@ -538,7 +538,7 @@ namespace FonksiyonOlusturma
             }
         }
 
-  
+
 
         private void advancedDataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {

@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KullaniciEkranı));
             groupBox1 = new GroupBox();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             label6 = new Label();
@@ -255,6 +256,7 @@
             ClientSize = new Size(1902, 1033);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "KullaniciEkranı";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "KullaniciEkranı";

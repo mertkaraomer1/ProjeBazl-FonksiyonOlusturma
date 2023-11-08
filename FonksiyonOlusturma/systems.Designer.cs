@@ -28,13 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(systems));
             dataGridView1 = new DataGridView();
             groupBox1 = new GroupBox();
+            textBox2 = new TextBox();
+            label2 = new Label();
             textBox1 = new TextBox();
             label1 = new Label();
             button1 = new Button();
-            textBox2 = new TextBox();
-            label2 = new Label();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox1.SuspendLayout();
             SuspendLayout();
@@ -71,6 +72,22 @@
             groupBox1.TabStop = false;
             groupBox1.Text = "Sistem";
             // 
+            // textBox2
+            // 
+            textBox2.Location = new Point(106, 59);
+            textBox2.Name = "textBox2";
+            textBox2.Size = new Size(206, 27);
+            textBox2.TabIndex = 4;
+            // 
+            // label2
+            // 
+            label2.AutoSize = true;
+            label2.Location = new Point(7, 62);
+            label2.Name = "label2";
+            label2.Size = new Size(92, 20);
+            label2.TabIndex = 3;
+            label2.Text = "Sistem Adı :";
+            // 
             // textBox1
             // 
             textBox1.Location = new Point(106, 26);
@@ -97,22 +114,6 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // textBox2
-            // 
-            textBox2.Location = new Point(106, 59);
-            textBox2.Name = "textBox2";
-            textBox2.Size = new Size(206, 27);
-            textBox2.TabIndex = 4;
-            // 
-            // label2
-            // 
-            label2.AutoSize = true;
-            label2.Location = new Point(7, 62);
-            label2.Name = "label2";
-            label2.Size = new Size(92, 20);
-            label2.TabIndex = 3;
-            label2.Text = "Sistem Adı :";
-            // 
             // systems
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -121,6 +122,7 @@
             ClientSize = new Size(860, 726);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "systems";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "systems";

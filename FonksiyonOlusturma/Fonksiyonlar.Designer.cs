@@ -28,9 +28,14 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Fonksiyonlar));
             textBox1 = new TextBox();
             label1 = new Label();
             groupBox1 = new GroupBox();
+            textBox5 = new TextBox();
+            label5 = new Label();
+            textBox6 = new TextBox();
+            label6 = new Label();
             textBox4 = new TextBox();
             label4 = new Label();
             dataGridView1 = new DataGridView();
@@ -40,10 +45,6 @@
             textBox3 = new TextBox();
             button3 = new Button();
             textBox2 = new TextBox();
-            textBox5 = new TextBox();
-            label5 = new Label();
-            textBox6 = new TextBox();
-            label6 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -84,6 +85,42 @@
             groupBox1.TabIndex = 4;
             groupBox1.TabStop = false;
             groupBox1.Text = "Proje";
+            // 
+            // textBox5
+            // 
+            textBox5.Enabled = false;
+            textBox5.Location = new Point(132, 59);
+            textBox5.Name = "textBox5";
+            textBox5.Size = new Size(264, 27);
+            textBox5.TabIndex = 8;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label5.Location = new Point(20, 59);
+            label5.Name = "label5";
+            label5.Size = new Size(107, 23);
+            label5.TabIndex = 9;
+            label5.Text = "Sistem Adı :";
+            // 
+            // textBox6
+            // 
+            textBox6.Enabled = false;
+            textBox6.Location = new Point(132, 125);
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(264, 27);
+            textBox6.TabIndex = 6;
+            // 
+            // label6
+            // 
+            label6.AutoSize = true;
+            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
+            label6.Location = new Point(33, 125);
+            label6.Name = "label6";
+            label6.Size = new Size(94, 23);
+            label6.TabIndex = 7;
+            label6.Text = "Proje Adı :";
             // 
             // textBox4
             // 
@@ -176,42 +213,6 @@
             textBox2.Size = new Size(238, 30);
             textBox2.TabIndex = 3;
             // 
-            // textBox5
-            // 
-            textBox5.Enabled = false;
-            textBox5.Location = new Point(132, 59);
-            textBox5.Name = "textBox5";
-            textBox5.Size = new Size(264, 27);
-            textBox5.TabIndex = 8;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.Location = new Point(20, 59);
-            label5.Name = "label5";
-            label5.Size = new Size(107, 23);
-            label5.TabIndex = 9;
-            label5.Text = "Sistem Adı :";
-            // 
-            // textBox6
-            // 
-            textBox6.Enabled = false;
-            textBox6.Location = new Point(132, 125);
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(264, 27);
-            textBox6.TabIndex = 6;
-            // 
-            // label6
-            // 
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label6.Location = new Point(33, 125);
-            label6.Name = "label6";
-            label6.Size = new Size(94, 23);
-            label6.TabIndex = 7;
-            label6.Text = "Proje Adı :";
-            // 
             // Fonksiyonlar
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -221,6 +222,7 @@
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
+            Icon = (Icon)resources.GetObject("$this.Icon");
             Name = "Fonksiyonlar";
             StartPosition = FormStartPosition.CenterScreen;
             Text = "Fonksiyonlar";
