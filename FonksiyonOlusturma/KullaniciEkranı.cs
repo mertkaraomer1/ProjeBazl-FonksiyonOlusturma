@@ -20,7 +20,7 @@ namespace FonksiyonOlusturma
             dbContext = new MyDbContext();
             InitializeComponent();
             yükle();
-
+            advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
         }
         int kolon4Verisi;
 
@@ -119,7 +119,7 @@ namespace FonksiyonOlusturma
                         }
                         else
                         {
-                            // Araver verisi bulunamadığında "Bekliyor" yazdır
+                            
                             table.Rows.Add(
                                 item.SystemName,
                                 item.ProjectName,
@@ -136,7 +136,7 @@ namespace FonksiyonOlusturma
                     }
                     else
                     {
-                        // Veri bulunamadığında "Devam Ediyor" yazdır
+                       
                         table.Rows.Add(
                             item.SystemName,
                             item.ProjectName,
@@ -152,11 +152,6 @@ namespace FonksiyonOlusturma
                     }
                 }
             }
-
-
-
-
-
 
             advancedDataGridView1.DataSource = table;
 
@@ -364,12 +359,13 @@ namespace FonksiyonOlusturma
 
         private void UpdateButtonVisibleState()
         {
+
             using (var dbContext = new MyDbContext())
             {
                 string staffName = staffname;
-                string selectedProjectName = textBox2.Text.ToString();
-                string selectedFunctionName = textBox3.Text.ToString();
-                string selectedModuleName = textBox4.Text.ToString();
+                string selectedProjectName = textBox2.Text;
+                string selectedFunctionName = textBox3.Text;
+                string selectedModuleName = textBox4.Text;
 
                 if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
@@ -380,8 +376,7 @@ namespace FonksiyonOlusturma
                             s.FunctionName == selectedFunctionName &&
                             s.ModuleName == selectedModuleName &&
                             s.StaffName == staffName)
-                        .OrderByDescending(s => s.StatusTime)
-                        .Select(s => s.StatusTime)
+                        .OrderByDescending(s => s.StatusTime).Select(s=>s.StatusName)
                         .FirstOrDefault();
 
                     if (lastStatusTime != null)
@@ -392,27 +387,26 @@ namespace FonksiyonOlusturma
                                 s.ProjectName == selectedProjectName &&
                                 s.FunctionName == selectedFunctionName &&
                                 s.ModuleName == selectedModuleName &&
-                                s.StaffName == staffName &&
-                                s.StatusTime == lastStatusTime)
+                                s.StaffName == staffName) // Burada .StatusTime ile karşılaştırıyoruz
                             .Select(s => s.StatusName)
                             .FirstOrDefault();
 
                         // StatusName'e göre düğme durumlarını ayarla
-                        if (lastStatus == "Bitti")
+                        if (lastStatusTime == "Bitti")
                         {
                             // "Bitti" durumunda tüm düğmeler gizlenmelidir
                             button1.Enabled = false;
                             button2.Enabled = false;
                             button3.Enabled = false;
                         }
-                        else if (lastStatus == "Araver")
+                        else if (lastStatusTime == "Araver")
                         {
                             // "Araver" durumunda button2 ve button3 tıklanamaz
                             button1.Enabled = true; // Button1 etkin
                             button2.Enabled = false;
                             button3.Enabled = false;
                         }
-                        else if (lastStatus == "Başla")
+                        else if (lastStatusTime == "Başla")
                         {
                             // "Başla" durumunda button1 tıklanamaz
                             button1.Enabled = false;
@@ -423,14 +417,14 @@ namespace FonksiyonOlusturma
                     else
                     {
                         // Veri bulunamazsa tüm düğmeler etkin değil
-                        button1.Enabled = false;
+                        button1.Enabled = true;
                         button2.Enabled = false;
                         button3.Enabled = false;
                     }
                 }
                 else
                 {
-                    // ComboBox'lar null ise, tüm düğmeler etkin değil
+
                     button1.Enabled = true;
                     button2.Enabled = false;
                     button3.Enabled = false;
@@ -440,6 +434,8 @@ namespace FonksiyonOlusturma
 
 
         }
+
+
 
         private void KullaniciEkranı_Load(object sender, EventArgs e)
         {
@@ -542,11 +538,14 @@ namespace FonksiyonOlusturma
             }
         }
 
-        private void advancedDataGridView1_CellClick(object sender, DataGridViewCellEventArgs e)
+  
+
+        private void advancedDataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
             if (e.RowIndex >= 0) // Geçerli bir satır tıklanmış mı kontrolü
             {
                 DataGridViewRow selectedRow = advancedDataGridView1.Rows[e.RowIndex];
+
                 // Eğer DataGridView'da daha fazla sütununuz varsa, sütun indekslerini düzenleyin
                 string kolon1Verisi = selectedRow.Cells["Project Number"].Value.ToString();
                 string kolon2Verisi = selectedRow.Cells["Function Number"].Value.ToString();
@@ -559,6 +558,7 @@ namespace FonksiyonOlusturma
                 textBox2.Text = kolon1Verisi;
                 textBox3.Text = kolon2Verisi;
                 textBox4.Text = kolon3Verisi;
+
                 UpdateButtonVisibleState();
             }
         }

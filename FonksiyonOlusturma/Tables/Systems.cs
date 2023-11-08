@@ -11,5 +11,6 @@ namespace FonksiyonOlusturma.Tables
         public int SystemId { get; set; }
         public string SystemName { get; set; }   
         public string SystemDescription { get; set; }
+        public ICollection<Projects> Projects { get; set; }
     }
 }

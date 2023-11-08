@@ -66,6 +66,7 @@
             button2.TabIndex = 9;
             button2.Text = "Rapor";
             button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // button4
             // 

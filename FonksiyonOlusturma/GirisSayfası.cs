@@ -45,7 +45,13 @@ namespace FonksiyonOlusturma
 
         private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
         {
-           e.Cancel = false;
+            e.Cancel = false;
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            Rapor rp = new Rapor();
+            rp.Show();
         }
     }
 }

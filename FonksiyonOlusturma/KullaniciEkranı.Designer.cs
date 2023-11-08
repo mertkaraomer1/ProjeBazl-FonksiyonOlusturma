@@ -86,7 +86,7 @@
             advancedDataGridView1.Size = new Size(1822, 689);
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             advancedDataGridView1.TabIndex = 17;
-            advancedDataGridView1.CellClick += advancedDataGridView1_CellClick;
+            advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
             // 
             // label6
             // 

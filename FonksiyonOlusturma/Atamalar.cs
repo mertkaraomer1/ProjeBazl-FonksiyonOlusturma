@@ -140,10 +140,12 @@ namespace FonksiyonOlusturma
                             ProjectName = row.Cells[1].Value.ToString(),
                             FunctionName = row.Cells[2].Value.ToString(),
                             ModuleName = row.Cells[3].Value.ToString(),
-                            StaffName = row.Cells[6].Value.ToString(),
+                            StaffName = row.Cells[7].Value.ToString(),
                             CategoryTime = categoryTime,
                             CategoryName = row.Cells[4].Value.ToString(),
-                            Status = "True"
+                            Status = "True",
+                            ModuleTip = row.Cells[6].Value.ToString()
+                            
                         };
                         assignments.Add(assignment);
                     }

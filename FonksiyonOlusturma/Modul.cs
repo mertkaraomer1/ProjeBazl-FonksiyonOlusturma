@@ -58,17 +58,23 @@ namespace FonksiyonOlusturma
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
                 string searchText1 = textBox1.Text; // TextBox1'den gelen veriyi alın
-                string searchText2 = textBox2.Text; // TextBox2'den gelen veriyi alın
+                string searchText5 = textBox5.Text;
+                string searchText2= textBox2.Text;
+               
+                var systemIds = dbContext.systems
+                    .Where(p => p.SystemName == searchText5)
+                    .Select(p => p.SystemId)
+                    .ToList();
 
                 // TextBox1'deki veriyi Projects tablosundaki ProjectName ile eşleştirin ve ProjectId'leri alın
                 var projectIds = dbContext.projects
-                    .Where(p => p.ProjectName == searchText1)
+                    .Where(p =>systemIds.Contains(p.SystemId) && p.ProjectName==searchText1)
                     .Select(p => p.ProjectId)
                     .ToList();
 
-                // TextBox2'deki veriyi Functions tablosundaki FunctionName ile eşleştirin ve FunctionId'leri alın
+
                 var functionIds = dbContext.functions
-                    .Where(f => f.FunctionName == searchText2)
+                    .Where(f => projectIds.Contains(f.ProjectId) && f.FunctionName==searchText2)
                     .Select(f => f.FunctionId)
                     .ToList();
 
@@ -136,7 +142,6 @@ namespace FonksiyonOlusturma
                 {
                     using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
                     {
-
                         int functionId = dbContext.functions
                             .Where(f => f.FunctionName == selectedFunctionName)
                             .Select(f => f.FunctionId)
@@ -156,54 +161,71 @@ namespace FonksiyonOlusturma
                             .Select(c => c.CategoryTime)
                             .FirstOrDefault(); // or .SingleOrDefault() if CategoryName is unique
 
+                        // Kontrol etmek için aynı modül adının ve ModuleTip'in mevcut olup olmadığını kontrol edin
+                        bool isModuleExists = dbContext.modules
+                            .Any(m =>
+                                m.ProjectId == projectId &&
+                                m.FunctionId == functionId &&
+                                m.ModuleName == selectedmodulName &&
+                                (m.ModuleTip == "3D" || m.ModuleTip == "2D"));
 
-                        // Moduls tablosuna yeni bir kayıt ekleyin
-                        var yeniModul = new Modules
-                        {
+                        bool isRecordExists = dbContext.records
+                            .Any(r =>
+                                r.ProjectName == selectedProjectName &&
+                                r.FunctionName == selectedFunctionName &&
+                                r.ModuleName == selectedmodulName &&
+                                (r.ModuleTip == "3D" || r.ModuleTip == "2D"));
 
-                            FunctionId = functionId,
-                            ProjectId = projectId,
-                            ModuleName = selectedmodulName,
-                            ModuleDescription = selectedModuleDescription,
-                            CategoryId = CategoryId,
-                            ModuleTip="3D"
-                        };
-                        var RecordEt = new Records
+                        if (!isModuleExists && !isRecordExists)
                         {
-                            SystemName = selectedSistemName,
-                            ProjectName = selectedProjectName,
-                            FunctionName = selectedFunctionName,
-                            ModuleName = selectedmodulName,
-                            CategoryName = selectedCategoryName,
-                            CategoryTime = CategoryTime,
-                            ModuleTip="3D"
-                        };
-                        var yeniModul1 = new Modules
+                            var yeniModul = new Modules
+                            {
+                                FunctionId = functionId,
+                                ProjectId = projectId,
+                                ModuleName = selectedmodulName,
+                                ModuleDescription = selectedModuleDescription,
+                                CategoryId = CategoryId,
+                                ModuleTip = "3D"
+                            };
+                            var RecordEt = new Records
+                            {
+                                SystemName = selectedSistemName,
+                                ProjectName = selectedProjectName,
+                                FunctionName = selectedFunctionName,
+                                ModuleName = selectedmodulName,
+                                CategoryName = selectedCategoryName,
+                                CategoryTime = CategoryTime,
+                                ModuleTip = "3D"
+                            };
+                            var yeniModul1 = new Modules
+                            {
+                                FunctionId = functionId,
+                                ProjectId = projectId,
+                                ModuleName = selectedmodulName,
+                                ModuleDescription = selectedModuleDescription,
+                                CategoryId = CategoryId,
+                                ModuleTip = "2D"
+                            };
+                            var RecordEt1 = new Records
+                            {
+                                SystemName = selectedSistemName,
+                                ProjectName = selectedProjectName,
+                                FunctionName = selectedFunctionName,
+                                ModuleName = selectedmodulName,
+                                CategoryName = selectedCategoryName,
+                                CategoryTime = CategoryTime / 2,
+                                ModuleTip = "2D"
+                            };
+                            dbContext.modules.Add(yeniModul1);
+                            dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
+                            dbContext.records.Add(RecordEt1);
+                            dbContext.records.Add(RecordEt);
+                            dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
+                        }
+                        else
                         {
-
-                            FunctionId = functionId,
-                            ProjectId = projectId,
-                            ModuleName = selectedmodulName,
-                            ModuleDescription = selectedModuleDescription,
-                            CategoryId = CategoryId,
-                            ModuleTip = "2D"
-                        };
-                        var RecordEt1 = new Records
-                        {
-                            SystemName = selectedSistemName,
-                            ProjectName = selectedProjectName,
-                            FunctionName = selectedFunctionName,
-                            ModuleName = selectedmodulName,
-                            CategoryName = selectedCategoryName,
-                            CategoryTime = CategoryTime,
-                            ModuleTip = "2D"
-                        };
-                        dbContext.modules.Add(yeniModul1);
-                        dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
-                        dbContext.records.Add(RecordEt1);
-                        dbContext.records.Add(RecordEt);
-                        dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
-
+                            MessageBox.Show("Bu modül zaten mevcut.");
+                        }
                     }
                 }
                 catch (Exception ex)
@@ -215,6 +237,8 @@ namespace FonksiyonOlusturma
             {
                 MessageBox.Show("Tüm alanları doldurmalısınız.");
             }
+            textBox3.Clear();
+            textBox4.Clear();
             dataGridView1.Columns.Clear();
             dataGridView1.Rows.Clear();
             ModuleGoster();
@@ -231,6 +255,7 @@ namespace FonksiyonOlusturma
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
+          
             // TextBox'tan gelen verileri kullanarak ProjectId ve FunctionId'yi bulun
             string projectName = textBox1.Text;
             string functionName = textBox2.Text;
@@ -256,7 +281,15 @@ namespace FonksiyonOlusturma
                     Modules rowData = new Modules
                     {
                         ModuleName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
-
+                        ModuleTip = dataGridView1.Rows[rowIndex].Cells[3].Value.ToString(),
+                    };
+                    Records recordData = new Records
+                    {
+                        ModuleName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
+                        ProjectName = projectName,
+                        FunctionName = functionName,
+                        SystemName = textBox5.Text,
+                        ModuleTip = dataGridView1.Rows[rowIndex].Cells[3].Value.ToString(), // Value eksikti
                     };
 
                     // Modules tablosundan belirtilen ProjectId, FunctionId ve ModuleName ile eşleşen satırı bulun
@@ -264,50 +297,25 @@ namespace FonksiyonOlusturma
                         .FirstOrDefault(m =>
                             m.ProjectId == projectId &&
                             m.FunctionId == functionId &&
-                            m.ModuleName == rowData.ModuleName
+                            m.ModuleName == rowData.ModuleName &&
+                            m.ModuleTip == rowData.ModuleTip
                         );
 
-                    if (moduleToDelete != null)
-                    {
-                        // Silinecek bir şey var, o zaman silme işlemini gerçekleştirin
-                        dbContext.modules.Remove(moduleToDelete);
-                        dbContext.SaveChanges();
-
-                        // Modules tablosunu güncellemek için kullanılan bir fonksiyonunuzu çağırın
-                        ModuleGoster();
-                    }
-                    else
-                    {
-                        // Silinecek bir şey yoksa hata vermek yerine bir bildirim gösterebilirsiniz
-                        MessageBox.Show("Silinecek bir şey bulunamadı.");
-                    }
-                }
-                // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
-                if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
-                {
-                    Records rowData = new Records
-                    {
-                        ModuleName = dataGridView1.Rows[rowIndex].Cells[1].Value.ToString(),
-                        ProjectName = projectName,
-                        FunctionName = functionName,
-                        SystemName = textBox5.Text
-
-                    };
-
-                    // Modules tablosundan belirtilen ProjectId, FunctionId ve ModuleName ile eşleşen satırı bulun
+                    // Records tablosundan belirtilen ProjectId, FunctionId ve ModuleName ile eşleşen satırı bulun
                     var RecordsToDelete = dbContext.records
                         .FirstOrDefault(m =>
                             m.SystemName == textBox5.Text &&
                             m.FunctionName == functionName &&
-                            m.ModuleName == rowData.ModuleName
+                            m.ModuleName == recordData.ModuleName &&
+                            m.ModuleTip == recordData.ModuleTip
                         );
 
-                    if (RecordsToDelete != null)
+                    if (moduleToDelete != null && RecordsToDelete != null)
                     {
                         // Silinecek bir şey var, o zaman silme işlemini gerçekleştirin
+                        dbContext.modules.Remove(moduleToDelete);
                         dbContext.records.Remove(RecordsToDelete);
                         dbContext.SaveChanges();
-
                         // Modules tablosunu güncellemek için kullanılan bir fonksiyonunuzu çağırın
                         ModuleGoster();
                     }
@@ -318,6 +326,7 @@ namespace FonksiyonOlusturma
                     }
                 }
             }
+
 
 
 

@@ -1,6 +1,6 @@
 ﻿namespace FonksiyonOlusturma
 {
-    partial class UygunOlmayanListe
+    partial class Rapor
     {
         /// <summary>
         /// Required designer variable.
@@ -28,57 +28,58 @@
         /// </summary>
         private void InitializeComponent()
         {
-            button1 = new Button();
+            treeView1 = new TreeView();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
             SuspendLayout();
             // 
-            // button1
+            // treeView1
             // 
-            button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(39, 12);
-            button1.Name = "button1";
-            button1.Size = new Size(94, 46);
-            button1.TabIndex = 1;
-            button1.Text = "Excel";
-            button1.UseVisualStyleBackColor = true;
-            button1.Click += button1_Click;
+            treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            treeView1.CheckBoxes = true;
+            treeView1.Location = new Point(12, 12);
+            treeView1.Name = "treeView1";
+            treeView1.Size = new Size(252, 1009);
+            treeView1.TabIndex = 0;
             // 
             // advancedDataGridView1
             // 
+            advancedDataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
+            advancedDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             advancedDataGridView1.BackgroundColor = Color.White;
             advancedDataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
             advancedDataGridView1.FilterAndSortEnabled = true;
             advancedDataGridView1.FilterStringChangedInvokeBeforeDatasourceUpdate = true;
-            advancedDataGridView1.Location = new Point(25, 81);
+            advancedDataGridView1.GridColor = Color.Gray;
+            advancedDataGridView1.Location = new Point(322, 17);
             advancedDataGridView1.Name = "advancedDataGridView1";
             advancedDataGridView1.RightToLeft = RightToLeft.No;
             advancedDataGridView1.RowHeadersWidth = 51;
             advancedDataGridView1.RowTemplate.Height = 29;
-            advancedDataGridView1.Size = new Size(1865, 900);
+            advancedDataGridView1.Size = new Size(1558, 1004);
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
-            advancedDataGridView1.TabIndex = 2;
-            advancedDataGridView1.CellDoubleClick += advancedDataGridView1_CellDoubleClick;
+            advancedDataGridView1.TabIndex = 1;
             // 
-            // UygunOlmayanListe
+            // Rapor
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
             Controls.Add(advancedDataGridView1);
-            Controls.Add(button1);
-            Name = "UygunOlmayanListe";
+            Controls.Add(treeView1);
+            Name = "Rapor";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "UygunOlmayanListe";
+            Text = "Rapor";
             WindowState = FormWindowState.Maximized;
-            Load += UygunOlmayanListe_Load;
+            Load += Rapor_Load;
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
-        private Button button1;
+
+        private TreeView treeView1;
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
     }
 }
