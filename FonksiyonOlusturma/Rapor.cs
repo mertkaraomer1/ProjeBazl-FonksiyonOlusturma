@@ -1,17 +1,5 @@
 ﻿using FonksiyonOlusturma.MyDb;
-using FonksiyonOlusturma.Tables;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FonksiyonOlusturma
 {
@@ -91,6 +79,7 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Project Number");
             table.Columns.Add("Function Number");
             table.Columns.Add("Module Number");
+            table.Columns.Add("Module Name");
             table.Columns.Add("Category Name");
             table.Columns.Add("Category Time");
             table.Columns.Add("Staff Name");
@@ -106,6 +95,7 @@ namespace FonksiyonOlusturma
                     ProjectName = a.ProjectName,
                     FunctionName = a.FunctionName,
                     ModuleName = a.ModuleName,
+                    ModuleDesciription=a.ModuleDescription,
                     ModuleTip = a.ModuleTip,
                     CategoryTime = a.CategoryTime,
                     StaffName = a.StaffName,
@@ -200,6 +190,7 @@ namespace FonksiyonOlusturma
                             item.ProjectName,
                             item.FunctionName,
                             item.ModuleName,
+                            item.ModuleDesciription,
                             item.CategoryName,
                             categoryTimeFormatted,
                             item.StaffName,
@@ -217,6 +208,7 @@ namespace FonksiyonOlusturma
                             item.ProjectName,
                             item.FunctionName,
                             item.ModuleName,
+                            item.ModuleDesciription,
                             item.CategoryName,
                             categoryTimeFormatted,
                             item.StaffName,
@@ -234,6 +226,7 @@ namespace FonksiyonOlusturma
                             item.ProjectName,
                             item.FunctionName,
                             item.ModuleName,
+                            item.ModuleDesciription,
                             item.CategoryName,
                             categoryTimeFormatted,
                             item.StaffName,
@@ -261,6 +254,7 @@ namespace FonksiyonOlusturma
                         item.ProjectName,
                         item.FunctionName,
                         item.ModuleName,
+                        item.ModuleDesciription,
                         item.CategoryName,
                         categoryTimeFormatted,
                         item.StaffName,

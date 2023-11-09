@@ -2,8 +2,6 @@
 using FonksiyonOlusturma.MyDb;
 using FonksiyonOlusturma.Tables;
 using System.Data;
-using System.Data.OleDb;
-using System.Data.SqlClient;
 
 namespace FonksiyonOlusturma
 {

@@ -149,6 +149,7 @@
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modül";
+
             // 
             // label5
             // 

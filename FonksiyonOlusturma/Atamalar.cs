@@ -1,16 +1,6 @@
 ﻿using FonksiyonOlusturma.MyDb;
 using FonksiyonOlusturma.Tables;
-using Microsoft.EntityFrameworkCore;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FonksiyonOlusturma
 {
@@ -64,6 +54,7 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Add("ProjeName", "Proje Number");
             dataGridView1.Columns.Add("FunctionName", "Function Number");
             dataGridView1.Columns.Add("ModuleName", "Module Number");
+            dataGridView1.Columns.Add("ModuleDescription", "Module Name");
             dataGridView1.Columns.Add("CategoryName", "Category Name");
             dataGridView1.Columns.Add("CategoryTime", "Category Time");
             dataGridView1.Columns.Add("ModuleTip", "ModuleTip");
@@ -98,6 +89,7 @@ namespace FonksiyonOlusturma
                         record.ProjectName,
                         record.FunctionName,
                         record.ModuleName,
+                        record.ModuleDescription,
                         record.CategoryName,
                         record.CategoryTime,
                         record.ModuleTip
@@ -129,10 +121,10 @@ namespace FonksiyonOlusturma
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null)
+                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null && row.Cells[7].Value != null&& row.Cells[8].Value!=null)
                 {
                     int categoryTime;
-                    if (int.TryParse(row.Cells[5].Value.ToString(), out categoryTime))
+                    if (int.TryParse(row.Cells[6].Value.ToString(), out categoryTime))
                     {
                         Assignments assignment = new Assignments
                         {
@@ -140,12 +132,12 @@ namespace FonksiyonOlusturma
                             ProjectName = row.Cells[1].Value.ToString(),
                             FunctionName = row.Cells[2].Value.ToString(),
                             ModuleName = row.Cells[3].Value.ToString(),
-                            StaffName = row.Cells[7].Value.ToString(),
+                            ModuleDescription= row.Cells[4].Value.ToString(),
+                            StaffName = row.Cells[8].Value.ToString(),
                             CategoryTime = categoryTime,
-                            CategoryName = row.Cells[4].Value.ToString(),
+                            CategoryName = row.Cells[5].Value.ToString(),
                             Status = "True",
-                            ModuleTip = row.Cells[6].Value.ToString()
-
+                            ModuleTip = row.Cells[7].Value.ToString()
                         };
                         assignments.Add(assignment);
                     }
@@ -155,6 +147,7 @@ namespace FonksiyonOlusturma
                     }
                 }
             }
+
 
 
 
@@ -181,6 +174,7 @@ namespace FonksiyonOlusturma
             dataGridView3.Columns.Add("ProjectName", "Proje Number");
             dataGridView3.Columns.Add("FunctionName", "Function Number");
             dataGridView3.Columns.Add("ModuleName", "Module Number");
+            dataGridView3.Columns.Add("ModuleDescription", "Module Name");
             dataGridView3.Columns.Add("StaffName", "Staff Name");
             dataGridView3.Columns.Add("CategoryName", "Category Name");
             dataGridView3.Columns.Add("CategoryTime", "Category Time");
@@ -208,6 +202,7 @@ namespace FonksiyonOlusturma
                             a.ProjectName,
                             a.FunctionName,
                             a.ModuleName,
+                            a.ModuleDescription,
                             a.StaffName,
                             a.CategoryName,
                             a.CategoryTime,
@@ -223,6 +218,7 @@ namespace FonksiyonOlusturma
                             assignment.ProjectName,
                             assignment.FunctionName,
                             assignment.ModuleName,
+                            assignment.ModuleDescription,
                             assignment.StaffName,
                             assignment.CategoryName,
                             assignment.CategoryTime,
@@ -237,7 +233,8 @@ namespace FonksiyonOlusturma
         }
 
         public void Grafik()
-        {
+        {   dataGridView2.Columns.Clear(); 
+            dataGridView2.Rows.Clear();
             dataGridView2.Columns.Add("Column0", "Staff Name");
             dataGridView2.Columns.Add("Column1", "Total time");
 
@@ -269,10 +266,6 @@ namespace FonksiyonOlusturma
                 // DataGridView'e ekle
                 dataGridView2.Rows.Add(staffName, totalCategoryTime);
             }
-
-
-
-
         }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
@@ -291,7 +284,7 @@ namespace FonksiyonOlusturma
 
         private void dataGridView3_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.RowIndex >= 0 && e.ColumnIndex == 7) // 7. sütundaki düğme tıklandı mı kontrol ediliyor
+            if (e.RowIndex >= 0 && e.ColumnIndex == 9) // 7. sütundaki düğme tıklandı mı kontrol ediliyor
             {
                 // Seçilen satırın verilerini almak için DataGridView'den erişin
                 DataGridViewRow selectedRow = dataGridView3.Rows[e.RowIndex];
@@ -316,7 +309,7 @@ namespace FonksiyonOlusturma
                         // Görevi veritabanından kaldırın
                         dbContext.assignments.Remove(assignmentToRemove);
                         dbContext.SaveChanges();
-
+                        Yükle();
                         // Veri kaynağınızı güncelleyin (örneğin, verileri tekrar yükleyin veya veri kaynağınızı güncelleyin)
                         // Bu, DataGridView'nin otomatik olarak güncellenmesini sağlar
                         // Örnek olarak, Yükle() işlevini çağırabilirsiniz:

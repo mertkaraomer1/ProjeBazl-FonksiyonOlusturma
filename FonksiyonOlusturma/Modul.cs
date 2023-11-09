@@ -1,15 +1,6 @@
 ﻿using FonksiyonOlusturma.MyDb;
 using FonksiyonOlusturma.Tables;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace FonksiyonOlusturma
 {
@@ -193,6 +184,7 @@ namespace FonksiyonOlusturma
                                 ProjectName = selectedProjectName,
                                 FunctionName = selectedFunctionName,
                                 ModuleName = selectedmodulName,
+                                ModuleDescription = selectedModuleDescription,
                                 CategoryName = selectedCategoryName,
                                 CategoryTime = CategoryTime,
                                 ModuleTip = "3D"
@@ -212,6 +204,7 @@ namespace FonksiyonOlusturma
                                 ProjectName = selectedProjectName,
                                 FunctionName = selectedFunctionName,
                                 ModuleName = selectedmodulName,
+                                ModuleDescription = selectedModuleDescription,
                                 CategoryName = selectedCategoryName,
                                 CategoryTime = CategoryTime / 2,
                                 ModuleTip = "2D"
@@ -331,5 +324,7 @@ namespace FonksiyonOlusturma
 
 
         }
+
+
     }
 }

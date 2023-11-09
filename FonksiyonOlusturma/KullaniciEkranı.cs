@@ -1,14 +1,6 @@
 ﻿using FonksiyonOlusturma.MyDb;
 using FonksiyonOlusturma.Tables;
-using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows.Forms;
 
 namespace FonksiyonOlusturma
 {
@@ -23,7 +15,7 @@ namespace FonksiyonOlusturma
             advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
         }
         int kolon4Verisi;
-
+        string selectedSystemName;
         DataTable table = new DataTable();
         public void yükle()
         {
@@ -36,12 +28,14 @@ namespace FonksiyonOlusturma
                 table.Columns.Add("Project Number");
                 table.Columns.Add("Function Number");
                 table.Columns.Add("Module Number");
+                table.Columns.Add("Module Name");
                 table.Columns.Add("Category Name");
                 table.Columns.Add("Category Time");
                 table.Columns.Add("Staff Name");
                 table.Columns.Add("Module Tip");
                 table.Columns.Add("Status");
                 table.Columns.Add("Ara Süresi");
+                table.Columns.Add("Kalan Süre");
             }
 
             var query = dbContext.assignments
@@ -52,6 +46,7 @@ namespace FonksiyonOlusturma
                     ProjectName = a.ProjectName,
                     FunctionName = a.FunctionName,
                     ModuleName = a.ModuleName,
+                    ModuleDesciription = a.ModuleDescription,
                     ModuleTip = a.ModuleTip,
                     CategoryTime = a.CategoryTime,
                     StaffName = a.StaffName,
@@ -90,32 +85,78 @@ namespace FonksiyonOlusturma
                         .OrderByDescending(a => a.statusTime)
                         .FirstOrDefault();
 
+                    var latestBaslaStatus = dbContext.status
+                        .Where(a => a.ProjectName == item.ProjectName &&
+                                    a.FunctionName == item.FunctionName &&
+                                    a.ModuleName == item.ModuleName &&
+                                    a.ModuleTip == item.ModuleTip &&
+                                    a.StatusName == "Başla")
+                        .Select(a => new
+                        {
+                            statusTime = a.StatusTime,
+                            categorytime=a.CategoryTime
+                        })
+                        .OrderBy(a => a.statusTime)
+                        .FirstOrDefault();
+
                     if (latestStatus != null)
                     {
-                        // Veri bulunduğunda en son statusun zamanını al
-                        DateTime latestStatusTime = latestStatus.statusTime;
+                        int categoryTimeInHours = latestBaslaStatus.categorytime; // CategoryTime, saat cinsinden bir tam sayı
+                        int categoryTimeInMinutes = categoryTimeInHours * 60; // Saati dakikaya çevir
+
+ 
+                            DateTime BaslaTime = latestBaslaStatus.statusTime;
+                            TimeSpan timeDifference1 = DateTime.Now - BaslaTime;
+
+                            // Farkı dakika olarak al ve CategoryTime'dan çıkar
+                            double timeDifferenceInMinutes = timeDifference1.TotalMinutes;
+                            int adjustedCategoryTime =Convert.ToInt32( categoryTimeInMinutes - timeDifferenceInMinutes);
+
+                        int totalMinutes = adjustedCategoryTime;
+                        int hours = totalMinutes / 60;
+                        int minutes = totalMinutes % 60;
+
+                        string adjustedCategoryTimeStr = $"{hours:D2}:{minutes:D2}";
+
+                        table.Rows.Add(
+                            item.SystemName,
+                            item.ProjectName,
+                            item.FunctionName,
+                            item.ModuleName,
+                            item.ModuleDesciription,
+                            item.CategoryName,
+                            item.CategoryTime,
+                            item.StaffName,
+                            item.ModuleTip,
+                            "Devam Ediyor...",
+                            "Devam Ediyor...",
+                            adjustedCategoryTimeStr
+                        );
+
 
                         if (latestAraVerStatus != null)
                         {
                             // Araver'deki zamanı al
                             DateTime araverTime = latestAraVerStatus.statusTime;
-
+                            // Veri bulunduğunda en son statusun zamanını al
+                            DateTime latestStatusTime = latestStatus.statusTime;
                             // Farkı hesapla
                             TimeSpan timeDifference = latestStatusTime - araverTime;
-
-                            // Farkı datagridview'e yazdır
-                            table.Rows.Add(
-                                item.SystemName,
-                                item.ProjectName,
-                                item.FunctionName,
-                                item.ModuleName,
-                                item.CategoryName,
-                                item.CategoryTime,
-                                item.StaffName,
-                                item.ModuleTip,
-                                latestStatus.statusName,
-                               timeDifference.TotalMinutes.ToString("0.00") + " dakika"
-                            );
+                                // Farkı datagridview'e yazdır
+                                table.Rows.Add(
+                                    item.SystemName,
+                                    item.ProjectName,
+                                    item.FunctionName,
+                                    item.ModuleName,
+                                    item.ModuleDesciription,
+                                    item.CategoryName,
+                                    item.CategoryTime,
+                                    item.StaffName,
+                                    item.ModuleTip,
+                                    "Devam Ediyor(Ara Verildi.)...",
+                                   timeDifference.TotalMinutes.ToString("0.00") + " dakika",
+                                   adjustedCategoryTimeStr
+                                );
                         }
                         else
                         {
@@ -125,12 +166,14 @@ namespace FonksiyonOlusturma
                                 item.ProjectName,
                                 item.FunctionName,
                                 item.ModuleName,
+                                item.ModuleDesciription,
                                 item.CategoryName,
                                 item.CategoryTime,
                                 item.StaffName,
                                 item.ModuleTip,
-                                latestStatus.statusName,
-                                "Ara Verilmedi..."
+                                "Başlandı...",
+                                "Ara Verilmedi...",
+                                adjustedCategoryTimeStr
                             );
                         }
                     }
@@ -142,12 +185,14 @@ namespace FonksiyonOlusturma
                             item.ProjectName,
                             item.FunctionName,
                             item.ModuleName,
+                            item.ModuleDesciription,
                             item.CategoryName,
                             item.CategoryTime,
                             item.StaffName,
                             item.ModuleTip,
-                            "Bekliyor...",
-                            "Bekliyor..."
+                            "Başlanmadı...",
+                            "Başlanmadı...",
+                            "Başlanmadı..."
                         );
                     }
                 }
@@ -461,7 +506,8 @@ namespace FonksiyonOlusturma
         private void button4_Click(object sender, EventArgs e)
         {
             using (var dbContext = new MyDbContext())
-            {
+            {   
+                string selectedsystemname=selectedSystemName.ToString();
                 string selectedProjectName = textBox2.Text.ToString();
                 string selectedFunctionName = textBox3.Text.ToString();
                 string selectedModuleName = textBox4.Text.ToString();
@@ -517,6 +563,23 @@ namespace FonksiyonOlusturma
                 }
                 if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
+                    // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
+                    var RecordsToUpdate = dbContext.records
+                        .Where(a =>a.SystemName==selectedsystemname&&
+                                    a.ProjectName == selectedProjectName &&
+                                    a.FunctionName == selectedFunctionName &&
+                                    a.ModuleName == selectedModuleName);
+
+                    foreach (var records in RecordsToUpdate)
+                    {
+                        records.ModuleName = textBox1.Text;
+                    }
+
+                    // Değişiklikleri veritabanına kaydet
+                    dbContext.SaveChanges();
+                }
+                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                {
                     // Aynı ProjectName ve FunctionName'e sahip tüm ModuleName'leri al
                     var modulesToUpdate = dbContext.status
                         .Where(s => s.ProjectName == selectedProjectName &&
@@ -553,7 +616,7 @@ namespace FonksiyonOlusturma
                 kolon4Verisi = Convert.ToInt32(selectedRow.Cells["Category Time"].Value.ToString());
                 staffname = selectedRow.Cells["Staff Name"].Value.ToString();
                 moduleTip = selectedRow.Cells["Module Tip"].Value.ToString();
-
+                selectedSystemName = selectedRow.Cells["System Number"].Value.ToString();
                 // TextBox'lara verileri yaz
                 textBox2.Text = kolon1Verisi;
                 textBox3.Text = kolon2Verisi;

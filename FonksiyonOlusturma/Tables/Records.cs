@@ -13,6 +13,7 @@ namespace FonksiyonOlusturma.Tables
         public string ProjectName { get; set; }
         public string FunctionName { get; set; }
         public string ModuleName { get; set; }
+        public string ModuleDescription { get; set; }
         public string CategoryName { get; set; }
         public int CategoryTime { get; set; }  
         public string ModuleTip { get; set; }
