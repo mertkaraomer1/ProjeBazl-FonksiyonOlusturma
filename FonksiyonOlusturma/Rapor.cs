@@ -85,8 +85,8 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Staff Name");
             table.Columns.Add("Module Tip");
             table.Columns.Add("Status");
-            table.Columns.Add("Ara Süresi");
             table.Columns.Add("Toplam Bitiş Süresi");
+            table.Columns.Add("Toplam Çalışma Süresi");
 
             var query = dbContext.assignments
                 .Select(a => new
@@ -106,6 +106,9 @@ namespace FonksiyonOlusturma
 
             foreach (var item in query)
             {
+                TimeSpan totalDifference = TimeSpan.Zero;
+                TimeSpan totalDifference1 = TimeSpan.Zero;
+                TimeSpan zamanFarki = TimeSpan.Zero;
                 var latestStatus = dbContext.status
                     .Where(a => a.ProjectName == item.ProjectName &&
                                 a.FunctionName == item.FunctionName &&
@@ -124,18 +127,7 @@ namespace FonksiyonOlusturma
                     // Veri bulunduğunda en son statusun zamanını al
                     DateTime latestStatusTime = latestStatus.statusTime;
 
-                    var latestAraVerStatus = dbContext.status
-                        .Where(a => a.ProjectName == item.ProjectName &&
-                                    a.FunctionName == item.FunctionName &&
-                                    a.ModuleName == item.ModuleName &&
-                                    a.ModuleTip == item.ModuleTip &&
-                                    a.StatusName == "Araver")
-                        .Select(a => new
-                        {
-                            statusTime = a.StatusTime
-                        })
-                        .OrderByDescending(a => a.statusTime)
-                        .FirstOrDefault();
+
 
                     var latestBittiStatus = dbContext.status
                         .Where(a => a.ProjectName == item.ProjectName &&
@@ -150,9 +142,32 @@ namespace FonksiyonOlusturma
                         .OrderByDescending(a => a.statusTime)
                         .FirstOrDefault();
 
-                    // Araver'deki zamanı al
-                    DateTime araverTime = latestAraVerStatus?.statusTime ?? DateTime.MinValue;
-                    TimeSpan timeDifference = latestStatusTime - araverTime;
+                    var ilkBaslaDurumu = dbContext.status
+                     .Where(a => a.ProjectName == item.ProjectName &&
+                                 a.FunctionName == item.FunctionName &&
+                                 a.ModuleName == item.ModuleName &&
+                                 a.ModuleTip == item.ModuleTip &&
+                                 a.StatusName == "Başla")
+                     .OrderBy(a => a.StatusTime)
+                     .Select(a => new
+                     {
+                         durumAdı = a.StatusName,
+                         durumZamanı = a.StatusTime
+                     })
+                     .FirstOrDefault();
+
+                    var enSonDurum1 = dbContext.status
+                     .Where(a => a.ProjectName == item.ProjectName &&
+                                 a.FunctionName == item.FunctionName &&
+                                 a.ModuleName == item.ModuleName &&
+                                 a.ModuleTip == item.ModuleTip )
+                     .Select(a => new
+                     {
+                         durumAdı = a.StatusName,
+                         durumZamanı = a.StatusTime
+                     })
+                     .OrderBy(a => a.durumZamanı)
+                     .ToList();
 
                     // CategoryTime'ı günlere ve saatlere dönüştür
                     int categoryTimeInHours = item.CategoryTime;
@@ -161,20 +176,60 @@ namespace FonksiyonOlusturma
                     string categoryTimeFormatted = (days > 0) ?
                         string.Format("{0} gün {1} saat", days, remainingHours) :
                         string.Format("{0} saat", remainingHours);
+                    if (enSonDurum1.Count > 0)
+                    {
 
 
-                    // Süreleri "gün saat dakika" biçimine dönüştür
-                    string timeDifferenceString = string.Format("{0} gün {1} saat {2} dakika",
-                        timeDifference.Days, timeDifference.Hours, timeDifference.Minutes);
+                        // Find the index of the first "Araver" status
+                        int startIndex = enSonDurum1.FindIndex(a => a.durumAdı == "Araver");
 
-                    // Bitti zamanını al
-                    DateTime bittiTime = latestBittiStatus?.statusTime ?? DateTime.MinValue;
+                        // Iterate through each status record starting from the "Araver" status
+                        for (int i = startIndex; i < enSonDurum1.Count; i += 2)
+                        {
+                            var statusItem = enSonDurum1[i];
+                            var baslaIndex = i + 1;
+
+                            if (baslaIndex < enSonDurum1.Count)
+                            {
+                                var baslaItem = enSonDurum1[baslaIndex];
+                                // Calculate the time difference
+                                TimeSpan difference = baslaItem.durumZamanı - statusItem.durumZamanı;
+
+                                // Add the difference to the total
+                                totalDifference += difference;
+                            }
+                            else
+                            {
+                                // Calculate the time difference from the last "Araver" status to now
+                                TimeSpan difference1 = DateTime.Now - statusItem.durumZamanı;
+
+                                // Add the difference to the total
+                                totalDifference1 += difference1;
+                            }
+                        }
+                    }
+
+                    if (ilkBaslaDurumu != null)
+                    {
+                        zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
+
+                    }
+                    double AraverSuresi = (totalDifference + totalDifference1).TotalMinutes;
+                    double ToplamÇalışmaSuresiDuble = zamanFarki.TotalMinutes;
+                    int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble - AraverSuresi);
+                    int toplamDakika2 = ToplamÇalışmaSuresi;
+                    int saatler2 = toplamDakika2 / 60;
+                    int dakikalar2 = toplamDakika2 % 60;
+                    string TopÇalSure = $"{saatler2:D2}:{dakikalar2:D2}";
+
 
                     // Bitti zamanından bir sonraki günün başlangıcı olarak bir DateTime oluştur
-                    DateTime nextDayStart = bittiTime.Date.AddDays(1);
+                    DateTime nextDayStart = ilkBaslaDurumu.durumZamanı.Date.AddDays(1);
 
                     // Günlerin doğru hesaplanabilmesi için farkı hesaplayın
-                    TimeSpan bittiDifference = (latestBittiStatus != null) ? nextDayStart - latestStatusTime : TimeSpan.Zero;
+                    TimeSpan bittiDifference = (latestBittiStatus != null) ?
+                        (nextDayStart <= latestBittiStatus.statusTime) ? latestBittiStatus.statusTime - nextDayStart : TimeSpan.Zero :
+                        TimeSpan.Zero;
 
                     // Süreleri "gün saat dakika" biçimine dönüştür
                     string bittiDifferenceString = (latestBittiStatus != null) ?
@@ -196,8 +251,8 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Devam Ediyor...",
-                            timeDifferenceString,
-                            bittiDifferenceString
+                            bittiDifferenceString,
+                            TopÇalSure
                         );
                     }
                     else if (latestStatus.statusName == "Araver")
@@ -214,8 +269,8 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Ara Verildi...",
-                            timeDifferenceString,
-                            bittiDifferenceString
+                            bittiDifferenceString,
+                            TopÇalSure
                         );
                     }
                     else if (latestStatus.statusName == "Bitti")
@@ -232,8 +287,8 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             latestStatus.statusName,
-                            timeDifferenceString,
-                            bittiDifferenceString
+                            bittiDifferenceString,
+                            TopÇalSure
                         );
                     }
 
@@ -268,9 +323,6 @@ namespace FonksiyonOlusturma
 
             advancedDataGridView1.DataSource = table;
         }
-
-
-
         private void Rapor_Load(object sender, EventArgs e)
         {
             Yükle();
