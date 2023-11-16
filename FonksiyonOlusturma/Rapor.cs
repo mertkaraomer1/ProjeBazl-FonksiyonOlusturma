@@ -85,8 +85,9 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Staff Name");
             table.Columns.Add("Module Tip");
             table.Columns.Add("Status");
-            table.Columns.Add("Toplam Bitiş Süresi");
             table.Columns.Add("Toplam Çalışma Süresi");
+            table.Columns.Add("Başlama Tarihi");
+            table.Columns.Add("Bitiş Tarihi");
 
             var query = dbContext.assignments
                 .Select(a => new
@@ -221,22 +222,10 @@ namespace FonksiyonOlusturma
                     int saatler2 = toplamDakika2 / 60;
                     int dakikalar2 = toplamDakika2 % 60;
                     string TopÇalSure = $"{saatler2:D2}:{dakikalar2:D2}";
-
-
-                    // Bitti zamanından bir sonraki günün başlangıcı olarak bir DateTime oluştur
-                    DateTime nextDayStart = ilkBaslaDurumu.durumZamanı.Date.AddDays(1);
-
-                    // Günlerin doğru hesaplanabilmesi için farkı hesaplayın
-                    TimeSpan bittiDifference = (latestBittiStatus != null) ?
-                        (nextDayStart <= latestBittiStatus.statusTime) ? latestBittiStatus.statusTime - nextDayStart : TimeSpan.Zero :
-                        TimeSpan.Zero;
-
-                    // Süreleri "gün saat dakika" biçimine dönüştür
-                    string bittiDifferenceString = (latestBittiStatus != null) ?
-                        string.Format("{0} gün {1} saat {2} dakika",
-                            bittiDifference.Days, bittiDifference.Hours, bittiDifference.Minutes) :
-                        "Devam Ediyor...";
-
+                    string BaslamaTarihi=ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
+                    string BitisTarihi = (latestBittiStatus != null && latestBittiStatus.statusTime != null)
+                        ? latestBittiStatus.statusTime.ToString("dd.MM.yyyy")
+                        : "Bitirilmedi..."; // Veya başka bir değer veya boş bir string
                     if (latestStatus.statusName == "Başla")
                     {
                         // Farkı datagridview'e yazdır
@@ -251,8 +240,9 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Devam Ediyor...",
-                            bittiDifferenceString,
-                            TopÇalSure
+                            TopÇalSure,
+                            BaslamaTarihi,
+                            BitisTarihi
                         );
                     }
                     else if (latestStatus.statusName == "Araver")
@@ -269,8 +259,9 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Ara Verildi...",
-                            bittiDifferenceString,
-                            TopÇalSure
+                            TopÇalSure,
+                            BaslamaTarihi,
+                            BitisTarihi
                         );
                     }
                     else if (latestStatus.statusName == "Bitti")
@@ -287,8 +278,9 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             latestStatus.statusName,
-                            bittiDifferenceString,
-                            TopÇalSure
+                            TopÇalSure,
+                            BaslamaTarihi,
+                            BitisTarihi
                         );
                     }
 
@@ -316,7 +308,9 @@ namespace FonksiyonOlusturma
                         item.ModuleTip,
                         "Başlanmadı...",
                         "Başlanmadı...",
+                        "Başlanmadı...",
                         "Başlanmadı..."
+
                     );
                 }
             }

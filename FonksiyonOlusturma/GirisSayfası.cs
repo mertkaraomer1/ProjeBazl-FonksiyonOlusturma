@@ -24,7 +24,15 @@
 
         private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
         {
-            e.Cancel = false;
+            // Form kapatılmak istendiğinde
+            if (e.CloseReason == CloseReason.UserClosing)
+            {
+                // Formun kapatılmasını engelle
+                e.Cancel = true;
+
+                // Programı kapat
+                Application.Exit();
+            }
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -32,5 +40,7 @@
             Rapor rp = new Rapor();
             rp.Show();
         }
+
+
     }
 }

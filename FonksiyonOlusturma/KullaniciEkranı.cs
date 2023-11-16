@@ -19,6 +19,7 @@ namespace FonksiyonOlusturma
         DataTable table = new DataTable();
         public void yükle()
         {
+            string selectedStaffName = comboBox1.Text;
             advancedDataGridView1.Columns.Clear();
             table.Rows.Clear();
             table.Columns.Clear();
@@ -39,7 +40,7 @@ namespace FonksiyonOlusturma
             }
 
             var sorgu = dbContext.assignments
-                .Where(a => a.Status != "False")
+                .Where(a => a.Status != "False" && a.StaffName == selectedStaffName)
                 .Select(a => new
                 {
                     SistemAdı = a.SystemName,
@@ -129,7 +130,7 @@ namespace FonksiyonOlusturma
                             int startIndex = enSonDurum1.FindIndex(a => a.durumAdı == "Araver");
 
                             // Iterate through each status record starting from the "Araver" status
-                            for (int i = startIndex; i < enSonDurum1.Count; i +=2)
+                            for (int i = startIndex; i < enSonDurum1.Count; i += 2)
                             {
                                 var statusItem = enSonDurum1[i];
                                 var baslaIndex = i + 1;
@@ -160,7 +161,7 @@ namespace FonksiyonOlusturma
                             }
 
                         }
-                        
+
 
                         double AraverSuresi = (totalDifference + totalDifference1).TotalMinutes;
 
@@ -170,7 +171,7 @@ namespace FonksiyonOlusturma
                         DateTime baslaZamanı = enSonBaslaDurumu.durumZamanı;
                         TimeSpan baslaZamanFarkı = DateTime.Now - baslaZamanı;
                         double dakikaCinsindenFark = baslaZamanFarkı.TotalMinutes;
-                        int ayarlanmışKategoriZamanı = Convert.ToInt32(kategoriZamanıDakikayaÇevir - dakikaCinsindenFark+ AraverSuresi);
+                        int ayarlanmışKategoriZamanı = Convert.ToInt32(kategoriZamanıDakikayaÇevir - dakikaCinsindenFark + AraverSuresi);
                         int toplamDakika = ayarlanmışKategoriZamanı;
                         int saatler = toplamDakika / 60;
                         int dakikalar = toplamDakika % 60;
@@ -202,27 +203,9 @@ namespace FonksiyonOlusturma
                         if (!tablodaEkliSatırVar)
                         {
                             // Satır ekleyin
-                            if (enSonDurum1 != null)
+                            if (enSonDurum != null && enSonDurum.durumAdı == "Başla")
                             {
                                 // "Devam Ediyor(Ara Verildi.)..." durumu için satır ekle
-                                table.Rows.Add(
-                                    item.SistemAdı,
-                                    item.ProjeAdı,
-                                    item.FonksiyonAdı,
-                                    item.ModülAdı,
-                                    item.ModülAçıklama,
-                                    item.KategoriAdı,
-                                    item.KategoriZamanı,
-                                    item.PersonelAdı,
-                                    item.ModülTürü,
-                                    "Devam Ediyor(Ara Verildi.)...",
-                                    ayarlanmışKategoriZamanıStr,
-                                    TopÇalSure
-                                );
-                            }
-                            else
-                            {
-                                // "Devam Ediyor..." durumu için satır ekle
                                 table.Rows.Add(
                                     item.SistemAdı,
                                     item.ProjeAdı,
@@ -238,9 +221,26 @@ namespace FonksiyonOlusturma
                                     TopÇalSure
                                 );
                             }
+                            else if (enSonDurum != null && enSonDurum.durumAdı == "Araver")
+                            {
+                                // "Devam Ediyor..." durumu için satır ekle
+                                table.Rows.Add(
+                                    item.SistemAdı,
+                                    item.ProjeAdı,
+                                    item.FonksiyonAdı,
+                                    item.ModülAdı,
+                                    item.ModülAçıklama,
+                                    item.KategoriAdı,
+                                    item.KategoriZamanı,
+                                    item.PersonelAdı,
+                                    item.ModülTürü,
+                                    "Araverildi...",
+                                    ayarlanmışKategoriZamanıStr,
+                                    TopÇalSure
+                                );
+                            }
                         }
                     }
-                    // ...
 
                     else
                     {
@@ -284,15 +284,15 @@ namespace FonksiyonOlusturma
             string functionName = textBox3.Text.ToString();
             string moduleName = textBox4.Text.ToString();
             var latestStatus = dbContext.status
-                .Where(a =>a.StaffName==staffname)
+                .Where(a => a.StaffName == staffname)
                 .Select(a => new
                 {
-                statusName = a.StatusName,
-                statusTime = a.StatusTime
+                    statusName = a.StatusName,
+                    statusTime = a.StatusTime
                 })
                 .OrderByDescending(a => a.statusTime)
                 .FirstOrDefault();
-            if (latestStatus.statusName=="Araver" ||latestStatus.statusName=="Bitti")
+            if (latestStatus.statusName == "Araver" || latestStatus.statusName == "Bitti")
             {
                 if (!string.IsNullOrEmpty(staffname) &&
                     !string.IsNullOrEmpty(projectName) &&
@@ -325,10 +325,10 @@ namespace FonksiyonOlusturma
                     MessageBox.Show("Lütfen tüm Textbox'ları doldurun.");
                 }
             }
-            else if(latestStatus.statusName=="Başla")
+            else if (latestStatus.statusName == "Başla")
             {
                 MessageBox.Show("Önceden Başladığınız modülünüzü Bitir veya Araver yapıp tekrar deneyiniz...");
-                button1.Enabled= false;
+                button1.Enabled = false;
             }
 
 
@@ -341,7 +341,7 @@ namespace FonksiyonOlusturma
             Form sebepSecimiForm = new Form
             {
                 Text = "Ara Verme Sebebinizi Seçiniz...",
-                Size = new Size(300, 150),
+                Size = new Size(300, 200),
                 FormBorderStyle = FormBorderStyle.FixedDialog,
                 StartPosition = FormStartPosition.CenterScreen
             };
@@ -355,17 +355,24 @@ namespace FonksiyonOlusturma
 
             comboBox.Items.AddRange(new string[]
             {
-                    "Mesai Bitimi",
-                    "İş değişimi(Tanımlı)",
-                    "Eğitim",
-                    "Toplantı",
-                    "Diğer"
+                "Mesai Bitimi",
+                "İş değişimi(Tanımlı)",
+                "Eğitim",
+                "Toplantı",
+                "Diğer"
             });
+
+            TextBox textBox = new TextBox
+            {
+                Location = new Point(20, 60),
+                Width = 200,
+                Visible = false  // Başlangıçta görünmez
+            };
 
             Button onayButton = new Button
             {
                 Text = "Onay",
-                Location = new Point(100, 60),
+                Location = new Point(100, 100),
                 Size = new Size(60, 30),
             };
 
@@ -376,12 +383,12 @@ namespace FonksiyonOlusturma
                 if (!string.IsNullOrEmpty(selectedReason))
                 {
                     MessageBox.Show($"Ara verme sebebi: {selectedReason}\nAra vermek istiyor musunuz?", "Onay", MessageBoxButtons.YesNo);
+
                     // ComboBox'lardan seçilen değerleri alın
-                    string staffName = staffname;
+                    string staffName = staffname; // Bu değişkeni nereden alacaksınız?
                     string projectName = textBox2.Text.ToString();
                     string functionName = textBox3.Text.ToString();
                     string moduleName = textBox4.Text.ToString();
-
 
                     if (!string.IsNullOrEmpty(staffName) &&
                         !string.IsNullOrEmpty(projectName) &&
@@ -395,11 +402,11 @@ namespace FonksiyonOlusturma
                             ProjectName = projectName,
                             FunctionName = functionName,
                             ModuleName = moduleName,
-                            CategoryTime = kolon4Verisi,
+                            CategoryTime = kolon4Verisi, // Bu değişkeni nereden alacaksınız?
                             StatusName = "Araver",
                             StatusTime = DateTime.Now,
                             popup = comboBox.Text,
-                            ModuleTip = moduleTip
+                            ModuleTip = moduleTip // Bu değişkeni nereden alacaksınız?
                         };
 
                         dbContext.status.Add(newStatus);
@@ -409,17 +416,21 @@ namespace FonksiyonOlusturma
                         UpdateButtonVisibleState();
                         yükle();
                     }
-
                 }
-
 
                 sebepSecimiForm.Close();
             };
 
-            sebepSecimiForm.Controls.Add(comboBox);
-            sebepSecimiForm.Controls.Add(onayButton);
+            comboBox.SelectedIndexChanged += (sender, e) =>
+            {
+                // "Diğer" seçildiğinde TextBox'ı görünür yap, diğer durumda gizle
+                textBox.Visible = comboBox.SelectedItem?.ToString() == "Diğer";
+            };
+
+            sebepSecimiForm.Controls.AddRange(new Control[] { comboBox, textBox, onayButton });
 
             sebepSecimiForm.ShowDialog();
+
 
         }
 
@@ -566,6 +577,11 @@ namespace FonksiyonOlusturma
 
         private void KullaniciEkranı_Load(object sender, EventArgs e)
         {
+            var Sorumlu = dbContext.staffs.Select(x => x.StaffName).ToList();
+            Sorumlu.Insert(0, "Sorumlu Seçiniz..");
+            comboBox1.DataSource = Sorumlu;
+
+
             UpdateButtonVisibleState();
             groupBox2.Visible = false;
         }
@@ -708,5 +724,31 @@ namespace FonksiyonOlusturma
             }
         }
 
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            yükle();
+        }
+
+        private void advancedDataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
+        {
+            // Satırın üzerindeki verileri kontrol et
+            if (e.RowIndex >= 0 && e.RowIndex < advancedDataGridView1.Rows.Count)
+            {
+                DataGridViewRow row = advancedDataGridView1.Rows[e.RowIndex];
+
+                // İlgili sütunun değerini al (örneğin, "Durum" sütunu)
+                string durum = row.Cells["Durum"].Value.ToString();
+
+                // İstediğiniz duruma göre satırı özelleştir
+                if (durum == "Devam Ediyor...")
+                {
+                    // Satırın arkaplan rengini mavi yap
+                    row.DefaultCellStyle.BackColor = Color.Blue;
+
+                    // Satırın metin rengini beyaz yap
+                    row.DefaultCellStyle.ForeColor = Color.White;
+                }
+            }
+        }
     }
 }

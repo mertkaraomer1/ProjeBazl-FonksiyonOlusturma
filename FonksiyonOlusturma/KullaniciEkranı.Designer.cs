@@ -47,6 +47,8 @@
             label2 = new Label();
             label3 = new Label();
             groupBox3 = new GroupBox();
+            comboBox1 = new ComboBox();
+            label4 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -73,6 +75,7 @@
             // 
             // advancedDataGridView1
             // 
+            advancedDataGridView1.AllowUserToAddRows = false;
             advancedDataGridView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             advancedDataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             advancedDataGridView1.BackgroundColor = Color.White;
@@ -88,6 +91,7 @@
             advancedDataGridView1.SortStringChangedInvokeBeforeDatasourceUpdate = true;
             advancedDataGridView1.TabIndex = 17;
             advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
+            advancedDataGridView1.RowPrePaint += advancedDataGridView1_RowPrePaint;
             // 
             // label6
             // 
@@ -248,12 +252,33 @@
             groupBox3.TabIndex = 16;
             groupBox3.TabStop = false;
             // 
+            // comboBox1
+            // 
+            comboBox1.FormattingEnabled = true;
+            comboBox1.Location = new Point(359, 12);
+            comboBox1.Name = "comboBox1";
+            comboBox1.Size = new Size(151, 28);
+            comboBox1.TabIndex = 17;
+            comboBox1.SelectedIndexChanged += comboBox1_SelectedIndexChanged;
+            // 
+            // label4
+            // 
+            label4.AutoSize = true;
+            label4.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            label4.Location = new Point(277, 15);
+            label4.Name = "label4";
+            label4.Size = new Size(76, 20);
+            label4.TabIndex = 16;
+            label4.Text = "Sorumlu :";
+            // 
             // KullaniciEkranı
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(label4);
+            Controls.Add(comboBox1);
             Controls.Add(groupBox3);
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -270,6 +295,7 @@
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -291,5 +317,7 @@
         private Label label3;
         private GroupBox groupBox3;
         private Zuby.ADGV.AdvancedDataGridView advancedDataGridView1;
+        private ComboBox comboBox1;
+        private Label label4;
     }
 }

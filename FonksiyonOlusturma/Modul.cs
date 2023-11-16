@@ -48,24 +48,24 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Add("Column4", "TİP");
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
-                string searchText1 = textBox1.Text; // TextBox1'den gelen veriyi alın
-                string searchText5 = textBox5.Text;
-                string searchText2 = textBox2.Text;
+                string searchText1 = textBox5.Text; // TextBox1'den gelen veriyi alın
+                string searchText5 = textBox2.Text;
+                string searchText2 = textBox1.Text;
 
                 var systemIds = dbContext.systems
-                    .Where(p => p.SystemName == searchText5)
+                    .Where(p => p.SystemName == searchText1)
                     .Select(p => p.SystemId)
                     .ToList();
 
                 // TextBox1'deki veriyi Projects tablosundaki ProjectName ile eşleştirin ve ProjectId'leri alın
                 var projectIds = dbContext.projects
-                    .Where(p => systemIds.Contains(p.SystemId) && p.ProjectName == searchText1)
+                    .Where(p => systemIds.Contains(p.SystemId) && p.ProjectName == searchText2)
                     .Select(p => p.ProjectId)
                     .ToList();
 
 
                 var functionIds = dbContext.functions
-                    .Where(f => projectIds.Contains(f.ProjectId) && f.FunctionName == searchText2)
+                    .Where(f => projectIds.Contains(f.ProjectId) && f.FunctionName == searchText5)
                     .Select(f => f.FunctionId)
                     .ToList();
 
@@ -133,15 +133,17 @@ namespace FonksiyonOlusturma
                 {
                     using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
                     {
-                        int functionId = dbContext.functions
-                            .Where(f => f.FunctionName == selectedFunctionName)
-                            .Select(f => f.FunctionId)
-                            .FirstOrDefault();
-
                         int projectId = dbContext.projects
                             .Where(c => c.ProjectName == selectedProjectName)
                             .Select(c => c.ProjectId)
                             .FirstOrDefault();
+
+                        int functionId = dbContext.functions
+                            .Where(f => f.FunctionName == selectedFunctionName && f.ProjectId==projectId)
+                            .Select(f => f.FunctionId)
+                            .FirstOrDefault();
+
+
 
                         int CategoryId = dbContext.categories
                             .Where(c => c.CategoryName == selectedCategoryName)
