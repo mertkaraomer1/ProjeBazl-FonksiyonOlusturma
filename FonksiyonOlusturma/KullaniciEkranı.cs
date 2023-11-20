@@ -68,7 +68,8 @@ namespace FonksiyonOlusturma
                         .Select(a => new
                         {
                             durumAdı = a.StatusName,
-                            durumZamanı = a.StatusTime
+                            durumZamanı = a.StatusTime,
+                            modultip=a.ModuleTip
                         })
                         .OrderByDescending(a => a.durumZamanı)
                         .FirstOrDefault();
@@ -129,36 +130,38 @@ namespace FonksiyonOlusturma
                             // Find the index of the first "Araver" status
                             int startIndex = enSonDurum1.FindIndex(a => a.durumAdı == "Araver");
 
-                            // Iterate through each status record starting from the "Araver" status
-                            for (int i = startIndex; i < enSonDurum1.Count; i += 2)
+                            // Check if "Araver" status is found
+                            if (startIndex != -1)
                             {
-                                var statusItem = enSonDurum1[i];
-                                var baslaIndex = i + 1;
-
-                                if (baslaIndex < enSonDurum1.Count)
+                                // Iterate through each status record starting from the "Araver" status
+                                for (int i = startIndex; i < enSonDurum1.Count; i += 2)
                                 {
-                                    var baslaItem = enSonDurum1[baslaIndex];
-                                    // Calculate the time difference
-                                    TimeSpan difference = baslaItem.durumZamanı - statusItem.durumZamanı;
+                                    var statusItem = enSonDurum1[i];
+                                    var baslaIndex = i + 1;
 
-                                    // Add the difference to the total
-                                    totalDifference += difference;
-                                }
-                                else
-                                {
-                                    // Calculate the time difference from the last "Araver" status to now
-                                    TimeSpan difference1 = DateTime.Now - statusItem.durumZamanı;
+                                    if (baslaIndex < enSonDurum1.Count)
+                                    {
+                                        var baslaItem = enSonDurum1[baslaIndex];
+                                        // Calculate the time difference
+                                        TimeSpan difference = baslaItem.durumZamanı - statusItem.durumZamanı;
 
-                                    // Add the difference to the total
-                                    totalDifference1 += difference1;
+                                        // Add the difference to the total
+                                        totalDifference += difference;
+                                    }
+                                    else
+                                    {
+                                        // Calculate the time difference from the last "Araver" status to now
+                                        TimeSpan difference1 = DateTime.Now - statusItem.durumZamanı;
+
+                                        // Add the difference to the total
+                                        totalDifference1 += difference1;
+                                    }
                                 }
                             }
-
-                            if (ilkBaslaDurumu != null)
-                            {
-                                zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
-
-                            }
+                        }
+                        if (ilkBaslaDurumu != null)
+                        {
+                            zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
 
                         }
 
@@ -179,29 +182,16 @@ namespace FonksiyonOlusturma
 
 
                         double ToplamÇalışmaSuresiDuble = zamanFarki.TotalMinutes;
-                        int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble - AraverSuresi);
+                        int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble);
+
                         int toplamDakika2 = ToplamÇalışmaSuresi;
-                        int saatler2 = toplamDakika2 / 60;
-                        int dakikalar2 = toplamDakika2 % 60;
-                        string TopÇalSure = $"{saatler2:D2}:{dakikalar2:D2}";
-                        // Eğer tabloya daha önce eklenmiş bir satır varsa, aynı modül ve personel için kontrol et
-                        bool tablodaEkliSatırVar = false;
-                        foreach (DataRow row in table.Rows)
-                        {
-                            if (row["Modül Numarası"].ToString() == item.ModülAdı &&
-                                row["Personel Adı"].ToString() == item.PersonelAdı)
-                            {
-                                tablodaEkliSatırVar = true;
+                        int Gunler2 = toplamDakika2 / (24 * 60); // Calculate days
+                        int saatler2 = (toplamDakika2 % (24 * 60)) / 60; // Calculate hours
+                        int dakikalar2 = toplamDakika2 % 60; // Calculate minutes
+
+                        string TopÇalSure = $"{Gunler2:D2}:{saatler2:D2}:{dakikalar2:D2}";
 
 
-                                row["Kalan Süre"] = ayarlanmışKategoriZamanıStr;
-
-                                break;
-                            }
-                        }
-
-                        if (!tablodaEkliSatırVar)
-                        {
                             // Satır ekleyin
                             if (enSonDurum != null && enSonDurum.durumAdı == "Başla")
                             {
@@ -239,10 +229,10 @@ namespace FonksiyonOlusturma
                                     TopÇalSure
                                 );
                             }
-                        }
+                        
                     }
 
-                    else
+                    else if( enSonDurum == null)
                     {
                         // "Başlanmadı..." durumu için satır ekle
                         table.Rows.Add(
@@ -292,7 +282,40 @@ namespace FonksiyonOlusturma
                 })
                 .OrderByDescending(a => a.statusTime)
                 .FirstOrDefault();
-            if (latestStatus.statusName == "Araver" || latestStatus.statusName == "Bitti")
+            if(latestStatus == null )
+            {
+                if (!string.IsNullOrEmpty(staffname) &&
+                !string.IsNullOrEmpty(projectName) &&
+                !string.IsNullOrEmpty(functionName) &&
+                !string.IsNullOrEmpty(moduleName))
+                {
+                    // Status tablosuna yeni bir kayıt ekleyin
+                    Status newStatus = new Status
+                    {
+                        ModuleName = moduleName,
+                        FunctionName = functionName,
+                        ProjectName = projectName,
+                        StaffName = staffname,
+                        CategoryTime = kolon4Verisi,
+                        StatusName = "Başla",
+                        StatusTime = DateTime.Now,
+                        ModuleTip = moduleTip
+
+                    };
+
+                    dbContext.status.Add(newStatus);
+                    dbContext.SaveChanges();
+
+                    MessageBox.Show("Başlandı.");
+                    UpdateButtonVisibleState();
+                    yükle();
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen tüm Textbox'ları doldurun.");
+                }
+            }
+             else if (latestStatus!=null && latestStatus.statusName == "Araver" || latestStatus.statusName == "Bitti")
             {
                 if (!string.IsNullOrEmpty(staffname) &&
                     !string.IsNullOrEmpty(projectName) &&
@@ -505,7 +528,7 @@ namespace FonksiyonOlusturma
                 string selectedFunctionName = textBox3.Text;
                 string selectedModuleName = textBox4.Text;
 
-                if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null && moduleTip!=null)
                 {
                     // Seçilen verilere göre Status tablosundaki en son StatusTime'ı al
                     var lastStatusTime = dbContext.status
@@ -513,7 +536,7 @@ namespace FonksiyonOlusturma
                             s.ProjectName == selectedProjectName &&
                             s.FunctionName == selectedFunctionName &&
                             s.ModuleName == selectedModuleName &&
-                            s.StaffName == staffName)
+                            s.StaffName == staffName&&s.ModuleTip==moduleTip)
                         .OrderByDescending(s => s.StatusTime).Select(s => s.StatusName)
                         .FirstOrDefault();
 
@@ -525,7 +548,7 @@ namespace FonksiyonOlusturma
                                 s.ProjectName == selectedProjectName &&
                                 s.FunctionName == selectedFunctionName &&
                                 s.ModuleName == selectedModuleName &&
-                                s.StaffName == staffName) // Burada .StatusTime ile karşılaştırıyoruz
+                                s.StaffName == staffName&&s.ModuleTip==moduleTip) // Burada .StatusTime ile karşılaştırıyoruz
                             .Select(s => s.StatusName)
                             .FirstOrDefault();
 

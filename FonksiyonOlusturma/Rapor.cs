@@ -183,29 +183,32 @@ namespace FonksiyonOlusturma
 
                         // Find the index of the first "Araver" status
                         int startIndex = enSonDurum1.FindIndex(a => a.durumAdı == "Araver");
-
-                        // Iterate through each status record starting from the "Araver" status
-                        for (int i = startIndex; i < enSonDurum1.Count; i += 2)
+                        // Check if "Araver" status is found
+                        if (startIndex != -1)
                         {
-                            var statusItem = enSonDurum1[i];
-                            var baslaIndex = i + 1;
-
-                            if (baslaIndex < enSonDurum1.Count)
+                            // Iterate through each status record starting from the "Araver" status
+                            for (int i = startIndex; i < enSonDurum1.Count; i += 2)
                             {
-                                var baslaItem = enSonDurum1[baslaIndex];
-                                // Calculate the time difference
-                                TimeSpan difference = baslaItem.durumZamanı - statusItem.durumZamanı;
+                                var statusItem = enSonDurum1[i];
+                                var baslaIndex = i + 1;
 
-                                // Add the difference to the total
-                                totalDifference += difference;
-                            }
-                            else
-                            {
-                                // Calculate the time difference from the last "Araver" status to now
-                                TimeSpan difference1 = DateTime.Now - statusItem.durumZamanı;
+                                if (baslaIndex < enSonDurum1.Count)
+                                {
+                                    var baslaItem = enSonDurum1[baslaIndex];
+                                    // Calculate the time difference
+                                    TimeSpan difference = baslaItem.durumZamanı - statusItem.durumZamanı;
 
-                                // Add the difference to the total
-                                totalDifference1 += difference1;
+                                    // Add the difference to the total
+                                    totalDifference += difference;
+                                }
+                                else
+                                {
+                                    // Calculate the time difference from the last "Araver" status to now
+                                    TimeSpan difference1 = DateTime.Now - statusItem.durumZamanı;
+
+                                    // Add the difference to the total
+                                    totalDifference1 += difference1;
+                                }
                             }
                         }
                     }
@@ -217,11 +220,15 @@ namespace FonksiyonOlusturma
                     }
                     double AraverSuresi = (totalDifference + totalDifference1).TotalMinutes;
                     double ToplamÇalışmaSuresiDuble = zamanFarki.TotalMinutes;
-                    int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble - AraverSuresi);
+                    int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble);
+
                     int toplamDakika2 = ToplamÇalışmaSuresi;
-                    int saatler2 = toplamDakika2 / 60;
-                    int dakikalar2 = toplamDakika2 % 60;
-                    string TopÇalSure = $"{saatler2:D2}:{dakikalar2:D2}";
+                    int Gunler2 = toplamDakika2 / (24 * 60); // Calculate days
+                    int saatler2 = (toplamDakika2 % (24 * 60)) / 60; // Calculate hours
+                    int dakikalar2 = toplamDakika2 % 60; // Calculate minutes
+
+                    string TopÇalSure = $"{Gunler2:D2}:{saatler2:D2}:{dakikalar2:D2}";
+
                     string BaslamaTarihi=ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
                     string BitisTarihi = (latestBittiStatus != null && latestBittiStatus.statusTime != null)
                         ? latestBittiStatus.statusTime.ToString("dd.MM.yyyy")
