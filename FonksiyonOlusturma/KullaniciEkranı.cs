@@ -632,7 +632,6 @@ namespace FonksiyonOlusturma
                 string selectedProjectName = textBox2.Text.ToString();
                 string selectedFunctionName = textBox3.Text.ToString();
                 string selectedModuleName = textBox4.Text.ToString();
-                string newModuleName = textBox1.Text;
                 if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
                     // Seçilen ProjectName'e göre ProjectId'yi alın
@@ -704,12 +703,16 @@ namespace FonksiyonOlusturma
                     // Aynı ProjectName ve FunctionName'e sahip tüm ModuleName'leri al
                     var modulesToUpdate = dbContext.status
                         .Where(s => s.ProjectName == selectedProjectName &&
-                                    s.FunctionName == selectedFunctionName)
+                                    s.FunctionName == selectedFunctionName&&
+                                    s.ModuleName==selectedModuleName&&
+                                    s.StaffName==staffname&&
+                                    s.ModuleTip==moduleTip&&
+                                    s.CategoryTime==kolon4Verisi)
                         .ToList();
 
                     foreach (var status in modulesToUpdate)
                     {
-                        status.ModuleName = newModuleName;
+                        status.ModuleName = textBox1.Text;
                     }
 
                     // Değişiklikleri veritabanına kaydet
@@ -717,6 +720,7 @@ namespace FonksiyonOlusturma
 
                     MessageBox.Show("Değişiklikler Kaydedildi.");
                 }
+
 
 
             }

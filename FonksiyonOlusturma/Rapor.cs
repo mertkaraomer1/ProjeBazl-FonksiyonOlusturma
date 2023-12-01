@@ -1,5 +1,6 @@
 ﻿using FonksiyonOlusturma.MyDb;
 using System.Data;
+using System.Windows.Forms;
 
 namespace FonksiyonOlusturma
 {
@@ -96,7 +97,7 @@ namespace FonksiyonOlusturma
                     ProjectName = a.ProjectName,
                     FunctionName = a.FunctionName,
                     ModuleName = a.ModuleName,
-                    ModuleDesciription=a.ModuleDescription,
+                    ModuleDesciription = a.ModuleDescription,
                     ModuleTip = a.ModuleTip,
                     CategoryTime = a.CategoryTime,
                     StaffName = a.StaffName,
@@ -161,7 +162,7 @@ namespace FonksiyonOlusturma
                      .Where(a => a.ProjectName == item.ProjectName &&
                                  a.FunctionName == item.FunctionName &&
                                  a.ModuleName == item.ModuleName &&
-                                 a.ModuleTip == item.ModuleTip )
+                                 a.ModuleTip == item.ModuleTip)
                      .Select(a => new
                      {
                          durumAdı = a.StatusName,
@@ -229,7 +230,7 @@ namespace FonksiyonOlusturma
 
                     string TopÇalSure = $"{Gunler2:D2}:{saatler2:D2}:{dakikalar2:D2}";
 
-                    string BaslamaTarihi=ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
+                    string BaslamaTarihi = ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
                     string BitisTarihi = (latestBittiStatus != null && latestBittiStatus.statusTime != null)
                         ? latestBittiStatus.statusTime.ToString("dd.MM.yyyy")
                         : "Bitirilmedi..."; // Veya başka bir değer veya boş bir string
@@ -329,6 +330,58 @@ namespace FonksiyonOlusturma
             Yükle();
             Treeview();
 
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            // DataGridView'deki verileri bir DataTable'a kopyalayın
+            DataTable dt = new DataTable();
+
+            foreach (DataGridViewColumn column in advancedDataGridView1.Columns)
+            {
+                // Eğer ValueType null ise, varsayılan bir veri türü kullanabilirsiniz.
+                Type columnType = column.ValueType ?? typeof(string);
+                dt.Columns.Add(column.HeaderText, columnType);
+            }
+
+            // Satırları ekle
+            foreach (DataGridViewRow row in advancedDataGridView1.Rows)
+            {
+                DataRow dataRow = dt.NewRow();
+                foreach (DataGridViewCell cell in row.Cells)
+                {
+                    dataRow[cell.ColumnIndex] = cell.Value;
+                }
+                dt.Rows.Add(dataRow);
+            }
+
+            // Excel uygulamasını başlatın
+            Microsoft.Office.Interop.Excel.Application excelApp = new Microsoft.Office.Interop.Excel.Application();
+            excelApp.Visible = true;
+
+            // Yeni bir Excel çalışma kitabı oluşturun
+            Microsoft.Office.Interop.Excel.Workbook workbook = excelApp.Workbooks.Add(Type.Missing);
+            Microsoft.Office.Interop.Excel.Worksheet worksheet = (Microsoft.Office.Interop.Excel.Worksheet)workbook.Sheets[1];
+
+            // DataTable'ı Excel çalışma sayfasına aktarın (tablo başlıklarını da dahil etmek için)
+            int rowIndex = 1;
+
+            // Başlıkları yaz
+            for (int j = 0; j < dt.Columns.Count; j++)
+            {
+                worksheet.Cells[1, j + 1] = dt.Columns[j].ColumnName;
+                worksheet.Cells[1, j + 1].Font.Bold = true;
+            }
+
+            // Verileri yaz
+            for (int i = 0; i < dt.Rows.Count; i++)
+            {
+                rowIndex++;
+                for (int j = 0; j < dt.Columns.Count; j++)
+                {
+                    worksheet.Cells[rowIndex, j + 1] = dt.Rows[i][j].ToString();
+                }
+            }
         }
     }
 }
