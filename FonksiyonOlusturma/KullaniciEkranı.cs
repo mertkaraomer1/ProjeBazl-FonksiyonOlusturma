@@ -69,7 +69,7 @@ namespace FonksiyonOlusturma
                         {
                             durumAdı = a.StatusName,
                             durumZamanı = a.StatusTime,
-                            modultip=a.ModuleTip
+                            modultip = a.ModuleTip
                         })
                         .OrderByDescending(a => a.durumZamanı)
                         .FirstOrDefault();
@@ -192,47 +192,46 @@ namespace FonksiyonOlusturma
                         string TopÇalSure = $"{Gunler2:D2}:{saatler2:D2}:{dakikalar2:D2}";
 
 
-                            // Satır ekleyin
-                            if (enSonDurum != null && enSonDurum.durumAdı == "Başla")
-                            {
-                                // "Devam Ediyor(Ara Verildi.)..." durumu için satır ekle
-                                table.Rows.Add(
-                                    item.SistemAdı,
-                                    item.ProjeAdı,
-                                    item.FonksiyonAdı,
-                                    item.ModülAdı,
-                                    item.ModülAçıklama,
-                                    item.KategoriAdı,
-                                    item.KategoriZamanı,
-                                    item.PersonelAdı,
-                                    item.ModülTürü,
-                                    "Devam Ediyor...",
-                                    ayarlanmışKategoriZamanıStr,
-                                    TopÇalSure
-                                );
-                            }
-                            else if (enSonDurum != null && enSonDurum.durumAdı == "Araver")
-                            {
-                                // "Devam Ediyor..." durumu için satır ekle
-                                table.Rows.Add(
-                                    item.SistemAdı,
-                                    item.ProjeAdı,
-                                    item.FonksiyonAdı,
-                                    item.ModülAdı,
-                                    item.ModülAçıklama,
-                                    item.KategoriAdı,
-                                    item.KategoriZamanı,
-                                    item.PersonelAdı,
-                                    item.ModülTürü,
-                                    "Araverildi...",
-                                    ayarlanmışKategoriZamanıStr,
-                                    TopÇalSure
-                                );
-                            }
-                        
+                        // Satır ekleyin
+                        if (enSonDurum != null && enSonDurum.durumAdı == "Başla")
+                        {
+                            // "Devam Ediyor(Ara Verildi.)..." durumu için satır ekle
+                            table.Rows.Add(
+                                item.SistemAdı,
+                                item.ProjeAdı,
+                                item.FonksiyonAdı,
+                                item.ModülAdı,
+                                item.ModülAçıklama,
+                                item.KategoriAdı,
+                                item.KategoriZamanı,
+                                item.PersonelAdı,
+                                item.ModülTürü,
+                                "Devam Ediyor...",
+                                ayarlanmışKategoriZamanıStr,
+                                TopÇalSure
+                            );
+                        }
+                        else if (enSonDurum != null && enSonDurum.durumAdı == "Araver")
+                        {
+                            // "Devam Ediyor..." durumu için satır ekle
+                            table.Rows.Add(
+                                item.SistemAdı,
+                                item.ProjeAdı,
+                                item.FonksiyonAdı,
+                                item.ModülAdı,
+                                item.ModülAçıklama,
+                                item.KategoriAdı,
+                                item.KategoriZamanı,
+                                item.PersonelAdı,
+                                item.ModülTürü,
+                                "Araverildi...",
+                                ayarlanmışKategoriZamanıStr,
+                                TopÇalSure
+                            );
+                        }
                     }
 
-                    else if( enSonDurum == null)
+                    else if (enSonDurum == null)
                     {
                         // "Başlanmadı..." durumu için satır ekle
                         table.Rows.Add(
@@ -282,7 +281,7 @@ namespace FonksiyonOlusturma
                 })
                 .OrderByDescending(a => a.statusTime)
                 .FirstOrDefault();
-            if(latestStatus == null )
+            if (latestStatus == null)
             {
                 if (!string.IsNullOrEmpty(staffname) &&
                 !string.IsNullOrEmpty(projectName) &&
@@ -315,7 +314,7 @@ namespace FonksiyonOlusturma
                     MessageBox.Show("Lütfen tüm Textbox'ları doldurun.");
                 }
             }
-             else if (latestStatus!=null && latestStatus.statusName == "Araver" || latestStatus.statusName == "Bitti")
+            else if (latestStatus != null && latestStatus.statusName == "Araver" || latestStatus.statusName == "Bitti")
             {
                 if (!string.IsNullOrEmpty(staffname) &&
                     !string.IsNullOrEmpty(projectName) &&
@@ -528,7 +527,7 @@ namespace FonksiyonOlusturma
                 string selectedFunctionName = textBox3.Text;
                 string selectedModuleName = textBox4.Text;
 
-                if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null && moduleTip!=null)
+                if (staffName != null && selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null && moduleTip != null)
                 {
                     // Seçilen verilere göre Status tablosundaki en son StatusTime'ı al
                     var lastStatusTime = dbContext.status
@@ -536,7 +535,7 @@ namespace FonksiyonOlusturma
                             s.ProjectName == selectedProjectName &&
                             s.FunctionName == selectedFunctionName &&
                             s.ModuleName == selectedModuleName &&
-                            s.StaffName == staffName&&s.ModuleTip==moduleTip)
+                            s.StaffName == staffName && s.ModuleTip == moduleTip)
                         .OrderByDescending(s => s.StatusTime).Select(s => s.StatusName)
                         .FirstOrDefault();
 
@@ -548,7 +547,7 @@ namespace FonksiyonOlusturma
                                 s.ProjectName == selectedProjectName &&
                                 s.FunctionName == selectedFunctionName &&
                                 s.ModuleName == selectedModuleName &&
-                                s.StaffName == staffName&&s.ModuleTip==moduleTip) // Burada .StatusTime ile karşılaştırıyoruz
+                                s.StaffName == staffName && s.ModuleTip == moduleTip) // Burada .StatusTime ile karşılaştırıyoruz
                             .Select(s => s.StatusName)
                             .FirstOrDefault();
 
@@ -703,11 +702,11 @@ namespace FonksiyonOlusturma
                     // Aynı ProjectName ve FunctionName'e sahip tüm ModuleName'leri al
                     var modulesToUpdate = dbContext.status
                         .Where(s => s.ProjectName == selectedProjectName &&
-                                    s.FunctionName == selectedFunctionName&&
-                                    s.ModuleName==selectedModuleName&&
-                                    s.StaffName==staffname&&
-                                    s.ModuleTip==moduleTip&&
-                                    s.CategoryTime==kolon4Verisi)
+                                    s.FunctionName == selectedFunctionName &&
+                                    s.ModuleName == selectedModuleName &&
+                                    s.StaffName == staffname &&
+                                    s.ModuleTip == moduleTip &&
+                                    s.CategoryTime == kolon4Verisi)
                         .ToList();
 
                     foreach (var status in modulesToUpdate)

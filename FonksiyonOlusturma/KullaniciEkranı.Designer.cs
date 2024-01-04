@@ -95,6 +95,7 @@
             // 
             // label6
             // 
+            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             label6.AutoSize = true;
             label6.Font = new Font("Segoe UI Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
             label6.ForeColor = Color.Blue;
@@ -106,6 +107,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             groupBox2.Controls.Add(button4);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(textBox1);
@@ -144,6 +146,7 @@
             // 
             // checkBox1
             // 
+            checkBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             checkBox1.AutoSize = true;
             checkBox1.Location = new Point(528, 767);
             checkBox1.Name = "checkBox1";
@@ -154,6 +157,7 @@
             // 
             // button2
             // 
+            button2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button2.Location = new Point(660, 797);
             button2.Name = "button2";
             button2.Size = new Size(94, 75);
@@ -164,6 +168,7 @@
             // 
             // button3
             // 
+            button3.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button3.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             button3.Location = new Point(778, 797);
             button3.Name = "button3";
@@ -175,6 +180,7 @@
             // 
             // button1
             // 
+            button1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
             button1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             button1.Location = new Point(547, 797);
             button1.Name = "button1";
