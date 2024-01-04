@@ -214,10 +214,14 @@ namespace FonksiyonOlusturma
                         }
                     }
 
-                    if (ilkBaslaDurumu != null)
+                    if (ilkBaslaDurumu != null && latestBittiStatus==null)
                     {
                         zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
 
+                    }
+                    else if (latestBittiStatus!=null)
+                    {
+                        zamanFarki = latestBittiStatus.statusTime - ilkBaslaDurumu.durumZamanı;
                     }
                     double AraverSuresi = (totalDifference + totalDifference1).TotalMinutes;
                     double ToplamÇalışmaSuresiDuble = zamanFarki.TotalMinutes;
