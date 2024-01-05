@@ -16,7 +16,7 @@ namespace FonksiyonOlusturma.Tables
         public int CategoryTime { get; set; }
         public string StatusName { get; set; }
         public DateTime StatusTime { get; set; }
-        public string popup { get; set; }    
+        public string? popup { get; set; }    
         public string ModuleTip { get; set; }
         
     }

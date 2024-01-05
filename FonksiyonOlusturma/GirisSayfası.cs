@@ -27,9 +27,6 @@
             // Form kapatılmak istendiğinde
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // Formun kapatılmasını engelle
-                e.Cancel = true;
-
                 // Programı kapat
                 Application.Exit();
             }

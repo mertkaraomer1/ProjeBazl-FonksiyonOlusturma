@@ -628,9 +628,9 @@ namespace FonksiyonOlusturma
             using (var dbContext = new MyDbContext())
             {
                 string selectedsystemname = selectedSystemName.ToString();
-                string selectedProjectName = textBox2.Text.ToString();
-                string selectedFunctionName = textBox3.Text.ToString();
-                string selectedModuleName = textBox4.Text.ToString();
+                string selectedProjectName = string.IsNullOrWhiteSpace(textBox2.Text) ? null : textBox2.Text;
+                string selectedFunctionName = string.IsNullOrWhiteSpace(textBox3.Text) ? null : textBox3.Text;
+                string selectedModuleName = string.IsNullOrWhiteSpace(textBox4.Text) ? null : textBox4.Text;
                 if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
                     // Seçilen ProjectName'e göre ProjectId'yi alın
@@ -651,18 +651,48 @@ namespace FonksiyonOlusturma
                         {
                             // Seçilen ModuleName'i güncellemek için ilgili Module kaydını bulun
                             var module = dbContext.modules
-                                .FirstOrDefault(m => m.ModuleName == selectedModuleName && m.FunctionId == functionId && m.ProjectId == projectId);
+                                .Where(m => m.ModuleName == selectedModuleName && m.FunctionId == functionId && m.ProjectId == projectId);
 
-                            if (module != null)
+                            foreach (var modules in module)
                             {
                                 // TextBox1'den gelen veri ile ModuleName'i güncelleyin
-                                module.ModuleName = textBox1.Text;
+                                modules.ModuleName = textBox1.Text;
 
-                                // Değişiklikleri veritabanına kaydedin
-                                dbContext.SaveChanges();
+                                if (dbContext.ChangeTracker.HasChanges())
+                                {
+                                    try
+                                    {
+                                        dbContext.SaveChanges();
+                                    }
+                                    catch (Exception ex)
+                                    {
+                                        Console.WriteLine("Hata: " + ex.Message);
+                                    }
+                                }
                             }
                         }
                     }
+                }
+                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                {
+                    var StatusToUpdateList = dbContext.status
+                        .Where(s => s.ProjectName == selectedProjectName &&
+                                    s.FunctionName == selectedFunctionName &&
+                                    s.ModuleName == selectedModuleName &&
+                                    s.StaffName == staffname &&
+                                    s.ModuleTip == moduleTip&&
+                                    s.CategoryTime==kolon4Verisi)
+                        .ToList();
+
+                    foreach (var status in StatusToUpdateList)
+                    {
+                        status.ModuleName = textBox1.Text;
+                    }
+
+                    // Değişiklikleri veritabanına kaydet
+                    dbContext.SaveChanges();
+
+                    MessageBox.Show("Değişiklikler Kaydedildi.");
                 }
                 if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                 {
@@ -697,35 +727,9 @@ namespace FonksiyonOlusturma
                     // Değişiklikleri veritabanına kaydet
                     dbContext.SaveChanges();
                 }
-                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
-                {
-                    // Aynı ProjectName ve FunctionName'e sahip tüm ModuleName'leri al
-                    var modulesToUpdate = dbContext.status
-                        .Where(s => s.ProjectName == selectedProjectName &&
-                                    s.FunctionName == selectedFunctionName &&
-                                    s.ModuleName == selectedModuleName &&
-                                    s.StaffName == staffname &&
-                                    s.ModuleTip == moduleTip &&
-                                    s.CategoryTime == kolon4Verisi)
-                        .ToList();
-
-                    foreach (var status in modulesToUpdate)
-                    {
-                        status.ModuleName = textBox1.Text;
-                    }
-
-                    // Değişiklikleri veritabanına kaydet
-                    dbContext.SaveChanges();
-
-                    MessageBox.Show("Değişiklikler Kaydedildi.");
-                }
-
-
-
             }
+            yükle();
         }
-
-
 
         private void advancedDataGridView1_CellClick_1(object sender, DataGridViewCellEventArgs e)
         {
@@ -754,7 +758,6 @@ namespace FonksiyonOlusturma
         {
             yükle();
         }
-
         private void advancedDataGridView1_RowPrePaint(object sender, DataGridViewRowPrePaintEventArgs e)
         {
             // Satırın üzerindeki verileri kontrol et
