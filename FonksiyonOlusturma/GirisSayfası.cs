@@ -20,8 +20,6 @@
             KE.Show();
 
         }
-
-
         private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
         {
             // Form kapatılmak istendiğinde

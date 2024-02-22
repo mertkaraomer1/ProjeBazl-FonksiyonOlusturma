@@ -189,49 +189,57 @@ namespace FonksiyonOlusturma
 
                 using (var dbContext = new MyDbContext())
                 {
-                    // TextBox'tan gelen veriyi kullanarak SystemId'yi bulun
-                    int systemId = dbContext.systems
-                        .Where(s => s.SystemName == SistemName)
-                        .Select(s => s.SystemId)
-                        .FirstOrDefault();
-
-                    if (systemId != 0)
+                    try
                     {
-                        if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
+                        // TextBox'tan gelen veriyi kullanarak SystemId'yi bulun
+                        int systemId = dbContext.systems
+                            .Where(s => s.SystemName == SistemName)
+                            .Select(s => s.SystemId)
+                            .FirstOrDefault();
+
+                        if (systemId != 0)
                         {
-                            string projectName = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
-
-                            // Projects tablosunda belirtilen SystemId ve ProjectName ile eþleþen satýrý bulun
-                            var projectToDelete = dbContext.projects
-                                .FirstOrDefault(p =>
-                                    p.SystemId == systemId &&
-                                    p.ProjectName == projectName
-                                );
-
-                            if (projectToDelete != null)
+                            if (e.RowIndex >= 0 && e.RowIndex < dataGridView1.Rows.Count)
                             {
-                                // Silinecek bir þey var, o zaman silme iþlemini gerçekleþtirin
-                                dbContext.projects.Remove(projectToDelete);
-                                dbContext.SaveChanges();
+                                string projectName = dataGridView1.Rows[e.RowIndex].Cells[1].Value.ToString();
 
-                                // Projects tablosunu güncellemek için kullanýlan bir fonksiyonunuzu çaðýrýn
-                                ProjeAtama();
+                                // Projects tablosunda belirtilen SystemId ve ProjectName ile eþleþen satýrý bulun
+                                var projectToDelete = dbContext.projects
+                                    .FirstOrDefault(p =>
+                                        p.SystemId == systemId &&
+                                        p.ProjectName == projectName
+                                    );
 
-                                // DataGridView'den de satýrý kaldýrýn
-                                dataGridView1.Rows.RemoveAt(e.RowIndex);
-                            }
-                            else
-                            {
-                                MessageBox.Show("Silinecek bir proje bulunamadý.");
+                                if (projectToDelete != null)
+                                {
+                                    // Silinecek bir þey var, o zaman silme iþlemini gerçekleþtirin
+                                    dbContext.projects.Remove(projectToDelete);
+                                    dbContext.SaveChanges();
+
+                                    // Projects tablosunu güncellemek için kullanýlan bir fonksiyonunuzu çaðýrýn
+                                    ProjeAtama();
+
+                                    // DataGridView'den de satýrý kaldýrýn
+                                    dataGridView1.Rows.RemoveAt(e.RowIndex);
+                                }
+                                else
+                                {
+                                    MessageBox.Show("Silinecek bir proje bulunamadý.");
+                                }
                             }
                         }
+                        else
+                        {
+                            MessageBox.Show("Sistem bulunamadý.");
+                        }
                     }
-                    else
+                    catch (Exception ex)
                     {
-                        MessageBox.Show("Sistem bulunamadý.");
+                        MessageBox.Show("An error occurred while saving the entity changes. See the inner exception for details.\n" + ex.Message);
                     }
                 }
             }
+
 
         }
     }
