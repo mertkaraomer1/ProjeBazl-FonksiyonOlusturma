@@ -110,7 +110,6 @@ namespace FonksiyonOlusturma
         private void Atamalar_Load(object sender, EventArgs e)
         {
             Atanmıslar();
-            Grafik();
             SistemValue();
             Yükle();
         }
@@ -121,7 +120,7 @@ namespace FonksiyonOlusturma
 
             foreach (DataGridViewRow row in dataGridView1.Rows)
             {
-                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null && row.Cells[7].Value != null&& row.Cells[8].Value!=null)
+                if (row.Cells[0].Value != null && row.Cells[1].Value != null && row.Cells[2].Value != null && row.Cells[3].Value != null && row.Cells[4].Value != null && row.Cells[5].Value != null && row.Cells[6].Value != null && row.Cells[7].Value != null && row.Cells[8].Value != null)
                 {
                     int categoryTime;
                     if (int.TryParse(row.Cells[6].Value.ToString(), out categoryTime))
@@ -132,7 +131,7 @@ namespace FonksiyonOlusturma
                             ProjectName = row.Cells[1].Value.ToString(),
                             FunctionName = row.Cells[2].Value.ToString(),
                             ModuleName = row.Cells[3].Value.ToString(),
-                            ModuleDescription= row.Cells[4].Value.ToString(),
+                            ModuleDescription = row.Cells[4].Value.ToString(),
                             StaffName = row.Cells[8].Value.ToString(),
                             CategoryTime = categoryTime,
                             CategoryName = row.Cells[5].Value.ToString(),
@@ -162,7 +161,6 @@ namespace FonksiyonOlusturma
             }
             Yükle();
             Atanmıslar();
-            Grafik();
 
         }
         public void Atanmıslar()
@@ -232,41 +230,7 @@ namespace FonksiyonOlusturma
 
         }
 
-        public void Grafik()
-        {   dataGridView2.Columns.Clear(); 
-            dataGridView2.Rows.Clear();
-            dataGridView2.Columns.Add("Column0", "Staff Name");
-            dataGridView2.Columns.Add("Column1", "Total time");
 
-            // StaffNames verilerini al
-            var staffNames = dbContext.staffs.Select(s => s.StaffName).ToList();
-
-            // DataGridView'i temizle
-            dataGridView2.Rows.Clear();
-
-            foreach (var staffName in staffNames)
-            {
-                var assignmentsForStaff = dbContext.assignments
-                    .Where(a => a.StaffName == staffName && a.Status == "True") // FinishTime'ı null olanları filtrele
-                    .ToList()
-                    .Select(a => new
-                    {
-                        StaffName = a.StaffName,
-                        CategoryTime = a.CategoryTime
-                    })
-                    .ToList();
-
-                int totalCategoryTime = 0;
-
-                foreach (var assignment in assignmentsForStaff)
-                {
-                    totalCategoryTime += assignment.CategoryTime;
-                }
-
-                // DataGridView'e ekle
-                dataGridView2.Rows.Add(staffName, totalCategoryTime);
-            }
-        }
 
         private void comboBox5_SelectedIndexChanged(object sender, EventArgs e)
         {
@@ -318,6 +282,12 @@ namespace FonksiyonOlusturma
                 }
             }
 
+        }
+
+        private void toolStripButton1_Click(object sender, EventArgs e)
+        {
+            Kullanıcı_Durumları KD=new Kullanıcı_Durumları();
+            KD.Show();
         }
     }
 }

@@ -34,16 +34,17 @@
             comboBox5 = new ComboBox();
             button1 = new Button();
             dataGridView1 = new DataGridView();
-            dataGridView2 = new DataGridView();
             dataGridView3 = new DataGridView();
             groupBox2 = new GroupBox();
             groupBox3 = new GroupBox();
+            toolStrip1 = new ToolStrip();
+            toolStripButton1 = new ToolStripButton();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
             groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
+            toolStrip1.SuspendLayout();
             SuspendLayout();
             // 
             // groupBox1
@@ -51,16 +52,16 @@
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(comboBox5);
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox1.Location = new Point(21, 12);
+            groupBox1.Location = new Point(12, 28);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(338, 124);
+            groupBox1.Size = new Size(338, 97);
             groupBox1.TabIndex = 1;
             groupBox1.TabStop = false;
             // 
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(15, 29);
+            comboBox1.Location = new Point(15, 18);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(293, 31);
             comboBox1.TabIndex = 11;
@@ -70,7 +71,7 @@
             // comboBox5
             // 
             comboBox5.FormattingEnabled = true;
-            comboBox5.Location = new Point(15, 78);
+            comboBox5.Location = new Point(15, 55);
             comboBox5.Name = "comboBox5";
             comboBox5.Size = new Size(293, 31);
             comboBox5.TabIndex = 9;
@@ -80,7 +81,7 @@
             // button1
             // 
             button1.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
-            button1.Location = new Point(61, 142);
+            button1.Location = new Point(38, 142);
             button1.Name = "button1";
             button1.Size = new Size(268, 47);
             button1.TabIndex = 6;
@@ -102,19 +103,6 @@
             dataGridView1.RowTemplate.Height = 29;
             dataGridView1.Size = new Size(1863, 349);
             dataGridView1.TabIndex = 5;
-            // 
-            // dataGridView2
-            // 
-            dataGridView2.AllowUserToAddRows = false;
-            dataGridView2.AutoSizeRowsMode = DataGridViewAutoSizeRowsMode.AllCells;
-            dataGridView2.BackgroundColor = Color.White;
-            dataGridView2.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView2.Location = new Point(365, 12);
-            dataGridView2.Name = "dataGridView2";
-            dataGridView2.RowHeadersWidth = 51;
-            dataGridView2.RowTemplate.Height = 29;
-            dataGridView2.Size = new Size(483, 177);
-            dataGridView2.TabIndex = 7;
             // 
             // dataGridView3
             // 
@@ -155,15 +143,35 @@
             groupBox3.TabStop = false;
             groupBox3.Text = "Atama Yapılacaklar";
             // 
+            // toolStrip1
+            // 
+            toolStrip1.ImageScalingSize = new Size(20, 20);
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1 });
+            toolStrip1.Location = new Point(0, 0);
+            toolStrip1.Name = "toolStrip1";
+            toolStrip1.Size = new Size(1902, 27);
+            toolStrip1.TabIndex = 11;
+            toolStrip1.Text = "toolStrip1";
+            // 
+            // toolStripButton1
+            // 
+            toolStripButton1.DisplayStyle = ToolStripItemDisplayStyle.Image;
+            toolStripButton1.Image = (Image)resources.GetObject("toolStripButton1.Image");
+            toolStripButton1.ImageTransparentColor = Color.Magenta;
+            toolStripButton1.Name = "toolStripButton1";
+            toolStripButton1.Size = new Size(29, 24);
+            toolStripButton1.Text = "toolStripButton1";
+            toolStripButton1.Click += toolStripButton1_Click;
+            // 
             // Atamalar
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(1902, 1033);
+            Controls.Add(toolStrip1);
             Controls.Add(groupBox3);
             Controls.Add(groupBox2);
-            Controls.Add(dataGridView2);
             Controls.Add(button1);
             Controls.Add(groupBox1);
             Icon = (Icon)resources.GetObject("$this.Icon");
@@ -174,11 +182,13 @@
             Load += Atamalar_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dataGridView2).EndInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox3.ResumeLayout(false);
+            toolStrip1.ResumeLayout(false);
+            toolStrip1.PerformLayout();
             ResumeLayout(false);
+            PerformLayout();
         }
 
         #endregion
@@ -188,9 +198,10 @@
         private Button button1;
         private ComboBox comboBox5;
         private ComboBox comboBox1;
-        private DataGridView dataGridView2;
         private DataGridView dataGridView3;
         private GroupBox groupBox2;
         private GroupBox groupBox3;
+        private ToolStrip toolStrip1;
+        private ToolStripButton toolStripButton1;
     }
 }
