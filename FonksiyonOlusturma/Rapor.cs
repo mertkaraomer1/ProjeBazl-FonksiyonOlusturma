@@ -218,12 +218,12 @@ namespace FonksiyonOlusturma
 
                     }
 
-                    if (ilkBaslaDurumu != null && latestBittiStatus==null)
+                    if (ilkBaslaDurumu != null && latestBittiStatus == null)
                     {
                         zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
 
                     }
-                    else if (latestBittiStatus!=null)
+                    else if (latestBittiStatus != null)
                     {
                         zamanFarki = latestBittiStatus.statusTime - ilkBaslaDurumu.durumZamanı;
                     }
@@ -391,6 +391,12 @@ namespace FonksiyonOlusturma
                     worksheet.Cells[rowIndex, j + 1] = dt.Rows[i][j].ToString();
                 }
             }
+        }
+
+        private void toolStripButton2_Click(object sender, EventArgs e)
+        {
+            Kullanıcı_Durumları KD=new Kullanıcı_Durumları();
+            KD.Show();
         }
     }
 }

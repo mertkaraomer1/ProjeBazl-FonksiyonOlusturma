@@ -69,7 +69,7 @@ namespace FonksiyonOlusturma
                     totalCategoryTime += assignment.CategoryTime;
                 }
 
-                int daysToComplete = (int)Math.Ceiling((double)totalCategoryTime / 24); // Toplam iş süresini günlük işe çevirme
+                int daysToComplete = (int)Math.Ceiling((double)totalCategoryTime / 8); // Toplam iş süresini günlük işe çevirme
 
                 // Başlangıç tarihine bugünden itibaren kaç gün varsa ekle
                 DateTime finishDateEstimated = DateTime.Now.AddDays(daysToComplete);
