@@ -28,7 +28,7 @@ namespace FonksiyonOlusturma
             string systemName = textBox1.Text;
             string projectName = comboBox1.Text;
             string projectDescription = textBox3.Text;
-
+            string ProjectFinishTime = dateTimePicker1.Text;
             try
             {
                 if (!string.IsNullOrEmpty(systemName) && !string.IsNullOrEmpty(projectName))
@@ -54,8 +54,9 @@ namespace FonksiyonOlusturma
                                 {
                                     ProjectName = projectName,
                                     ProjectDescription = projectDescription,
-                                    SystemId = systemId // SystemId'yi atayýn
-                                                        // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
+                                    SystemId = systemId,
+                                    ProjectFýnýshDate= ProjectFinishTime// SystemId'yi atayýn
+                                                       // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
                                 };
 
                                 dbContext.projects.Add(yeniProje); // Yeni proje nesnesini Projects tablosuna ekleyin

@@ -13,6 +13,7 @@ namespace FonksiyonOlusturma.Tables
         public string ProjectName { get; set; }
         public string ProjectDescription { get; set; }
          public int SystemId { get; set; }
+        public string ProjectFınıshDate {  get; set; }
         public Systems System { get; set; } // System ile ilişkilendirme
         public ICollection<Functions> Functions { get; set; }
     }

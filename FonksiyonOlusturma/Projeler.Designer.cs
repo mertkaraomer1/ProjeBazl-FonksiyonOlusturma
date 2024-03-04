@@ -41,6 +41,8 @@
             label3 = new Label();
             textBox1 = new TextBox();
             label2 = new Label();
+            dateTimePicker1 = new DateTimePicker();
+            label5 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -48,21 +50,22 @@
             // 
             // groupBox1
             // 
+            groupBox1.Controls.Add(label5);
             groupBox1.Controls.Add(textBox3);
+            groupBox1.Controls.Add(dateTimePicker1);
             groupBox1.Controls.Add(label4);
             groupBox1.Controls.Add(comboBox1);
             groupBox1.Controls.Add(label1);
             groupBox1.Controls.Add(button1);
-            groupBox1.Location = new Point(452, 12);
+            groupBox1.Location = new Point(417, 12);
             groupBox1.Name = "groupBox1";
-            groupBox1.Size = new Size(338, 159);
+            groupBox1.Size = new Size(373, 159);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
-            groupBox1.Text = "Proje";
             // 
             // textBox3
             // 
-            textBox3.Location = new Point(106, 72);
+            textBox3.Location = new Point(180, 47);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(187, 27);
             textBox3.TabIndex = 4;
@@ -70,7 +73,7 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(19, 78);
+            label4.Location = new Point(93, 50);
             label4.Name = "label4";
             label4.Size = new Size(81, 20);
             label4.TabIndex = 3;
@@ -79,7 +82,7 @@
             // comboBox1
             // 
             comboBox1.FormattingEnabled = true;
-            comboBox1.Location = new Point(106, 38);
+            comboBox1.Location = new Point(180, 16);
             comboBox1.Name = "comboBox1";
             comboBox1.Size = new Size(187, 28);
             comboBox1.TabIndex = 2;
@@ -87,7 +90,7 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(6, 41);
+            label1.Location = new Point(80, 19);
             label1.Name = "label1";
             label1.Size = new Size(94, 20);
             label1.TabIndex = 1;
@@ -95,9 +98,9 @@
             // 
             // button1
             // 
-            button1.Location = new Point(120, 105);
+            button1.Location = new Point(180, 108);
             button1.Name = "button1";
-            button1.Size = new Size(160, 48);
+            button1.Size = new Size(117, 40);
             button1.TabIndex = 0;
             button1.Text = "Kaydet";
             button1.UseVisualStyleBackColor = true;
@@ -110,7 +113,7 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(39, 177);
+            dataGridView1.Location = new Point(25, 177);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
@@ -167,6 +170,23 @@
             label2.TabIndex = 1;
             label2.Text = "Sistem Kodu :";
             // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Format = DateTimePickerFormat.Short;
+            dateTimePicker1.Location = new Point(180, 75);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(117, 27);
+            dateTimePicker1.TabIndex = 4;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(43, 80);
+            label5.Name = "label5";
+            label5.Size = new Size(131, 20);
+            label5.TabIndex = 5;
+            label5.Text = "Proje Bitiş Tarihi :";
+            // 
             // Projeler
             // 
             AutoScaleDimensions = new SizeF(9F, 20F);
@@ -204,5 +224,7 @@
         private Label label3;
         private Label label4;
         private TextBox textBox3;
+        private DateTimePicker dateTimePicker1;
+        private Label label5;
     }
 }

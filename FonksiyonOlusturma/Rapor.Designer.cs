@@ -40,6 +40,7 @@
             // 
             // treeView1
             // 
+            treeView1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left;
             treeView1.CheckBoxes = true;
             treeView1.Location = new Point(12, 34);
             treeView1.Name = "treeView1";
