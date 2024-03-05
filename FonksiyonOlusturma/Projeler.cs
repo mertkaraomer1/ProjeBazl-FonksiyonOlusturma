@@ -118,7 +118,7 @@ namespace FonksiyonOlusturma
                     // Projects tablosundan belirtilen SystemId ile eþleþen ProjectName'leri alýn
                     var projectNames = dbContext.projects
                         .Where(p => p.SystemId == systemId)
-                        .Select(p => new { ProjectName = p.ProjectName, ProjectDescription = p.ProjectDescription })
+                        .Select(p => new { ProjectName = p.ProjectName, ProjectDescription = p.ProjectDescription , ProjectFýnýshDate=p.ProjectFýnýshDate})
                         .ToList();
 
 
@@ -132,18 +132,20 @@ namespace FonksiyonOlusturma
                         dataGridView1.Columns.Add("Column1", "SATIR NO");
                         dataGridView1.Columns.Add("Column2", "PROJELER");
                         dataGridView1.Columns.Add("Column3", "PROJE ADI");
+                        dataGridView1.Columns.Add("Column4", "PROJE BÝTÝÞ TARÝHÝ");
                         // DataGridView kontrolünüze bir buton sütunu ekleyin.
                         DataGridViewImageColumn buttonColumn = new DataGridViewImageColumn();
                         buttonColumn.HeaderText = "SÝL"; // Sütun baþlýðý
                         buttonColumn.Image = Image.FromFile("delete.png"); // Silme resmini belirtin
                         buttonColumn.ImageLayout = DataGridViewImageCellLayout.Zoom; // Resmi düzgün görüntülemek için ayar
                         dataGridView1.Columns.Add(buttonColumn);
+
                         dataGridView1.CellContentClick += dataGridView1_CellContentClick;
                         // ProjectName'leri DataGridView'e ekleyin
                         int rowNumber = 1;
                         foreach (var projectName in projectNames)
                         {
-                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName, projectName.ProjectDescription);
+                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName, projectName.ProjectDescription,projectName.ProjectFýnýshDate);
 
                             rowNumber++;
                         }
@@ -184,7 +186,7 @@ namespace FonksiyonOlusturma
 
         private void dataGridView1_CellContentClick(object sender, DataGridViewCellEventArgs e)
         {
-            if (e.ColumnIndex == dataGridView1.Columns[3].Index && e.RowIndex >= 0)
+            if (e.ColumnIndex == dataGridView1.Columns[4].Index && e.RowIndex >= 0)
             {
                 string SistemName = textBox1.Text;
 
