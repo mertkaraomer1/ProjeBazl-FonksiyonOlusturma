@@ -55,8 +55,8 @@ namespace FonksiyonOlusturma
                                     ProjectName = projectName,
                                     ProjectDescription = projectDescription,
                                     SystemId = systemId,
-                                    ProjectFýnýshDate= ProjectFinishTime// SystemId'yi atayýn
-                                                       // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
+                                    ProjectFýnýshDate = ProjectFinishTime// SystemId'yi atayýn
+                                                                         // Diðer alanlara da deðer atayabilirsiniz, gerekirse.
                                 };
 
                                 dbContext.projects.Add(yeniProje); // Yeni proje nesnesini Projects tablosuna ekleyin
@@ -118,7 +118,7 @@ namespace FonksiyonOlusturma
                     // Projects tablosundan belirtilen SystemId ile eþleþen ProjectName'leri alýn
                     var projectNames = dbContext.projects
                         .Where(p => p.SystemId == systemId)
-                        .Select(p => new { ProjectName = p.ProjectName, ProjectDescription = p.ProjectDescription , ProjectFýnýshDate=p.ProjectFýnýshDate})
+                        .Select(p => new { ProjectName = p.ProjectName, ProjectDescription = p.ProjectDescription, ProjectFýnýshDate = p.ProjectFýnýshDate })
                         .ToList();
 
 
@@ -145,7 +145,7 @@ namespace FonksiyonOlusturma
                         int rowNumber = 1;
                         foreach (var projectName in projectNames)
                         {
-                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName, projectName.ProjectDescription,projectName.ProjectFýnýshDate);
+                            dataGridView1.Rows.Add(rowNumber, projectName.ProjectName, projectName.ProjectDescription, projectName.ProjectFýnýshDate);
 
                             rowNumber++;
                         }
@@ -243,6 +243,11 @@ namespace FonksiyonOlusturma
                 }
             }
 
+
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
 
         }
     }

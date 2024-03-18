@@ -30,7 +30,9 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Projeler));
             groupBox1 = new GroupBox();
+            label5 = new Label();
             textBox3 = new TextBox();
+            dateTimePicker1 = new DateTimePicker();
             label4 = new Label();
             comboBox1 = new ComboBox();
             label1 = new Label();
@@ -41,8 +43,6 @@
             label3 = new Label();
             textBox1 = new TextBox();
             label2 = new Label();
-            dateTimePicker1 = new DateTimePicker();
-            label5 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -63,12 +63,28 @@
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
             // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(43, 77);
+            label5.Name = "label5";
+            label5.Size = new Size(131, 20);
+            label5.TabIndex = 5;
+            label5.Text = "Proje Bitiş Tarihi :";
+            // 
             // textBox3
             // 
             textBox3.Location = new Point(180, 47);
             textBox3.Name = "textBox3";
             textBox3.Size = new Size(187, 27);
             textBox3.TabIndex = 4;
+            // 
+            // dateTimePicker1
+            // 
+            dateTimePicker1.Location = new Point(180, 75);
+            dateTimePicker1.Name = "dateTimePicker1";
+            dateTimePicker1.Size = new Size(187, 27);
+            dateTimePicker1.TabIndex = 4;
             // 
             // label4
             // 
@@ -131,7 +147,7 @@
             groupBox2.Controls.Add(label2);
             groupBox2.Location = new Point(25, 12);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(338, 107);
+            groupBox2.Size = new Size(351, 107);
             groupBox2.TabIndex = 3;
             groupBox2.TabStop = false;
             groupBox2.Text = "Sistem";
@@ -139,7 +155,7 @@
             // textBox2
             // 
             textBox2.Enabled = false;
-            textBox2.Location = new Point(105, 59);
+            textBox2.Location = new Point(140, 64);
             textBox2.Name = "textBox2";
             textBox2.Size = new Size(205, 27);
             textBox2.TabIndex = 4;
@@ -147,7 +163,7 @@
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(14, 62);
+            label3.Location = new Point(42, 67);
             label3.Name = "label3";
             label3.Size = new Size(92, 20);
             label3.TabIndex = 3;
@@ -156,7 +172,7 @@
             // textBox1
             // 
             textBox1.Enabled = false;
-            textBox1.Location = new Point(105, 26);
+            textBox1.Location = new Point(140, 31);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(205, 27);
             textBox1.TabIndex = 2;
@@ -164,28 +180,11 @@
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(5, 29);
+            label2.Location = new Point(29, 34);
             label2.Name = "label2";
             label2.Size = new Size(105, 20);
             label2.TabIndex = 1;
             label2.Text = "Sistem Kodu :";
-            // 
-            // dateTimePicker1
-            // 
-            dateTimePicker1.Format = DateTimePickerFormat.Short;
-            dateTimePicker1.Location = new Point(180, 75);
-            dateTimePicker1.Name = "dateTimePicker1";
-            dateTimePicker1.Size = new Size(117, 27);
-            dateTimePicker1.TabIndex = 4;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(43, 80);
-            label5.Name = "label5";
-            label5.Size = new Size(131, 20);
-            label5.TabIndex = 5;
-            label5.Text = "Proje Bitiş Tarihi :";
             // 
             // Projeler
             // 
