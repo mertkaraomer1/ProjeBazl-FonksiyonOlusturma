@@ -45,6 +45,7 @@
             label3 = new Label();
             button1 = new Button();
             textBox3 = new TextBox();
+            checkBox1 = new CheckBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -135,6 +136,7 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(comboBox1);
             groupBox2.Controls.Add(label4);
@@ -149,7 +151,6 @@
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modül";
-
             // 
             // label5
             // 
@@ -210,6 +211,16 @@
             textBox3.Size = new Size(238, 30);
             textBox3.TabIndex = 0;
             // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(19, 276);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(173, 27);
+            checkBox1.TabIndex = 7;
+            checkBox1.Text = "2D TASARIM VAR";
+            checkBox1.UseVisualStyleBackColor = true;
+            // 
             // Modul
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
@@ -250,5 +261,6 @@
         private ComboBox comboBox1;
         private Label label6;
         private TextBox textBox5;
+        private CheckBox checkBox1;
     }
 }

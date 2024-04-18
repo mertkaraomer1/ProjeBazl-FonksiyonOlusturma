@@ -89,6 +89,7 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Toplam Çalışma Süresi");
             table.Columns.Add("Başlama Tarihi");
             table.Columns.Add("Bitiş Tarihi");
+            //table.Columns.Add("Performans");
 
             var query = dbContext.assignments
                 .Select(a => new
@@ -108,8 +109,8 @@ namespace FonksiyonOlusturma
 
             foreach (var item in query)
             {
+                TimeSpan totalDifferenceBasla = TimeSpan.Zero;
                 TimeSpan totalDifference = TimeSpan.Zero;
-                TimeSpan totalDifference1 = TimeSpan.Zero;
                 TimeSpan zamanFarki = TimeSpan.Zero;
                 var latestStatus = dbContext.status
                     .Where(a => a.ProjectName == item.ProjectName &&
@@ -179,45 +180,67 @@ namespace FonksiyonOlusturma
                         string.Format("{0} gün {1} saat", days, remainingHours) :
                         string.Format("{0} saat", remainingHours);
 
+
+                    // "Başla" durumunun indekslerini bulun
+                    List<int> baslaIndexes = enSonDurum1.Select((value, index) => new { value, index })
+                                                          .Where(pair => pair.value.durumAdı == "Başla")
+                                                          .Select(pair => pair.index)
+                                                          .ToList();
+
+                    // "Başla" ile "Araver" veya "Bitti" arasındaki süreleri hesaplayın
+                    foreach (int baslaIndex in baslaIndexes)
+                    {
+                        // "Başla" durumunun ardından gelen ilk "Araver" veya "Bitti" durumunun indeksini bulun
+                        int nextAraverOrBittiIndex = enSonDurum1.FindIndex(baslaIndex + 1, a => a.durumAdı == "Araver" || a.durumAdı == "Bitti");
+
+                        // "Başla" ile "Araver" veya "Bitti" arasındaki zaman farkını hesaplayın ve toplam süreye ekleyin
+                        if (nextAraverOrBittiIndex != -1)
+                        {
+                            TimeSpan difference = enSonDurum1[nextAraverOrBittiIndex].durumZamanı - enSonDurum1[baslaIndex].durumZamanı;
+                            totalDifferenceBasla += difference;
+                        }
+                    }
                     if (enSonDurum1.Count > 0)
                     {
-
-                        // Find the index of the first "Araver" status
+                        // İlk "Araver" durumunun dizindeki indeksini bulun
                         int startIndex = enSonDurum1.FindIndex(a => a.durumAdı == "Araver");
-                        // Check if "Araver" status is found
+
+                        // "Araver" durumunun bulunup bulunmadığını kontrol edin
                         if (startIndex != -1)
                         {
-                            // Iterate through each status record starting from the "Araver" status
+                            // "Araver" durumundan başlayarak her durumu tek tek kontrol edin
                             for (int i = startIndex; i < enSonDurum1.Count; i++)
                             {
                                 var statusItem = enSonDurum1[i];
 
-                                // Check if the current status is "Araver"
+                                // Mevcut durum "Araver" ise atlayın
                                 if (statusItem.durumAdı == "Araver")
                                 {
-                                    continue; // Skip the "Araver" status
+                                    continue; // "Araver" durumunu atlayın
                                 }
                                 else if (statusItem.durumAdı == "Başla")
                                 {
-                                    // Find the next "Başla" status after "Araver"
+                                    // "Araver" durumundan sonra "Başla" durumu varsa
+                                    // "Araver" ile "Başla" arasındaki zaman farkını hesaplayın
                                     int nextBaslaIndex = enSonDurum1.FindIndex(i + 1, a => a.durumAdı == "Başla");
 
-                                    // Check if there is a next "Başla" status
+                                    // "Başla" durumu "Araver" durumundan sonra varsa
                                     if (nextBaslaIndex != -1)
                                     {
-                                        // Calculate the time difference between "Araver" and "Başla"
+                                        // "Başla" ile "Araver" arasındaki zaman farkını hesaplayın ve toplam süreye ekleyin
                                         TimeSpan difference = enSonDurum1[nextBaslaIndex].durumZamanı - statusItem.durumZamanı;
-
-                                        // Add the difference to the total
+                                        totalDifference += difference;
+                                    }
+                                    else
+                                    {
+                                        // "Başla" durumu "Araver" durumundan sonra yoksa, şu anki zamanı kullanarak farkı hesaplayın
+                                        TimeSpan difference = DateTime.Now - statusItem.durumZamanı;
                                         totalDifference += difference;
                                     }
                                 }
                             }
                         }
-
-
                     }
-
                     if (ilkBaslaDurumu != null && latestBittiStatus == null)
                     {
                         zamanFarki = DateTime.Now - ilkBaslaDurumu.durumZamanı;
@@ -227,18 +250,34 @@ namespace FonksiyonOlusturma
                     {
                         zamanFarki = latestBittiStatus.statusTime - ilkBaslaDurumu.durumZamanı;
                     }
-
+                    //double performans;
+                    //int CategoryMinutes;
                     double AraverSuresi = totalDifference.TotalMinutes;
-                    double ToplamÇalışmaSuresiDuble = zamanFarki.TotalMinutes;
-                    int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble - AraverSuresi);
+                    double ToplamÇalışmaSuresiDuble = totalDifferenceBasla.TotalMinutes;
+                    int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble);
+                    //if (ToplamÇalışmaSuresi != 0)
+                    //{
+                    //    CategoryMinutes = item.CategoryTime * 60;
+                    //    performans = (CategoryMinutes-ToplamÇalışmaSuresi)/CategoryMinutes;
+                    //}
+                    //else
+                    //{
+                    //    performans = double.MaxValue; // performans değerini en büyük double değeri olarak ayarlayabilirsiniz.
+                    //}
 
                     int toplamDakika2 = ToplamÇalışmaSuresi;
-                    int Gunler2 = toplamDakika2 / (24 * 60); // Calculate days
-                    int saatler2 = (toplamDakika2 % (24 * 60)) / 60; // Calculate hours
-                    int dakikalar2 = toplamDakika2 % 60; // Calculate minutes
+                    int saatler2 = toplamDakika2 / 60; // Calculate hours
+                    int dakikalar2 = toplamDakika2 % 60; // Calculate remaining minutes
 
-                    string TopÇalSure = $"{Gunler2:D2}:{saatler2:D2}:{dakikalar2:D2}";
+                    int Gunler2 = 0;
+                    if (saatler2 >= 24)
+                    {
+                        // Eğer saatler 8 saatten fazlaysa, günleri güncelle ve saatleri düzelt
+                        Gunler2 = saatler2 / 24;
+                        saatler2 %= 24;
+                    }
 
+                    string TopÇalSure = $"{Gunler2:D2} {saatler2:D2}:{dakikalar2:D2}";
                     string BaslamaTarihi = ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
                     string BitisTarihi = (latestBittiStatus != null && latestBittiStatus.statusTime != null)
                         ? latestBittiStatus.statusTime.ToString("dd.MM.yyyy")
@@ -260,6 +299,7 @@ namespace FonksiyonOlusturma
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi
+                            //performans
                         );
                     }
                     else if (latestStatus.statusName == "Araver")
@@ -279,6 +319,7 @@ namespace FonksiyonOlusturma
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi
+                            //performans
                         );
                     }
                     else if (latestStatus.statusName == "Bitti")
@@ -298,6 +339,7 @@ namespace FonksiyonOlusturma
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi
+                            //performans
                         );
                     }
 
@@ -327,6 +369,7 @@ namespace FonksiyonOlusturma
                         "Başlanmadı...",
                         "Başlanmadı...",
                         "Başlanmadı..."
+                        //"Başlanmadı..."
 
                     );
                 }

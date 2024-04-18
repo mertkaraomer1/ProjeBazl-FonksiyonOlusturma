@@ -191,29 +191,40 @@ namespace FonksiyonOlusturma
                                 CategoryTime = CategoryTime,
                                 ModuleTip = "3D"
                             };
-                            var yeniModul1 = new Modules
+                            if (checkBox1.Checked == true)
                             {
-                                FunctionId = functionId,
-                                ProjectId = projectId,
-                                ModuleName = selectedmodulName,
-                                ModuleDescription = selectedModuleDescription,
-                                CategoryId = CategoryId,
-                                ModuleTip = "2D"
-                            };
-                            var RecordEt1 = new Records
-                            {
-                                SystemName = selectedSistemName,
-                                ProjectName = selectedProjectName,
-                                FunctionName = selectedFunctionName,
-                                ModuleName = selectedmodulName,
-                                ModuleDescription = selectedModuleDescription,
-                                CategoryName = selectedCategoryName,
-                                CategoryTime = CategoryTime / 2,
-                                ModuleTip = "2D"
-                            };
-                            dbContext.modules.Add(yeniModul1);
+                                // Eğer checkbox işaretliyse, yeni bir Modules ve Records nesnesi oluştur
+                                var yeniModul1 = new Modules
+                                {
+                                    FunctionId = functionId,
+                                    ProjectId = projectId,
+                                    ModuleName = selectedmodulName,
+                                    ModuleDescription = selectedModuleDescription,
+                                    CategoryId = CategoryId,
+                                    ModuleTip = "2D"
+                                };
+
+                                // Records nesnesi oluştur ve gerekli alanları doldur
+                                var RecordEt1 = new Records
+                                {
+                                    SystemName = selectedSistemName,
+                                    ProjectName = selectedProjectName,
+                                    FunctionName = selectedFunctionName,
+                                    ModuleName = selectedmodulName,
+                                    ModuleDescription = selectedModuleDescription,
+                                    CategoryName = selectedCategoryName,
+                                    CategoryTime = CategoryTime / 2, // Belirtilen zamanın yarısını al
+                                    ModuleTip = "2D"
+                                };
+
+                                // Oluşturulan kayıtları veritabanına ekle
+                                dbContext.records.Add(RecordEt1);
+                                dbContext.modules.Add(yeniModul1);
+                            }
+
+
                             dbContext.modules.Add(yeniModul); // Yeni modulu Moduls tablosuna ekleyin
-                            dbContext.records.Add(RecordEt1);
+
                             dbContext.records.Add(RecordEt);
                             dbContext.SaveChanges(); // Değişiklikleri veritabanına kaydedin
                         }

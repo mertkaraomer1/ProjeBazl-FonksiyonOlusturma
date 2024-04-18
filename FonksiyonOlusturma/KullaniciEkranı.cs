@@ -625,109 +625,117 @@ namespace FonksiyonOlusturma
 
         private void button4_Click(object sender, EventArgs e)
         {
-            using (var dbContext = new MyDbContext())
+            if (textBox1.Text!=null)
             {
-                string selectedsystemname = selectedSystemName.ToString();
-                string selectedProjectName = string.IsNullOrWhiteSpace(textBox2.Text) ? null : textBox2.Text;
-                string selectedFunctionName = string.IsNullOrWhiteSpace(textBox3.Text) ? null : textBox3.Text;
-                string selectedModuleName = string.IsNullOrWhiteSpace(textBox4.Text) ? null : textBox4.Text;
-                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                using (var dbContext = new MyDbContext())
                 {
-                    // Seçilen ProjectName'e göre ProjectId'yi alın
-                    int projectId = dbContext.projects
-                        .Where(p => p.ProjectName == selectedProjectName)
-                        .Select(p => p.ProjectId)
-                        .FirstOrDefault();
-
-                    if (projectId > 0)
+                    string selectedsystemname = selectedSystemName.ToString();
+                    string selectedProjectName = string.IsNullOrWhiteSpace(textBox2.Text) ? null : textBox2.Text;
+                    string selectedFunctionName = string.IsNullOrWhiteSpace(textBox3.Text) ? null : textBox3.Text;
+                    string selectedModuleName = string.IsNullOrWhiteSpace(textBox4.Text) ? null : textBox4.Text;
+                    if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                     {
-                        // Seçilen FunctionName'e göre FunctionId'yi alın
-                        int functionId = dbContext.functions
-                            .Where(f => f.FunctionName == selectedFunctionName)
-                            .Select(f => f.FunctionId)
+                        // Seçilen ProjectName'e göre ProjectId'yi alın
+                        int projectId = dbContext.projects
+                            .Where(p => p.ProjectName == selectedProjectName)
+                            .Select(p => p.ProjectId)
                             .FirstOrDefault();
 
-                        if (functionId > 0)
+                        if (projectId > 0)
                         {
-                            // Seçilen ModuleName'i güncellemek için ilgili Module kaydını bulun
-                            var module = dbContext.modules
-                                .Where(m => m.ModuleName == selectedModuleName && m.FunctionId == functionId && m.ProjectId == projectId);
+                            // Seçilen FunctionName'e göre FunctionId'yi alın
+                            int functionId = dbContext.functions
+                                .Where(f => f.FunctionName == selectedFunctionName)
+                                .Select(f => f.FunctionId)
+                                .FirstOrDefault();
 
-                            foreach (var modules in module)
+                            if (functionId > 0)
                             {
-                                // TextBox1'den gelen veri ile ModuleName'i güncelleyin
-                                modules.ModuleName = textBox1.Text;
+                                // Seçilen ModuleName'i güncellemek için ilgili Module kaydını bulun
+                                var module = dbContext.modules
+                                    .Where(m => m.ModuleName == selectedModuleName && m.FunctionId == functionId && m.ProjectId == projectId);
 
-                                if (dbContext.ChangeTracker.HasChanges())
+                                foreach (var modules in module)
                                 {
-                                    try
+                                    // TextBox1'den gelen veri ile ModuleName'i güncelleyin
+                                    modules.ModuleName = textBox1.Text;
+
+                                    if (dbContext.ChangeTracker.HasChanges())
                                     {
-                                        dbContext.SaveChanges();
-                                    }
-                                    catch (Exception ex)
-                                    {
-                                        Console.WriteLine("Hata: " + ex.Message);
+                                        try
+                                        {
+                                            dbContext.SaveChanges();
+                                        }
+                                        catch (Exception ex)
+                                        {
+                                            Console.WriteLine("Hata: " + ex.Message);
+                                        }
                                     }
                                 }
                             }
                         }
                     }
-                }
-                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
-                {
-                    var StatusToUpdateList = dbContext.status
-                        .Where(s => s.ProjectName == selectedProjectName &&
-                                    s.FunctionName == selectedFunctionName &&
-                                    s.ModuleName == selectedModuleName &&
-                                    s.StaffName == staffname &&
-                                    s.ModuleTip == moduleTip&&
-                                    s.CategoryTime==kolon4Verisi)
-                        .ToList();
-
-                    foreach (var status in StatusToUpdateList)
+                    if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                     {
-                        status.ModuleName = textBox1.Text;
+                        var StatusToUpdateList = dbContext.status
+                            .Where(s => s.ProjectName == selectedProjectName &&
+                                        s.FunctionName == selectedFunctionName &&
+                                        s.ModuleName == selectedModuleName &&
+                                        s.StaffName == staffname &&
+                                        s.ModuleTip == moduleTip &&
+                                        s.CategoryTime == kolon4Verisi)
+                            .ToList();
+
+                        foreach (var status in StatusToUpdateList)
+                        {
+                            status.ModuleName = textBox1.Text;
+                        }
+
+                        // Değişiklikleri veritabanına kaydet
+                        dbContext.SaveChanges();
+
+                        MessageBox.Show("Değişiklikler Kaydedildi.");
                     }
-
-                    // Değişiklikleri veritabanına kaydet
-                    dbContext.SaveChanges();
-
-                    MessageBox.Show("Değişiklikler Kaydedildi.");
-                }
-                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
-                {
-                    // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
-                    var assignmentsToUpdate = dbContext.assignments
-                        .Where(a => a.ProjectName == selectedProjectName &&
-                                    a.FunctionName == selectedFunctionName &&
-                                    a.ModuleName == selectedModuleName);
-
-                    foreach (var assignment in assignmentsToUpdate)
+                    if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                     {
-                        assignment.ModuleName = textBox1.Text;
+                        // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
+                        var assignmentsToUpdate = dbContext.assignments
+                            .Where(a => a.ProjectName == selectedProjectName &&
+                                        a.FunctionName == selectedFunctionName &&
+                                        a.ModuleName == selectedModuleName);
+
+                        foreach (var assignment in assignmentsToUpdate)
+                        {
+                            assignment.ModuleName = textBox1.Text;
+                        }
+
+                        // Değişiklikleri veritabanına kaydet
+                        dbContext.SaveChanges();
                     }
-
-                    // Değişiklikleri veritabanına kaydet
-                    dbContext.SaveChanges();
-                }
-                if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
-                {
-                    // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
-                    var RecordsToUpdate = dbContext.records
-                        .Where(a => a.SystemName == selectedsystemname &&
-                                    a.ProjectName == selectedProjectName &&
-                                    a.FunctionName == selectedFunctionName &&
-                                    a.ModuleName == selectedModuleName);
-
-                    foreach (var records in RecordsToUpdate)
+                    if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
                     {
-                        records.ModuleName = textBox1.Text;
-                    }
+                        // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
+                        var RecordsToUpdate = dbContext.records
+                            .Where(a => a.SystemName == selectedsystemname &&
+                                        a.ProjectName == selectedProjectName &&
+                                        a.FunctionName == selectedFunctionName &&
+                                        a.ModuleName == selectedModuleName);
 
-                    // Değişiklikleri veritabanına kaydet
-                    dbContext.SaveChanges();
+                        foreach (var records in RecordsToUpdate)
+                        {
+                            records.ModuleName = textBox1.Text;
+                        }
+
+                        // Değişiklikleri veritabanına kaydet
+                        dbContext.SaveChanges();
+                    }
                 }
             }
+            else
+            {
+                MessageBox.Show("Modül Numarası giriniz...");
+            }
+
             yükle();
         }
 
