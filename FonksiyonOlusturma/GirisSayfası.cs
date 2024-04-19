@@ -26,8 +26,9 @@
             if (e.CloseReason == CloseReason.UserClosing)
             {
                 // Programı kapat
-                Application.Exit();
+                Environment.Exit(0);
             }
+
         }
 
         private void button2_Click(object sender, EventArgs e)
