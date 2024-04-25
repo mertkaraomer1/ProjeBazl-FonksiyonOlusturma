@@ -112,6 +112,22 @@ namespace FonksiyonOlusturma
             Atanmıslar();
             SistemValue();
             Yükle();
+
+            toolStripLabel1.ToolTipText =
+
+              "1.Sistem Seçiniz.\n" +
+
+              "2.Proje Seçiniz.\n" +
+
+              "3.Atama Yapılacak Yerlerden İşleri Personellere Atayınız.\n" +
+
+              "4.Kaydet'e Tıklayınız.\n" +
+
+              "5.Yanlış Atama Yaptıysanız Atamalardan Silin\n" +
+
+              "6.Tekrar Atama Yapınız. \n" +
+
+              "7.Kaydet'e Tıklayınız.";
         }
 
         private void button1_Click(object sender, EventArgs e)

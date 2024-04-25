@@ -39,6 +39,7 @@
             groupBox3 = new GroupBox();
             toolStrip1 = new ToolStrip();
             toolStripButton1 = new ToolStripButton();
+            toolStripLabel1 = new ToolStripLabel();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             ((System.ComponentModel.ISupportInitialize)dataGridView3).BeginInit();
@@ -146,7 +147,7 @@
             // toolStrip1
             // 
             toolStrip1.ImageScalingSize = new Size(20, 20);
-            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripButton1 });
+            toolStrip1.Items.AddRange(new ToolStripItem[] { toolStripLabel1, toolStripButton1 });
             toolStrip1.Location = new Point(0, 0);
             toolStrip1.Name = "toolStrip1";
             toolStrip1.Size = new Size(1902, 27);
@@ -162,6 +163,12 @@
             toolStripButton1.Size = new Size(29, 24);
             toolStripButton1.Text = "toolStripButton1";
             toolStripButton1.Click += toolStripButton1_Click;
+            // 
+            // toolStripLabel1
+            // 
+            toolStripLabel1.Image = Properties.Resources.icons8_question_mark_64;
+            toolStripLabel1.Name = "toolStripLabel1";
+            toolStripLabel1.Size = new Size(20, 24);
             // 
             // Atamalar
             // 
@@ -203,5 +210,6 @@
         private GroupBox groupBox3;
         private ToolStrip toolStrip1;
         private ToolStripButton toolStripButton1;
+        private ToolStripLabel toolStripLabel1;
     }
 }

@@ -89,7 +89,7 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Toplam Çalışma Süresi");
             table.Columns.Add("Başlama Tarihi");
             table.Columns.Add("Bitiş Tarihi");
-            //table.Columns.Add("Performans");
+            table.Columns.Add("Performans");
 
             var query = dbContext.assignments
                 .Select(a => new
@@ -250,20 +250,32 @@ namespace FonksiyonOlusturma
                     {
                         zamanFarki = latestBittiStatus.statusTime - ilkBaslaDurumu.durumZamanı;
                     }
-                    //double performans;
-                    //int CategoryMinutes;
+                    double performans=0;
+                    int CategoryMinutes;
                     double AraverSuresi = totalDifference.TotalMinutes;
                     double ToplamÇalışmaSuresiDuble = totalDifferenceBasla.TotalMinutes;
                     int ToplamÇalışmaSuresi = Convert.ToInt32(ToplamÇalışmaSuresiDuble);
-                    //if (ToplamÇalışmaSuresi != 0)
-                    //{
-                    //    CategoryMinutes = item.CategoryTime * 60;
-                    //    performans = (CategoryMinutes-ToplamÇalışmaSuresi)/CategoryMinutes;
-                    //}
-                    //else
-                    //{
-                    //    performans = double.MaxValue; // performans değerini en büyük double değeri olarak ayarlayabilirsiniz.
-                    //}
+                    CategoryMinutes = item.CategoryTime * 60;
+                    if (ToplamÇalışmaSuresi <= CategoryMinutes)
+                    {
+                        performans = 100;
+                    }
+                    else if (ToplamÇalışmaSuresi > CategoryMinutes)
+                    {
+                        double farkYüzdesi = ToplamÇalışmaSuresi - CategoryMinutes;
+
+                        // Yüzdeyi ayarlamak için koşulları kontrol edin
+                        if (ToplamÇalışmaSuresi > CategoryMinutes && ToplamÇalışmaSuresi < CategoryMinutes*2)
+                        {
+                            performans =Math.Round( 100 - ((farkYüzdesi/CategoryMinutes)*100),2);
+                        }
+                        else if (ToplamÇalışmaSuresi >= CategoryMinutes*2)
+                        {
+                            performans=0;
+                        }
+
+                    }
+                    string performansstring=Convert.ToString("%"+performans);
 
                     int toplamDakika2 = ToplamÇalışmaSuresi;
                     int saatler2 = toplamDakika2 / 60; // Calculate hours
@@ -278,9 +290,9 @@ namespace FonksiyonOlusturma
                     }
 
                     string TopÇalSure = $"{Gunler2:D2} {saatler2:D2}:{dakikalar2:D2}";
-                    string BaslamaTarihi = ilkBaslaDurumu.durumZamanı.ToString("dd.MM.yyyy");
+                    string BaslamaTarihi = ilkBaslaDurumu.durumZamanı.ToString("yyyy.MM.dd");
                     string BitisTarihi = (latestBittiStatus != null && latestBittiStatus.statusTime != null)
-                        ? latestBittiStatus.statusTime.ToString("dd.MM.yyyy")
+                        ? latestBittiStatus.statusTime.ToString("yyyy.MM.dd")
                         : "Bitirilmedi..."; // Veya başka bir değer veya boş bir string
                     if (latestStatus.statusName == "Başla")
                     {
@@ -298,8 +310,9 @@ namespace FonksiyonOlusturma
                             "Devam Ediyor...",
                             TopÇalSure,
                             BaslamaTarihi,
-                            BitisTarihi
-                            //performans
+                            BitisTarihi,
+                            performansstring
+
                         );
                     }
                     else if (latestStatus.statusName == "Araver")
@@ -318,8 +331,8 @@ namespace FonksiyonOlusturma
                             "Ara Verildi...",
                             TopÇalSure,
                             BaslamaTarihi,
-                            BitisTarihi
-                            //performans
+                            BitisTarihi,
+                            performansstring
                         );
                     }
                     else if (latestStatus.statusName == "Bitti")
@@ -338,8 +351,8 @@ namespace FonksiyonOlusturma
                             latestStatus.statusName,
                             TopÇalSure,
                             BaslamaTarihi,
-                            BitisTarihi
-                            //performans
+                            BitisTarihi,
+                            performansstring
                         );
                     }
 
@@ -368,8 +381,8 @@ namespace FonksiyonOlusturma
                         "Başlanmadı...",
                         "Başlanmadı...",
                         "Başlanmadı...",
+                        "Başlanmadı...",
                         "Başlanmadı..."
-                        //"Başlanmadı..."
 
                     );
                 }
