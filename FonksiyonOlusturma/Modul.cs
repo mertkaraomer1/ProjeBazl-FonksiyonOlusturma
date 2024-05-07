@@ -46,6 +46,7 @@ namespace FonksiyonOlusturma
             dataGridView1.Columns.Add("Column2", "MODÜLLER");
             dataGridView1.Columns.Add("Column3", "MODÜL AÇIKLAMASI");
             dataGridView1.Columns.Add("Column4", "TİP");
+            dataGridView1.Columns.Add("Column5", "AÇIKLAMA");
             using (var dbContext = new MyDbContext()) // DbContext'inizi burada kullanmanız gerekiyor
             {
                 string searchText1 = textBox5.Text; // TextBox1'den gelen veriyi alın
@@ -76,7 +77,9 @@ namespace FonksiyonOlusturma
                     {
                         moduleName = m.ModuleName,
                         moduleDescription = m.ModuleDescription,
-                        modultip = m.ModuleTip
+                        modultip = m.ModuleTip,
+                        ModülAciklama=m.Description
+                        
                     })
                     .ToList();
 
@@ -100,6 +103,10 @@ namespace FonksiyonOlusturma
 
                     // İkinci sütunu (MODÜLLER) modül adı olarak ayarlayın
                     row.Cells.Add(new DataGridViewTextBoxCell { Value = module.modultip });
+
+                    // İkinci sütunu (MODÜLLER) modül adı olarak ayarlayın
+                    row.Cells.Add(new DataGridViewTextBoxCell { Value = module.ModülAciklama });
+
 
                     // DataGridView'e satırı ekleyin
                     dataGridView1.Rows.Add(row);
@@ -282,7 +289,7 @@ namespace FonksiyonOlusturma
             int columnIndex = e.ColumnIndex;
             int rowIndex = e.RowIndex;
 
-            if (columnIndex == dataGridView1.Columns[4].Index)
+            if (columnIndex == dataGridView1.Columns[5].Index)
             {
                 // İlgili satırda bulunan verilere erişmek için veri modelini kullanabilirsiniz.
                 if (rowIndex >= 0 && rowIndex < dataGridView1.Rows.Count)
