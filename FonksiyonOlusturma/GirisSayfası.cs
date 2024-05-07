@@ -22,11 +22,10 @@
         }
         private void GirisSayfası_FormClosing(object sender, FormClosingEventArgs e)
         {
-            // Form kapatılmak istendiğinde
             if (e.CloseReason == CloseReason.UserClosing)
             {
-                // Programı kapat
-                Environment.Exit(0);
+                // Ana form kapatıldığında tüm uygulamayı kapat
+                Application.Exit();
             }
 
         }
