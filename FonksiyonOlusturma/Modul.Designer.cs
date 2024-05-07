@@ -38,6 +38,7 @@
             textBox1 = new TextBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            checkBox1 = new CheckBox();
             label5 = new Label();
             comboBox1 = new ComboBox();
             label4 = new Label();
@@ -45,7 +46,8 @@
             label3 = new Label();
             button1 = new Button();
             textBox3 = new TextBox();
-            checkBox1 = new CheckBox();
+            label7 = new Label();
+            textBox6 = new TextBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -136,6 +138,8 @@
             // 
             // groupBox2
             // 
+            groupBox2.Controls.Add(label7);
+            groupBox2.Controls.Add(textBox6);
             groupBox2.Controls.Add(checkBox1);
             groupBox2.Controls.Add(label5);
             groupBox2.Controls.Add(comboBox1);
@@ -147,10 +151,20 @@
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
             groupBox2.Location = new Point(576, 21);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(250, 366);
+            groupBox2.Size = new Size(250, 513);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modül";
+            // 
+            // checkBox1
+            // 
+            checkBox1.AutoSize = true;
+            checkBox1.Location = new Point(25, 423);
+            checkBox1.Name = "checkBox1";
+            checkBox1.Size = new Size(173, 27);
+            checkBox1.TabIndex = 7;
+            checkBox1.Text = "2D TASARIM VAR";
+            checkBox1.UseVisualStyleBackColor = true;
             // 
             // label5
             // 
@@ -196,7 +210,7 @@
             // 
             // button1
             // 
-            button1.Location = new Point(85, 315);
+            button1.Location = new Point(91, 462);
             button1.Name = "button1";
             button1.Size = new Size(94, 45);
             button1.TabIndex = 1;
@@ -211,15 +225,22 @@
             textBox3.Size = new Size(238, 30);
             textBox3.TabIndex = 0;
             // 
-            // checkBox1
+            // label7
             // 
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(19, 276);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(173, 27);
-            checkBox1.TabIndex = 7;
-            checkBox1.Text = "2D TASARIM VAR";
-            checkBox1.UseVisualStyleBackColor = true;
+            label7.AutoSize = true;
+            label7.Location = new Point(17, 288);
+            label7.Name = "label7";
+            label7.Size = new Size(94, 23);
+            label7.TabIndex = 9;
+            label7.Text = "Açıklama :";
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(6, 318);
+            textBox6.Multiline = true;
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(238, 99);
+            textBox6.TabIndex = 8;
             // 
             // Modul
             // 
@@ -262,5 +283,7 @@
         private Label label6;
         private TextBox textBox5;
         private CheckBox checkBox1;
+        private Label label7;
+        private TextBox textBox6;
     }
 }

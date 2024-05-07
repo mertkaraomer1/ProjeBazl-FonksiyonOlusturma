@@ -122,8 +122,9 @@ namespace FonksiyonOlusturma
             string selectedFunctionName = textBox2.Text;
             string selectedProjectName = textBox1.Text;
             string selectedmodulName = textBox3.Text;
-            string selectedModuleDescription = textBox4.Text;
+            string selectedModuleDescriptionName = textBox4.Text;
             string selectedCategoryName = comboBox1.Text;
+            string selectedDescription = textBox6.Text;
 
             if (!string.IsNullOrEmpty(selectedFunctionName) &&
                 !string.IsNullOrEmpty(selectedProjectName) &&
@@ -176,9 +177,10 @@ namespace FonksiyonOlusturma
                                 FunctionId = functionId,
                                 ProjectId = projectId,
                                 ModuleName = selectedmodulName,
-                                ModuleDescription = selectedModuleDescription,
+                                ModuleDescription = selectedModuleDescriptionName,
                                 CategoryId = CategoryId,
-                                ModuleTip = "3D"
+                                ModuleTip = "3D",
+                                Description = selectedDescription
                             };
                             var RecordEt = new Records
                             {
@@ -186,7 +188,7 @@ namespace FonksiyonOlusturma
                                 ProjectName = selectedProjectName,
                                 FunctionName = selectedFunctionName,
                                 ModuleName = selectedmodulName,
-                                ModuleDescription = selectedModuleDescription,
+                                ModuleDescription = selectedModuleDescriptionName,
                                 CategoryName = selectedCategoryName,
                                 CategoryTime = CategoryTime,
                                 ModuleTip = "3D"
@@ -199,9 +201,10 @@ namespace FonksiyonOlusturma
                                     FunctionId = functionId,
                                     ProjectId = projectId,
                                     ModuleName = selectedmodulName,
-                                    ModuleDescription = selectedModuleDescription,
+                                    ModuleDescription = selectedModuleDescriptionName,
                                     CategoryId = CategoryId,
-                                    ModuleTip = "2D"
+                                    ModuleTip = "2D",
+                                    Description = selectedDescription
                                 };
 
                                 // Records nesnesi oluştur ve gerekli alanları doldur
@@ -211,7 +214,7 @@ namespace FonksiyonOlusturma
                                     ProjectName = selectedProjectName,
                                     FunctionName = selectedFunctionName,
                                     ModuleName = selectedmodulName,
-                                    ModuleDescription = selectedModuleDescription,
+                                    ModuleDescription = selectedModuleDescriptionName,
                                     CategoryName = selectedCategoryName,
                                     CategoryTime = CategoryTime / 2, // Belirtilen zamanın yarısını al
                                     ModuleTip = "2D"
