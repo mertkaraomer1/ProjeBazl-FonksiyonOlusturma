@@ -78,8 +78,8 @@ namespace FonksiyonOlusturma
                         moduleName = m.ModuleName,
                         moduleDescription = m.ModuleDescription,
                         modultip = m.ModuleTip,
-                        ModülAciklama=m.Description
-                        
+                        ModülAciklama = m.Description
+
                     })
                     .ToList();
 
@@ -147,7 +147,7 @@ namespace FonksiyonOlusturma
                             .FirstOrDefault();
 
                         int functionId = dbContext.functions
-                            .Where(f => f.FunctionName == selectedFunctionName && f.ProjectId==projectId)
+                            .Where(f => f.FunctionName == selectedFunctionName && f.ProjectId == projectId)
                             .Select(f => f.FunctionId)
                             .FirstOrDefault();
 
@@ -347,7 +347,16 @@ namespace FonksiyonOlusturma
 
 
         }
-
-
+        private void button2_Click(object sender, EventArgs e)
+        {
+            ModülKopyala MK=new ModülKopyala();
+            string projename = textBox1.Text;
+            string fonksiyonname = textBox2.Text; // Form2'deki TextBox'tan veriyi al
+            string sistemname=textBox5.Text;
+            MK.TextBoxValueProje = projename; // Form3'teki TextBox'a veriyi aktar
+            MK.TextBoxValueFonksiyon = fonksiyonname;// Form3'teki TextBox2'ye veriyi aktar
+            MK.TextBoxValueSistem= sistemname;
+            MK.Show();
+        }
     }
 }

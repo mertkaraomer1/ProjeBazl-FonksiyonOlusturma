@@ -38,6 +38,8 @@
             textBox1 = new TextBox();
             dataGridView1 = new DataGridView();
             groupBox2 = new GroupBox();
+            label7 = new Label();
+            textBox6 = new TextBox();
             checkBox1 = new CheckBox();
             label5 = new Label();
             comboBox1 = new ComboBox();
@@ -46,8 +48,7 @@
             label3 = new Label();
             button1 = new Button();
             textBox3 = new TextBox();
-            label7 = new Label();
-            textBox6 = new TextBox();
+            button2 = new Button();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
@@ -62,7 +63,7 @@
             groupBox1.Controls.Add(textBox2);
             groupBox1.Controls.Add(textBox1);
             groupBox1.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox1.Location = new Point(23, 12);
+            groupBox1.Location = new Point(23, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Size = new Size(419, 127);
             groupBox1.TabIndex = 0;
@@ -126,7 +127,7 @@
             dataGridView1.AutoSizeColumnsMode = DataGridViewAutoSizeColumnsMode.Fill;
             dataGridView1.BackgroundColor = Color.White;
             dataGridView1.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            dataGridView1.Location = new Point(12, 145);
+            dataGridView1.Location = new Point(12, 137);
             dataGridView1.Name = "dataGridView1";
             dataGridView1.ReadOnly = true;
             dataGridView1.RowHeadersWidth = 51;
@@ -149,12 +150,29 @@
             groupBox2.Controls.Add(button1);
             groupBox2.Controls.Add(textBox3);
             groupBox2.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            groupBox2.Location = new Point(576, 21);
+            groupBox2.Location = new Point(576, 13);
             groupBox2.Name = "groupBox2";
             groupBox2.Size = new Size(250, 513);
             groupBox2.TabIndex = 2;
             groupBox2.TabStop = false;
             groupBox2.Text = "Modül";
+            // 
+            // label7
+            // 
+            label7.AutoSize = true;
+            label7.Location = new Point(17, 288);
+            label7.Name = "label7";
+            label7.Size = new Size(94, 23);
+            label7.TabIndex = 9;
+            label7.Text = "Açıklama :";
+            // 
+            // textBox6
+            // 
+            textBox6.Location = new Point(6, 318);
+            textBox6.Multiline = true;
+            textBox6.Name = "textBox6";
+            textBox6.Size = new Size(238, 99);
+            textBox6.TabIndex = 8;
             // 
             // checkBox1
             // 
@@ -225,29 +243,24 @@
             textBox3.Size = new Size(238, 30);
             textBox3.TabIndex = 0;
             // 
-            // label7
+            // button2
             // 
-            label7.AutoSize = true;
-            label7.Location = new Point(17, 288);
-            label7.Name = "label7";
-            label7.Size = new Size(94, 23);
-            label7.TabIndex = 9;
-            label7.Text = "Açıklama :";
-            // 
-            // textBox6
-            // 
-            textBox6.Location = new Point(6, 318);
-            textBox6.Multiline = true;
-            textBox6.Name = "textBox6";
-            textBox6.Size = new Size(238, 99);
-            textBox6.TabIndex = 8;
+            button2.Font = new Font("Segoe UI", 9F, FontStyle.Bold, GraphicsUnit.Point);
+            button2.Location = new Point(726, 645);
+            button2.Name = "button2";
+            button2.Size = new Size(94, 61);
+            button2.TabIndex = 3;
+            button2.Text = "MODÜL KOPYALA";
+            button2.UseVisualStyleBackColor = true;
+            button2.Click += button2_Click;
             // 
             // Modul
             // 
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
-            ClientSize = new Size(860, 726);
+            ClientSize = new Size(860, 750);
+            Controls.Add(button2);
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
             Controls.Add(groupBox1);
@@ -285,5 +298,6 @@
         private CheckBox checkBox1;
         private Label label7;
         private TextBox textBox6;
+        private Button button2;
     }
 }
