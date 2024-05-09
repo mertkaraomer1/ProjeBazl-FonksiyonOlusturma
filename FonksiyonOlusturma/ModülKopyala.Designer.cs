@@ -38,14 +38,16 @@
             label4 = new Label();
             label3 = new Label();
             groupBox2 = new GroupBox();
+            textBox3 = new TextBox();
+            label5 = new Label();
             textBox2 = new TextBox();
             textBox1 = new TextBox();
             button1 = new Button();
-            textBox3 = new TextBox();
-            label5 = new Label();
+            pictureBox1 = new PictureBox();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)dataGridView1).BeginInit();
             groupBox2.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
             SuspendLayout();
             // 
             // groupBox1
@@ -144,6 +146,22 @@
             groupBox2.TabIndex = 4;
             groupBox2.TabStop = false;
             // 
+            // textBox3
+            // 
+            textBox3.Location = new Point(6, 144);
+            textBox3.Name = "textBox3";
+            textBox3.Size = new Size(125, 27);
+            textBox3.TabIndex = 6;
+            // 
+            // label5
+            // 
+            label5.AutoSize = true;
+            label5.Location = new Point(6, 13);
+            label5.Name = "label5";
+            label5.Size = new Size(61, 20);
+            label5.TabIndex = 5;
+            label5.Text = "SİSTEM";
+            // 
             // textBox2
             // 
             textBox2.Location = new Point(6, 91);
@@ -169,21 +187,15 @@
             button1.UseVisualStyleBackColor = true;
             button1.Click += button1_Click;
             // 
-            // textBox3
+            // pictureBox1
             // 
-            textBox3.Location = new Point(6, 144);
-            textBox3.Name = "textBox3";
-            textBox3.Size = new Size(125, 27);
-            textBox3.TabIndex = 6;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Location = new Point(6, 13);
-            label5.Name = "label5";
-            label5.Size = new Size(61, 20);
-            label5.TabIndex = 5;
-            label5.Text = "SİSTEM";
+            pictureBox1.Image = Properties.Resources.icm_machinery_and_engineering_co_ltd_logo;
+            pictureBox1.Location = new Point(340, 3);
+            pictureBox1.Name = "pictureBox1";
+            pictureBox1.Size = new Size(172, 150);
+            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
+            pictureBox1.TabIndex = 6;
+            pictureBox1.TabStop = false;
             // 
             // ModülKopyala
             // 
@@ -191,6 +203,7 @@
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.Gray;
             ClientSize = new Size(860, 750);
+            Controls.Add(pictureBox1);
             Controls.Add(button1);
             Controls.Add(groupBox2);
             Controls.Add(dataGridView1);
@@ -205,6 +218,7 @@
             ((System.ComponentModel.ISupportInitialize)dataGridView1).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
             ResumeLayout(false);
         }
 
@@ -224,5 +238,6 @@
         private Button button1;
         private TextBox textBox3;
         private Label label5;
+        private PictureBox pictureBox1;
     }
 }

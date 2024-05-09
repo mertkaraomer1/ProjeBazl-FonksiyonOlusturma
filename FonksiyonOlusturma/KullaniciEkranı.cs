@@ -608,21 +608,6 @@ namespace FonksiyonOlusturma
             groupBox2.Visible = false;
         }
 
-
-
-        private void checkBox1_CheckedChanged(object sender, EventArgs e)
-        {
-            if (checkBox1.Checked == true)
-            {
-                groupBox2.Visible = true;
-            }
-            else
-            {
-                groupBox2.Visible = false;
-            }
-
-        }
-
         private void button4_Click(object sender, EventArgs e)
         {
             if (textBox1.Text!=null)

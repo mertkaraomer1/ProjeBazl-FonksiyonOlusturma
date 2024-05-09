@@ -31,12 +31,10 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KullaniciEkranı));
             groupBox1 = new GroupBox();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
-            label6 = new Label();
             groupBox2 = new GroupBox();
             button4 = new Button();
             label5 = new Label();
             textBox1 = new TextBox();
-            checkBox1 = new CheckBox();
             button2 = new Button();
             button3 = new Button();
             button1 = new Button();
@@ -59,9 +57,7 @@
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(advancedDataGridView1);
-            groupBox1.Controls.Add(label6);
             groupBox1.Controls.Add(groupBox2);
-            groupBox1.Controls.Add(checkBox1);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(button1);
@@ -93,18 +89,6 @@
             advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
             advancedDataGridView1.RowPrePaint += advancedDataGridView1_RowPrePaint;
             // 
-            // label6
-            // 
-            label6.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            label6.AutoSize = true;
-            label6.Font = new Font("Segoe UI Light", 7.8F, FontStyle.Regular, GraphicsUnit.Point);
-            label6.ForeColor = Color.Blue;
-            label6.Location = new Point(552, 750);
-            label6.Name = "label6";
-            label6.Size = new Size(335, 34);
-            label6.TabIndex = 16;
-            label6.Text = "Bitirmeden önce kutuyu aktif ediniz. Modül kodunu yazınız.\r\nBitir butonuna basınız!!!";
-            // 
             // groupBox2
             // 
             groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
@@ -113,13 +97,13 @@
             groupBox2.Controls.Add(textBox1);
             groupBox2.Location = new Point(893, 724);
             groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(250, 148);
+            groupBox2.Size = new Size(224, 148);
             groupBox2.TabIndex = 15;
             groupBox2.TabStop = false;
             // 
             // button4
             // 
-            button4.Location = new Point(88, 88);
+            button4.Location = new Point(62, 88);
             button4.Name = "button4";
             button4.Size = new Size(94, 45);
             button4.TabIndex = 15;
@@ -139,21 +123,10 @@
             // 
             // textBox1
             // 
-            textBox1.Location = new Point(32, 52);
+            textBox1.Location = new Point(6, 52);
             textBox1.Name = "textBox1";
             textBox1.Size = new Size(210, 30);
             textBox1.TabIndex = 13;
-            // 
-            // checkBox1
-            // 
-            checkBox1.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            checkBox1.AutoSize = true;
-            checkBox1.Location = new Point(528, 767);
-            checkBox1.Name = "checkBox1";
-            checkBox1.Size = new Size(18, 17);
-            checkBox1.TabIndex = 12;
-            checkBox1.UseVisualStyleBackColor = true;
-            checkBox1.CheckedChanged += checkBox1_CheckedChanged;
             // 
             // button2
             // 
@@ -294,7 +267,6 @@
             WindowState = FormWindowState.Maximized;
             Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
-            groupBox1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).EndInit();
             groupBox2.ResumeLayout(false);
             groupBox2.PerformLayout();
@@ -312,8 +284,6 @@
         private GroupBox groupBox2;
         private Label label5;
         private TextBox textBox1;
-        private CheckBox checkBox1;
-        private Label label6;
         private Button button4;
         private TextBox textBox2;
         private TextBox textBox3;

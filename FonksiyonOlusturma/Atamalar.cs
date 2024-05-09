@@ -156,10 +156,6 @@ namespace FonksiyonOlusturma
                         };
                         assignments.Add(assignment);
                     }
-                    else
-                    {
-                        // Geçerli bir TimeSpan formatına dönüşüm yapılamadı, hata işleme veya bildirim ekleme
-                    }
                 }
             }
 
