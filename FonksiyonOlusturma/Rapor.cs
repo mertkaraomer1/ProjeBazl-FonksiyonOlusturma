@@ -86,6 +86,7 @@ namespace FonksiyonOlusturma
             table.Columns.Add("Staff Name");
             table.Columns.Add("Module Tip");
             table.Columns.Add("Status");
+            table.Columns.Add("Popup");
             table.Columns.Add("Toplam Çalışma Süresi");
             table.Columns.Add("Başlama Tarihi");
             table.Columns.Add("Bitiş Tarihi");
@@ -171,6 +172,17 @@ namespace FonksiyonOlusturma
                      })
                      .OrderBy(a => a.durumZamanı)
                      .ToList();
+
+                    var enSonDurumAraverAciklama = dbContext.status
+                        .Where(a => a.ProjectName == item.ProjectName &&
+                        a.FunctionName == item.FunctionName &&
+                        a.ModuleName == item.ModuleName &&
+                        a.ModuleTip == item.ModuleTip &&
+                        a.StatusName == "Araver")
+                        .OrderByDescending(a => a.StatusTime)
+                        .Select(a => a.popup)
+                        .FirstOrDefault();
+
 
                     // CategoryTime'ı günlere ve saatlere dönüştür
                     int categoryTimeInHours = item.CategoryTime;
@@ -308,6 +320,7 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Devam Ediyor...",
+                            "",
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi,
@@ -329,6 +342,7 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             "Ara Verildi...",
+                            enSonDurumAraverAciklama,
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi,
@@ -349,6 +363,7 @@ namespace FonksiyonOlusturma
                             item.StaffName,
                             item.ModuleTip,
                             latestStatus.statusName,
+                            "",
                             TopÇalSure,
                             BaslamaTarihi,
                             BitisTarihi,
@@ -379,6 +394,7 @@ namespace FonksiyonOlusturma
                         item.StaffName,
                         item.ModuleTip,
                         "Başlanmadı...",
+                        "",
                         "Başlanmadı...",
                         "Başlanmadı...",
                         "Başlanmadı...",
