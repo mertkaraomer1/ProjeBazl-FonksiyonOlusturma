@@ -457,64 +457,268 @@ namespace FonksiyonOlusturma
         }
 
         private void button3_Click(object sender, EventArgs e)
-        {
+        {            // ComboBox'lardan seçilen değerleri alın
 
-            // ComboBox'lardan seçilen değerleri alın
-            string staffName = staffname;
-            string projectName = textBox2.Text;
-            string functionName = textBox3.Text;
-            string moduleName = textBox4.Text;
+            if (moduleTip=="3D")
+            {
+                Form sebepSecimiForm = new Form
+                {
+                    Text = "Ara Verme Sebebinizi Seçiniz...",
+                    Size = new Size(300, 200),
+                    FormBorderStyle = FormBorderStyle.FixedDialog,
+                    StartPosition = FormStartPosition.CenterScreen
+                };
+                TextBox textBox = new TextBox
+                {
+                    Location = new Point(20, 60),
+                    Width = 200,
+                    Visible = true  // Başlangıçta görünmez
+                };
 
-            if (!string.IsNullOrEmpty(staffName) &&
+                Button onayButton = new Button
+                {
+                    Text = "Onay",
+                    Location = new Point(100, 100),
+                    Size = new Size(60, 30),
+                };
+
+                onayButton.Click += (s, e) =>
+                {
+                    if (textBox.Text != null)
+                    {
+                        using (var dbContext = new MyDbContext())
+                        {
+                            string selectedsystemname = selectedSystemName.ToString();
+                            string selectedProjectName = string.IsNullOrWhiteSpace(textBox2.Text) ? null : textBox2.Text;
+                            string selectedFunctionName = string.IsNullOrWhiteSpace(textBox3.Text) ? null : textBox3.Text;
+                            string selectedModuleName = string.IsNullOrWhiteSpace(textBox4.Text) ? null : textBox4.Text;
+                            if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                            {
+                                // Seçilen ProjectName'e göre ProjectId'yi alın
+                                int projectId = dbContext.projects
+                                    .Where(p => p.ProjectName == selectedProjectName)
+                                    .Select(p => p.ProjectId)
+                                    .FirstOrDefault();
+
+                                if (projectId > 0)
+                                {
+                                    // Seçilen FunctionName'e göre FunctionId'yi alın
+                                    int functionId = dbContext.functions
+                                        .Where(f => f.FunctionName == selectedFunctionName)
+                                        .Select(f => f.FunctionId)
+                                        .FirstOrDefault();
+
+                                    if (functionId > 0)
+                                    {
+                                        // Seçilen ModuleName'i güncellemek için ilgili Module kaydını bulun
+                                        var module = dbContext.modules
+                                            .Where(m => m.ModuleName == selectedModuleName && m.FunctionId == functionId && m.ProjectId == projectId);
+
+                                        foreach (var modules in module)
+                                        {
+                                            // TextBox1'den gelen veri ile ModuleName'i güncelleyin
+                                            modules.ModuleName = textBox.Text;
+
+                                            if (dbContext.ChangeTracker.HasChanges())
+                                            {
+                                                try
+                                                {
+                                                    dbContext.SaveChanges();
+                                                }
+                                                catch (Exception ex)
+                                                {
+                                                    Console.WriteLine("Hata: " + ex.Message);
+                                                }
+                                            }
+                                        }
+                                    }
+                                }
+                            }
+                            if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                            {
+                                var StatusToUpdateList = dbContext.status
+                                    .Where(s => s.ProjectName == selectedProjectName &&
+                                                s.FunctionName == selectedFunctionName &&
+                                                s.ModuleName == selectedModuleName &&
+                                                s.StaffName == staffname &&
+                                                s.ModuleTip == moduleTip &&
+                                                s.CategoryTime == kolon4Verisi)
+                                    .ToList();
+
+                                foreach (var status in StatusToUpdateList)
+                                {
+                                    status.ModuleName = textBox.Text;
+                                }
+
+                                // Değişiklikleri veritabanına kaydet
+                                dbContext.SaveChanges();
+
+                                MessageBox.Show("Değişiklikler Kaydedildi.");
+                            }
+                            if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                            {
+                                // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
+                                var assignmentsToUpdate = dbContext.assignments
+                                    .Where(a => a.ProjectName == selectedProjectName &&
+                                                a.FunctionName == selectedFunctionName &&
+                                                a.ModuleName == selectedModuleName);
+
+                                foreach (var assignment in assignmentsToUpdate)
+                                {
+                                    assignment.ModuleName = textBox.Text;
+                                }
+
+                                // Değişiklikleri veritabanına kaydet
+                                dbContext.SaveChanges();
+                            }
+                            if (selectedProjectName != null && selectedFunctionName != null && selectedModuleName != null)
+                            {
+                                // Assignments tablosunda seçilen verilere göre ModuleName'i güncelle
+                                var RecordsToUpdate = dbContext.records
+                                    .Where(a => a.SystemName == selectedsystemname &&
+                                                a.ProjectName == selectedProjectName &&
+                                                a.FunctionName == selectedFunctionName &&
+                                                a.ModuleName == selectedModuleName);
+
+                                foreach (var records in RecordsToUpdate)
+                                {
+                                    records.ModuleName = textBox.Text;
+                                }
+
+                                // Değişiklikleri veritabanına kaydet
+                                dbContext.SaveChanges();
+                            }
+                        }
+                        textBox4.Text = textBox.Text;
+                    }
+                    else
+                    {
+                        MessageBox.Show("Modül Numarası giriniz...");
+                    }
+                    sebepSecimiForm.Close();
+                };
+
+                sebepSecimiForm.Controls.AddRange(new Control[] { textBox, onayButton });
+
+                sebepSecimiForm.ShowDialog();
+
+                string staffName = staffname;
+                string projectName = textBox2.Text;
+                string functionName = textBox3.Text;
+                string moduleName = textBox4.Text;
+
+                if (!string.IsNullOrEmpty(staffName) &&
+                    !string.IsNullOrEmpty(projectName) &&
+                    !string.IsNullOrEmpty(functionName) &&
+                    !string.IsNullOrEmpty(moduleName))
+                {
+                    using (var dbContext = new MyDbContext())
+                    {
+                        // Status tablosuna yeni bir kayıt ekleyin
+                        Status newStatus = new Status
+                        {
+                            StaffName = staffName,
+                            ProjectName = projectName,
+                            FunctionName = functionName,
+                            ModuleName = moduleName,
+                            CategoryTime = kolon4Verisi,
+                            StatusName = "Bitti",
+                            StatusTime = DateTime.Now,
+                            ModuleTip = moduleTip
+                        };
+
+                        dbContext.status.Add(newStatus);
+                        dbContext.SaveChanges();
+
+                        MessageBox.Show("Bitirildi.");
+                        UpdateButtonVisibleState();
+                    }
+
+                    using (var dbContext = new MyDbContext())
+                    {
+                        var assignmentToUpdate = dbContext.assignments
+                            .FirstOrDefault(a => a.StaffName == staffName &&
+                                                 a.ProjectName == projectName &&
+                                                 a.FunctionName == functionName &&
+                                                 a.ModuleName == moduleName);
+                        if (assignmentToUpdate != null)
+                        {
+
+                            //  Status alanlarını güncelle
+                            assignmentToUpdate.Status = "False";
+
+                            // Null değerleri atamak için NullReferenceException hatasını önlemek için kontrol eklemeye gerek yok
+                            dbContext.SaveChanges();
+                        }
+                    }
+                }
+                else
+                {
+                    MessageBox.Show("Lütfen tüm gerekli alanları doldurun.");
+                }
+                yükle();
+            }
+            else if (moduleTip == "2D")
+            {
+                string staffName = staffname;
+                string projectName = textBox2.Text;
+                string functionName = textBox3.Text;
+                string moduleName = textBox4.Text;
+                if (!string.IsNullOrEmpty(staffName) &&
                 !string.IsNullOrEmpty(projectName) &&
                 !string.IsNullOrEmpty(functionName) &&
                 !string.IsNullOrEmpty(moduleName))
-            {
-                using (var dbContext = new MyDbContext())
                 {
-                    // Status tablosuna yeni bir kayıt ekleyin
-                    Status newStatus = new Status
+                    using (var dbContext = new MyDbContext())
                     {
-                        StaffName = staffName,
-                        ProjectName = projectName,
-                        FunctionName = functionName,
-                        ModuleName = moduleName,
-                        CategoryTime = kolon4Verisi,
-                        StatusName = "Bitti",
-                        StatusTime = DateTime.Now,
-                        ModuleTip = moduleTip
-                    };
+                        // Status tablosuna yeni bir kayıt ekleyin
+                        Status newStatus = new Status
+                        {
+                            StaffName = staffName,
+                            ProjectName = projectName,
+                            FunctionName = functionName,
+                            ModuleName = moduleName,
+                            CategoryTime = kolon4Verisi,
+                            StatusName = "Bitti",
+                            StatusTime = DateTime.Now,
+                            ModuleTip = moduleTip
+                        };
 
-                    dbContext.status.Add(newStatus);
-                    dbContext.SaveChanges();
-
-                    MessageBox.Show("Bitirildi.");
-                    UpdateButtonVisibleState();
-                }
-
-                using (var dbContext = new MyDbContext())
-                {
-                    var assignmentToUpdate = dbContext.assignments
-                        .FirstOrDefault(a => a.StaffName == staffName &&
-                                             a.ProjectName == projectName &&
-                                             a.FunctionName == functionName &&
-                                             a.ModuleName == moduleName);
-                    if (assignmentToUpdate != null)
-                    {
-
-                        //  Status alanlarını güncelle
-                        assignmentToUpdate.Status = "False";
-
-                        // Null değerleri atamak için NullReferenceException hatasını önlemek için kontrol eklemeye gerek yok
+                        dbContext.status.Add(newStatus);
                         dbContext.SaveChanges();
+
+                        MessageBox.Show("Bitirildi.");
+                        UpdateButtonVisibleState();
+                    }
+
+                    using (var dbContext = new MyDbContext())
+                    {
+                        var assignmentToUpdate = dbContext.assignments
+                            .FirstOrDefault(a => a.StaffName == staffName &&
+                                                 a.ProjectName == projectName &&
+                                                 a.FunctionName == functionName &&
+                                                 a.ModuleName == moduleName);
+                        if (assignmentToUpdate != null)
+                        {
+
+                            //  Status alanlarını güncelle
+                            assignmentToUpdate.Status = "False";
+
+                            // Null değerleri atamak için NullReferenceException hatasını önlemek için kontrol eklemeye gerek yok
+                            dbContext.SaveChanges();
+                        }
                     }
                 }
+                else
+                {
+                    MessageBox.Show("Lütfen tüm gerekli alanları doldurun.");
+                }
+                yükle();
             }
-            else
-            {
-                MessageBox.Show("Lütfen tüm gerekli alanları doldurun.");
-            }
-            yükle();
+
+
+
+
         }
 
         private void UpdateButtonVisibleState()
