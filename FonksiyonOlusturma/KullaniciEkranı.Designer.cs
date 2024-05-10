@@ -31,10 +31,6 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(KullaniciEkranı));
             groupBox1 = new GroupBox();
             advancedDataGridView1 = new Zuby.ADGV.AdvancedDataGridView();
-            groupBox2 = new GroupBox();
-            button4 = new Button();
-            label5 = new Label();
-            textBox1 = new TextBox();
             button2 = new Button();
             button3 = new Button();
             button1 = new Button();
@@ -49,7 +45,6 @@
             label4 = new Label();
             groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).BeginInit();
-            groupBox2.SuspendLayout();
             groupBox3.SuspendLayout();
             SuspendLayout();
             // 
@@ -57,7 +52,6 @@
             // 
             groupBox1.Anchor = AnchorStyles.Top | AnchorStyles.Bottom | AnchorStyles.Left | AnchorStyles.Right;
             groupBox1.Controls.Add(advancedDataGridView1);
-            groupBox1.Controls.Add(groupBox2);
             groupBox1.Controls.Add(button2);
             groupBox1.Controls.Add(button3);
             groupBox1.Controls.Add(button1);
@@ -88,45 +82,6 @@
             advancedDataGridView1.TabIndex = 17;
             advancedDataGridView1.CellClick += advancedDataGridView1_CellClick_1;
             advancedDataGridView1.RowPrePaint += advancedDataGridView1_RowPrePaint;
-            // 
-            // groupBox2
-            // 
-            groupBox2.Anchor = AnchorStyles.Bottom | AnchorStyles.Right;
-            groupBox2.Controls.Add(button4);
-            groupBox2.Controls.Add(label5);
-            groupBox2.Controls.Add(textBox1);
-            groupBox2.Location = new Point(893, 724);
-            groupBox2.Name = "groupBox2";
-            groupBox2.Size = new Size(224, 148);
-            groupBox2.TabIndex = 15;
-            groupBox2.TabStop = false;
-            // 
-            // button4
-            // 
-            button4.Location = new Point(62, 88);
-            button4.Name = "button4";
-            button4.Size = new Size(94, 45);
-            button4.TabIndex = 15;
-            button4.Text = "Güncelle";
-            button4.UseVisualStyleBackColor = true;
-            button4.Click += button4_Click;
-            // 
-            // label5
-            // 
-            label5.AutoSize = true;
-            label5.Font = new Font("Segoe UI", 10.2F, FontStyle.Bold, GraphicsUnit.Point);
-            label5.Location = new Point(32, 26);
-            label5.Name = "label5";
-            label5.Size = new Size(140, 23);
-            label5.TabIndex = 14;
-            label5.Text = "Modül Güncelle:";
-            // 
-            // textBox1
-            // 
-            textBox1.Location = new Point(6, 52);
-            textBox1.Name = "textBox1";
-            textBox1.Size = new Size(210, 30);
-            textBox1.TabIndex = 13;
             // 
             // button2
             // 
@@ -268,8 +223,6 @@
             Load += KullaniciEkranı_Load;
             groupBox1.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)advancedDataGridView1).EndInit();
-            groupBox2.ResumeLayout(false);
-            groupBox2.PerformLayout();
             groupBox3.ResumeLayout(false);
             groupBox3.PerformLayout();
             ResumeLayout(false);
@@ -281,10 +234,6 @@
         private Button button3;
         private Button button1;
         private Button button2;
-        private GroupBox groupBox2;
-        private Label label5;
-        private TextBox textBox1;
-        private Button button4;
         private TextBox textBox2;
         private TextBox textBox3;
         private TextBox textBox4;
