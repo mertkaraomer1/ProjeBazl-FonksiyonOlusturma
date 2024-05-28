@@ -505,7 +505,7 @@ namespace FonksiyonOlusturma
 
                 onayButton.Click += (s, e) =>
                 {
-                    if (textBox.Text != null)
+                    if (textBox.Text != "")
                     {
                         using (var dbContext = new MyDbContext())
                         {
