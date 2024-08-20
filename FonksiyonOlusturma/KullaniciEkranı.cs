@@ -260,9 +260,6 @@ namespace FonksiyonOlusturma
             UpdateButtonVisibleState();
         }
 
-
-
-
         string staffname;
         string moduleTip;
 
